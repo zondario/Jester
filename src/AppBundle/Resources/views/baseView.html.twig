@@ -37,15 +37,19 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <img src="http://placehold.it/200x50&text=LOGO" alt="LOGO">
+                    <img src="{{ asset('images/logo.png') }}"  alt="LOGO">
                 </a>
             </div>
             <!-- Top Menu Items -->
-            <ul class="nav navbar-left top-nav">
-                <li><a class="fa fa-bar" href="#">Menu 1</a></li>
-            </ul>
+
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-left top-nav">
+                    <li><a class="fa fa-bar" href="#">Home</a></li>
+                </ul>
+                <ul class="nav navbar-left top-nav">
+                    <li><a class="fa fa-bar" href="#">Nqkakvo Menu</a></li>
+                </ul>
                 <ul class="nav navbar-right top-nav">
                     {% if app.user %}
                         <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
@@ -62,7 +66,7 @@
 
                 </ul>
                 <hr>
-                <div class="pre-scrollable">
+
                 <ul class="nav navbar-nav side-nav">
 
                     {% for category in categories %}
@@ -72,7 +76,7 @@
                     {% endfor %}
 
                 </ul>
-                </div>
+
             </div>
             <!-- /.navbar-collapse -->
         </nav>

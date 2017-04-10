@@ -6,7 +6,8 @@ $(function () {
         let text = $(a).text();
         if(text===activeCategory) {
             $(a).parent().attr('class', 'active');
-            $(a).css('background-color','darkorange')
+            $(a).css('color','black')
+            $(a).css('background-color',"darkorange")
         }
 
     }
