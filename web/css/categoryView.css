@@ -4,9 +4,14 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
 
 .col-item {
-    border: 1px solid #E1E1E1;
-    background: #FFF;
+
     margin-bottom:12px;
+    background-color: black;
+    border:5px solid darkorange;
+}
+.col-item:hover{
+    border: 5px dashed darkorange;
+    opacity: 0.8999;
 }
 .col-item .options {
     position:absolute;
@@ -52,17 +57,11 @@
 
 }
 .col-item .options-cart-round a .fa {
-    font-size:20px;
+    font-size:18px;
 }
 @media (max-width: 768px) {
     .col-item .options-cart-round a .fa {
         font-size:50px;
-    }
-    .col-item .options-cart-round {
-        position:absolute;
-        left:45%;
-        top:35%;
-        display:none;
     }
 
 }
@@ -77,30 +76,41 @@
 .col-item .info {
     padding: 10px;
     margin-top: 1px;
+    color:white;
+
+
 }
 .col-item .price-details {
     width: 100%;
     margin-top: 5px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight:500;
 }
 .col-item .price-details h1 {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 18px;
     margin: 0;
-    float:left;
+
+    font-weight: bolder;
 }
 .col-item .price-details .details {
     margin-bottom: 0;
     font-size:12px;
+    font-weight: bolder;
 }
 .col-item .price-details span {
     float:right;
+
 }
 .col-item .price-details .price-new {
-    font-size:16px;
+    font-size:20px;
+
 }
 .col-item .price-details .price-old {
     font-size:18px;
     text-decoration:line-through;
+    float:right;
 }
 .col-item .separator {
     border-top: 1px solid #E1E1E1;
