@@ -29,6 +29,22 @@
     #page-wrapper{
        margin-top: 200px;
     }
+    .side-nav li a:hover,
+    .side-nav li a:focus {
+        outline: none;
+        background-color: darkorange !important;
+    }
+    .navbar-inverse .navbar-nav>li>a {
+        color:white;
+    }
+    .top-nav>li>a:hover,
+    .top-nav>li>a:focus,
+    .top-nav>.open>a,
+    .top-nav>.open>a:hover,
+    .top-nav>.open>a:focus {
+        color: #fff;
+        background-color: darkorange;
+    }
 
 }
 /* Top Navigation */
@@ -78,6 +94,7 @@
     color: white;
 
 }
+
 .top-nav>.open>.dropdown-menu>li>a:hover{
     background-color: darkorange;
 }
@@ -105,6 +122,10 @@
     .side-nav>li>a {
         width: 225px;
         border-bottom: 1px rgba(0,0,0,.3) solid;
+
+    }
+    .navbar-inverse .navbar-nav>li>a {
+        color:white;
     }
 
     .side-nav li a:hover,

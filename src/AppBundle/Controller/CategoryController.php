@@ -3,21 +3,35 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
-use AppBundle\Entity\User;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class CategoryController extends Controller
 {
     /**
-     * @Route("/category/{name}", name="homepage")
+     * @Route("category/{name}", name="categoryView")
      *
      */
-   public function categoryAction($name)
-   {
-       $em =$this->getDoctrine()->getManager();
-       $categories=$em->getRepository(Category::class)->findAll();
-       return $this->render("@App/Listing Products/categoryView.html.twig",array("categories"=>$categories));
-   }
+    public function categoryAction($name)
+    {
+
+        /** @var Category[] $categories */
+        $categories=$this->getCategories();
+        $activeCategory = null;
+        foreach ($categories as $category) {
+            if($category->getName()==$name){
+                $activeCategory=$category;
+            }
+        }
+        return $this->render("@App/Listing Products/categoryView.html.twig",array("categories"=>$categories,"activeCategory"=>$activeCategory));
+    }
+
+
+    private function getCategories()
+    {
+        return $this->getDoctrine()->getManager()->getRepository(Category::class)->findAll();
+    }
+
 }

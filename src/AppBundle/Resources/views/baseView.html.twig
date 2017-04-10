@@ -64,7 +64,7 @@
                 <ul class="nav navbar-nav side-nav">
                     {% for category in categories %}
                         <li>
-                            <a href="categories/{{ category.name }}"><i class="fa fa-fw fa-star"></i>{{ category.name }}</a>
+                            <a href="{{ category.name }}"><i class="fa fa-fw fa-star"></i>{{ category.name }}</a>
                         </li>
                     {% endfor %}
 
@@ -74,8 +74,10 @@
         </nav>
 
         <div id="page-wrapper" class="container-fluid">
-            <div id="view" class="jumbotron">
+            <div id="view">
+                {% block products %}
 
+                {% endblock %}
             </div>
             <!-- /.container-fluid -->
         </div>

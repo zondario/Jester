@@ -1,7 +1,55 @@
 {% extends "@App/baseView.html.twig" %}
-
+{% block title %}
+{{ activeCategory.name }}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/categoryView.css') }}">
+    {% endblock %}
 {% block javascripts %}
 
-    <script src="{{ asset('js/categoryView.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/categoryView.js') }}">
+    </script>
 
 {% endblock %}
+ {% block products %}
+     {% for product in activeCategory.products  %}
+
+
+     <div class="col-sm-3">
+         <article class="col-item">
+             <div class="photo">
+                 <div class="options-cart-round">
+
+                         {% if is_granted("ROLE_ADMIN") %}
+                     <a class="btn btn-default">
+                             <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                     </a>
+                             {% elseif is_granted('ROLE_USER') %}
+                     <a class="btn btn-default">
+                                 <span class="fa fa-shopping-cart"></span>
+                     </a>
+                             {% else %}
+                     <a class="btn btn-default" title="Login to buy" href="{{ path('fos_user_security_login') }}">
+                             <span class="fa fa-lock" aria-hidden="true"></span>
+                             </a>
+
+                         {% endif %}
+
+                 </div>
+                 <a {#TODO: Put details path#} >
+                     <img src="http://www.bulgaren.org/melangebulgaren/wp-content/uploads/2013/05/HUmanDesign-snimka.jpg" class="img-responsive" alt="Product Image" />
+                 </a>
+             </div>
+             <div class="info">
+                 <div class="row">
+                     <div class="price-details col-md-6">
+                         <p class="details">{{ product.previewDetails }}</p>
+                         <h1>{{ product.name }}</h1>
+                         <span class="price-new">BGN:{{ product.price }}</span>
+                     </div>
+                 </div>
+             </div>
+         </article>
+     </div>
+     {% endfor %}
+ {% endblock %}

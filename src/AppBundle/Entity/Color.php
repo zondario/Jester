@@ -2,22 +2,16 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Category
+ * Color
  *
- * @ORM\Table(name="categories")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * @ORM\Table(name="colors")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ColorRepository")
  */
-class Category
+class Color
 {
-    function __construct()
-    {
-        $this->products=new ArrayCollection();
-    }
-
     /**
      * @var int
      *
@@ -34,11 +28,10 @@ class Category
      */
     private $name;
 
-    /** @var  Product[]
-     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
+    /** @var Product[] $products
+     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Product",mappedBy="color")
      */
     private $products;
-
 
     /**
      * Get id
@@ -55,7 +48,7 @@ class Category
      *
      * @param string $name
      *
-     * @return Category
+     * @return Color
      */
     public function setName($name)
     {
@@ -75,7 +68,15 @@ class Category
     }
 
     /**
-     * @return Product[]
+     * @param Product $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return mixed
      */
     public function getProducts()
     {
@@ -83,9 +84,9 @@ class Category
     }
 
     /**
-     * @param Product[] $products
+     * @param mixed $products
      */
-    public function setProducts(array $products)
+    public function setProducts($products)
     {
         $this->products = $products;
     }
