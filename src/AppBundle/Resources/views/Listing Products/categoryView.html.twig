@@ -16,7 +16,7 @@
 
 
      <div class="col-sm-3">
-         <article class="col-item">
+         <article  class="col-item">
              <div class="photo">
                  <div class="options-cart-round">
 
@@ -37,13 +37,13 @@
 
                  </div>
                  <a {#TODO: Put details path#} >
-                     <img class="img-rounded" src="http://dragbicycles.com.ua/2013/images/stories/virtuemart/product/250_gq9ayatj.jpg"  alt="Product Image" />
+                     <img class="img-rounded" src="{{ product.images[0].url }}"  alt="Product Image" />
                  </a>
              </div>
              <div class="info">
                  <div class="row">
                      <div class="price-details col-md-6">
-                         <p class="details">{{ product.previewDetails }}</p>
+                         <p class="details">{{ product.description|slice(0,50) }}...</p>
                          <h1>{{ product.name }}</h1>
                          <span class="price-new">BGN:{{ product.price }}</span><br>
                          <span class="price-old">BGN:{{ product.price }}</span>

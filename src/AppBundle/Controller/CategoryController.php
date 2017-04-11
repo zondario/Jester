@@ -27,6 +27,12 @@ class CategoryController extends Controller
         }
         return $this->render("@App/Listing Products/categoryView.html.twig",array("categories"=>$categories,"activeCategory"=>$activeCategory));
     }
+    /**
+     *@Route("/", name="homepage")
+     */
+    public function homeAction(){
+        return $this->categoryAction("Bikes");
+    }
 
 
     private function getCategories()

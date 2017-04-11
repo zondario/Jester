@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -13,6 +14,13 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  */
 class Product
 {
+
+
+    function __construct()
+    {
+        $this->images=new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -49,12 +57,20 @@ class Product
      * @ORM\Column(name="stock", type="integer")
      */
     private $stock;
+
+
     /** @var  Category
      *@ORM\ManyToOne(targetEntity="AppBundle\Entity\Category",inversedBy="products")
      * @ORM\JoinColumn(name="category_id",referencedColumnName="id")
      */
     private $category;
 
+
+    /** @var Image[]
+     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Image",mappedBy="product")
+     *
+     */
+    private $images;
 
     /**
      * @var string
@@ -243,5 +259,22 @@ class Product
     {
         $this->previewDetails = $previewDetails;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
 }
 
