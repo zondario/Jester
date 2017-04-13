@@ -20,15 +20,12 @@ class ProductDetailsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
-        /** @var ProductRepository */ $productRepo=$em->getRepository(Product::class);
-        $product=$productRepo->findOneBy(["id"=>$id]);
 
-        $sizesAndColorsOfProduct=[];
-        foreach ( $product->getStocks() as $stock) {
-            $sizesAndColorsOfProduct[$stock->getSize()->getName()][]=$stock->getColor()->getName();
-        }
+        $stock=$em->getRepository(Stock::class)->findOneBy(["id"=>$id]);
+        /** @var Product $product */
+        $product = $stock->getProduct();
 
 
-        return $this->render("@App/Listing Products/detailsView.html.twig",array('categories'=>$categories,'product'=>$product,"similar"=>$sizesAndColorsOfProduct));
+        return $this->render("@App/Listing Products/detailsView.html.twig",array('categories'=>$categories,'product'=>$product,"stock"=>$stock));
     }
 }

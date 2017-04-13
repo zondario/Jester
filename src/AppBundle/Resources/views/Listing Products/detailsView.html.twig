@@ -33,17 +33,20 @@
 
 
             <h5 class="colors">In Stock:
+                {% set prev = "" %}
+                {% for currStock in product.stocks|sort %}
+                    {% if currStock.size.name== prev%}
+                        <a title={{ currStock.color.name }} href={{ currStock.id }}><span class="color {{  stock.id==currStock.id ? 'active'  }}" style="background-color: {{ currStock.color.name|lower=="black"?"#333333": currStock.color.name  }}" data-toggle="tooltip"  data-original-title >
+                            </span></a>
+                        {% else %}
 
-                {% for size,colors in similar %}
-                    <span class="size">{{ size }}:</span>
-                    {% for color  in colors  %}
-                         <span class="color" style="background-color: {{ color }}" data-toggle="tooltip" >
+                        <span class="size">{{ currStock.size.name }}:</span>
+                            <a title={{ currStock.color.name }} href={{ currStock.id }}><span class="color {{  stock.id==currStock.id ? 'active'  }}" style="background-color: {{ currStock.color.name }}" data-toggle="tooltip" data-original-title ></span></a>
 
-                    </span>
+                    {% endif %}
+                    {% set prev = currStock.size.name %}
                     {% endfor %}
 
-
-                {% endfor %}
 
             </h5>
             <div class="action">

@@ -19,6 +19,7 @@ class CategoryController extends Controller
 
         /** @var Category[] $categories */
         $categories=$this->getCategories();
+        /** @var Category $activeCategory */
         $activeCategory = null;
         foreach ($categories as $category) {
             if($category->getName()==$name){

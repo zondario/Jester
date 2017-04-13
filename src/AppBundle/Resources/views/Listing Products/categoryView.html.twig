@@ -13,9 +13,9 @@
 {% endblock %}
  {% block content %}
      {% for product in activeCategory.products  %}
-
-
+         {% if product.stocks|length >0 %}
      <div class="col-sm-3">
+             <a href={{ path('detailsView',{"id": product.stocks[0].id }) }} >
          <article  class="col-item">
              <div class="photo">
                  <div class="options-cart-round">
@@ -36,17 +36,17 @@
                          {% endif %}
 
                  </div>
-                 <a href="{{ path('detailsView',{"id": product.id }) }}" >
+                 <a href="{{ path('detailsView',{"id": product.stocks[0].id }) }}" >
                      <img class="img-rounded" src="{{ product.images[0].url }}"  alt="Product Image" />
                  </a>
              </div>
-             <a href="{{ path('detailsView',{"id": product.id }) }}" >
+             <a href="{{ path('detailsView',{"id": product.stocks[0].id }) }}" >
              <div class="info">
                  <div class="row">
                      <div class="price-details col-md-6">
                          <p class="details">{{ product.description|slice(0,50) }}...</p>
                          <h1>{{ product.name }}</h1>
-                         <span class="price-new">BGN:{{ product.price }}</span><br>
+                         <span class="price-new">BGN:{{ product.price  }}</span><br>
                          <span class="price-old">BGN:{{ product.price }}</span>
                      </div>
                  </div>
@@ -54,6 +54,8 @@
              </a>
 
          </article>
+         </a>
      </div>
+         {% endif %}
      {% endfor %}
  {% endblock %}

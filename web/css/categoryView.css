@@ -35,8 +35,8 @@
 
 .col-item .options-cart {
     position:absolute;
-    left:22px;
-    top:6px;
+    left:10px;
+    top:10px;
     display:none;
 }
 .col-item:hover .options,
@@ -50,8 +50,8 @@
 }
 .col-item .options-cart-round {
     position:absolute;
-    left:42%;
-    top:30%;
+    left:30%;
+    top:35%;
     display:none;
 }
 .col-item .options-cart-round a {
