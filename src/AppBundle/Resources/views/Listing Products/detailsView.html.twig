@@ -1,0 +1,56 @@
+{% extends "@App/baseView.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('css/detailsView.css') }}>
+{% endblock %}
+{% block content %}
+    <div class="wrapper">
+        <div class="preview col-md-6">
+
+            <div class="preview-pic tab-content">
+                {% set num = 1 %}
+                {% for picture in product.images %}
+
+                    <div class="tab-pane {{ num == 1? "active"  }}" id="pic-{{ num }}"><img src="{{ picture.url }}" /></div>
+                 {% set num = num+1 %}
+
+                {% endfor %}
+            </div>
+            <ul class="preview-thumbnail nav nav-tabs">
+                {% set num = 1%}
+                {% for picture in product.images %}
+
+                    <li class={{ num == 1 ? "active" }}><a data-target="#pic-{{ num }}" data-toggle="tab"><img src={{ picture.url }} /></a></li>
+                    {% set num = num + 1 %}
+
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div class="details col-md-6">
+            <h3 class="product-title">{{ product.name }}</h3>
+            <p class="product-description">{{ product.description }}</p>
+            <h4 class="price">current price: <span>BGN:{{ product.price }}</span></h4>
+
+
+            <h5 class="colors">In Stock:
+
+                {% for size,colors in similar %}
+                    <span class="size">{{ size }}:</span>
+                    {% for color  in colors  %}
+                         <span class="color" style="background-color: {{ color }}" data-toggle="tooltip" >
+
+                    </span>
+                    {% endfor %}
+
+
+                {% endfor %}
+
+            </h5>
+            <div class="action">
+                <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

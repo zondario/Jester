@@ -11,7 +11,7 @@
     </script>
 
 {% endblock %}
- {% block products %}
+ {% block content %}
      {% for product in activeCategory.products  %}
 
 
@@ -36,10 +36,11 @@
                          {% endif %}
 
                  </div>
-                 <a {#TODO: Put details path#} >
+                 <a href="{{ path('detailsView',{"id": product.id }) }}" >
                      <img class="img-rounded" src="{{ product.images[0].url }}"  alt="Product Image" />
                  </a>
              </div>
+             <a href="{{ path('detailsView',{"id": product.id }) }}" >
              <div class="info">
                  <div class="row">
                      <div class="price-details col-md-6">
@@ -50,6 +51,8 @@
                      </div>
                  </div>
              </div>
+             </a>
+
          </article>
      </div>
      {% endfor %}

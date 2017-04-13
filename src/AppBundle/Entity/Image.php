@@ -31,7 +31,7 @@ class Image
     /**
      * @var Product $product
      *
-     * @ORM\ManytoOne(targetEntity="AppBundle\Entity\Product",inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product",inversedBy="images")
      *
      */
     private $product;

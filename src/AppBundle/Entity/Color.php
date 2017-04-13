@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,14 +25,38 @@ class Color
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
-    /** @var Product[] $products
-     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Product",mappedBy="color")
+    /**
+     * @var Stock[]
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stock",mappedBy="color")
      */
-    private $products;
+    private $stocks;
+
+
+    /**
+     * @return Stock[]|ArrayCollection
+     */
+    public function getStocks()
+    {
+        return $this->stocks;
+    }
+
+    /**
+     * @param Stock[]|ArrayCollection $stocks
+     */
+    public function setStocks($stocks)
+    {
+        $this->stocks = $stocks;
+    }
+
+    function __construct()
+    {
+        $this->stocks = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -65,30 +90,6 @@ class Color
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param Product $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    /**
-     * @param mixed $products
-     */
-    public function setProducts($products)
-    {
-        $this->products = $products;
     }
 }
 

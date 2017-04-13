@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,14 +25,38 @@ class Size
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
-    /** @var  Product[] $products
-     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Product",mappedBy="size")
+    /**
+     * @var Stock[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stock",mappedBy="size")
      */
-    private $products;
+    private $stocks;
+
+
+    function __construct()
+    {
+        $this->stocks = new ArrayCollection();
+    }
+
+    /**
+     * @return Stock[]|ArrayCollection
+     */
+    public function getStocks()
+    {
+        return $this->stocks;
+    }
+
+    /**
+     * @param Stock[]|ArrayCollection $stocks
+     */
+    public function setStocks($stocks)
+    {
+        $this->stocks = $stocks;
+    }
 
 
     /**
@@ -66,22 +91,6 @@ class Size
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    /**
-     * @param mixed $products
-     */
-    public function setProducts($products)
-    {
-        $this->products = $products;
     }
 }
 
