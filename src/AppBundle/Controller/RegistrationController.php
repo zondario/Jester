@@ -18,55 +18,57 @@ class RegistrationController extends BaseController
 {
     public function registerAction(Request $request)
     {
-        /** @var $formFactory FactoryInterface */
-        $formFactory = $this->get('fos_user.registration.form.factory');
-        /** @var $userManager UserManagerInterface */
-        $userManager = $this->get('fos_user.user_manager');
-        /** @var $dispatcher EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
+        try {
+            /** @var $formFactory FactoryInterface */
+            $formFactory = $this->get('fos_user.registration.form.factory');
+            /** @var $userManager UserManagerInterface */
+            $userManager = $this->get('fos_user.user_manager');
+            /** @var $dispatcher EventDispatcherInterface */
+            $dispatcher = $this->get('event_dispatcher');
 
-        $user = $userManager->createUser();
-        $user->setEnabled(true);
+            $user = $userManager->createUser();
+            $user->setEnabled(true);
 
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+            $event = new GetResponseUserEvent($user, $request);
+            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
+            if (null !== $event->getResponse()) {
+                return $event->getResponse();
+            }
 
-        $form = $formFactory->createForm();
-        $form->setData($user);
+            $form = $formFactory->createForm();
+            $form->setData($user);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $event = new FormEvent($form, $request);
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+            if ($form->isSubmitted()) {
+                if ($form->isValid()) {
+                    $event = new FormEvent($form, $request);
+                    $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+                    if (null === $response = $event->getResponse()) {
+                        $url = $this->generateUrl('homepage');
+                        $response = new RedirectResponse($url);
+                    }
 
-                $userManager->updateUser($user);
+                    $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
-                if (null === $response = $event->getResponse()) {
-                    $url = $this->generateUrl('homepage');
-                    $response = new RedirectResponse($url);
+                    return $response;
                 }
 
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
 
-                return $response;
+                if (null !== $response = $event->getResponse()) {
+                    return $response;
+                }
             }
 
-            $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
-
-            if (null !== $response = $event->getResponse()) {
-                return $response;
-            }
+            return $this->render('@FOSUser/Registration/register.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }catch (\Exception $e){
+            $this->addFlash('danger',"OOps something went wrong, please try again");
+            return $this->redirectToRoute("fos_user_registration_register");
         }
-
-        return $this->render('@FOSUser/Registration/register.html.twig', array(
-            'form' => $form->createView(),
-        ));
     }
 }

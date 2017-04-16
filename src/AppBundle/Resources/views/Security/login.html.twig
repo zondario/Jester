@@ -6,11 +6,15 @@
         {% endblock alreadyLoggedIn %}
 
         {% block fos_user_content %}
+         {% if error %}
+               <div class="alert alert-danger alert-dismissable" style="background-color: #ff5415">
+                            <a  class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{ error.message }}</strong>
+                        </div>
+            {% endif  %}
         <h2>Log In</h2>
         {{ parent() }}
-            {% if error %}
-                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif  %}
+
 
             <form action="{{ path("fos_user_security_check") }}" method="post">
                 {% if csrf_token %}

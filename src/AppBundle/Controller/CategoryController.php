@@ -16,13 +16,12 @@ class CategoryController extends Controller
      */
     public function categoryAction($name)
     {
-
         /** @var Category[] $categories */
         $categories=$this->getCategories();
         /** @var Category $activeCategory */
         $activeCategory = null;
         foreach ($categories as $category) {
-            if($category->getName()==$name){
+            if(strtolower($category->getName())==strtolower($name)){
                 $activeCategory=$category;
             }
         }

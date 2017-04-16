@@ -19,7 +19,6 @@
          <article  class="col-item">
              <div class="photo">
                  <div class="options-cart-round">
-
                          {% if is_granted("ROLE_ADMIN") %}
                      <a class="btn btn-default">
                              <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
@@ -34,7 +33,6 @@
                              </a>
 
                          {% endif %}
-
                  </div>
                  <a href="{{ path('detailsView',{"id": product.stocks[0].id }) }}" >
                      <img class="img-rounded" src="{{ product.images[0].url }}"  alt="Product Image" />

@@ -1,0 +1,80 @@
+{% extends "@App/baseView.html.twig" %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/cartCheckoutView.css') }}">{% endblock %}
+{% block title %} Cart Checkout{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        {% for order in orders  %}
+                            {% if order.status.id == 1 %}
+
+
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <h4><strong>{{ order.name }}</strong></h4>
+                                </div>
+                                <div class="col-xs-2">
+                                    <h4 ><strong>{{ order.color }}</strong></h4>
+                                </div>
+                                <div class="col-xs-2">
+                                    <h4 ><strong>{{ order.size }}</strong></h4>
+                                </div>
+                                <div class="col-xs-2" style="padding-right: 2px">
+                                    <h5><strong>{{ order.price }}</strong></h5>
+                                </div>
+                                <form  method="post" action="{{ path('editOrder',{id:order.id}) }}">
+                                    <input type="hidden" value={{ order.id }}>
+                                <div class="col-xs-2">
+                                    <input type="number" name="qty" class="form-control input-sm" value={{ order.quantity }}>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <a href={{ path('deleteOrder',{id:order.id}) }} type="button" class="btn btn-link btn-xs">
+                                        <span class="glyphicon glyphicon-trash"> </span>
+                                    </a>
+                                    <button type="submit" name="_submit" class="btn btn-link btn-xs">
+                                        <span class="glyphicon glyphicon-pencil"> </span>
+                                    </button>
+                                </div>
+
+                                </form>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        <hr>
+                        <hr>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row text-center">
+                            <div class="col-xs-6">
+                                {% set price = 0 %}
+                                {% for order in orders %}
+                                    {% if order.status.id == 1 %}
+                                    {% set price = price + order.finalPrice %}
+                                    {% endif %}
+                                {% endfor %}
+                                <h4 class="text-left">Total <strong>BGN:{{ price }}</strong></h4>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href={{ path('checkoutSubmit') }} type="button" class="btn btn-success btn-block">
+                                    Checkout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

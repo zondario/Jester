@@ -1,0 +1,48 @@
+.panel-info>.panel-heading
+{
+    background: darkorange;
+    color:black;
+    font-weight: 500;
+
+}
+.panel-body{
+    background: black;
+    color:darkorange;
+}
+.panel-footer
+{
+    background: darkorange;
+    font-weight: 500;
+    color:black;
+}
+
+
+.btn-success
+{
+    background: black;
+    border-color:black;
+}
+
+.btn-success:hover
+{
+    background: orange;
+}
+.btn-default
+{
+    background: orange;
+    border-color:darkorange;
+}
+.btn-default:hover
+{
+    background: orange;
+    border:darkorange;
+}
+.panel{
+    border:inherit;
+}
+@media (max-width: 768px) {
+    .col-xs-8{
+        width:100%;
+        height:100%;
+    }
+}

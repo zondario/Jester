@@ -31,7 +31,18 @@ class User extends BaseUser
      */
     private $fullName;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=255 , nullable=false)
+     */
+    private $phone;
 
+    /**
+     * @var  ProductOrder[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductOrder",mappedBy="user")
+     * */
+    private $orders;
     /**
      * Get id
      *
@@ -83,6 +94,38 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return ProductOrder[]
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param ProductOrder[] $orders
+     */
+    public function setOrders($orders)
+    {
+        $this->orders = $orders;
     }
 
 }

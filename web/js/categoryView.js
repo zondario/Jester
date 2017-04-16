@@ -5,7 +5,7 @@ $(function () {
     for(let a of $(".side-nav li a")){
         let text = $(a).text();
         if(text===activeCategory) {
-            $(a).parent().attr('class', 'active');
+
             $(a).css('color','black')
             $(a).css('background-color',"darkorange")
         }

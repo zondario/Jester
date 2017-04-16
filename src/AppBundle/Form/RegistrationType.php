@@ -22,7 +22,8 @@ class RegistrationType extends AbstractType
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
                 'invalid_message' => 'Password Missmatch',
-            ))->add("fullName",TextType::class,array("label"=>"Full Name",'attr'=>array('class'=>"form-control")));
+            ))->add("fullName",TextType::class,array("label"=>"Full Name",'attr'=>array('class'=>"form-control")))
+            ->add("phone",TextType::class);
         ;
     }
 
