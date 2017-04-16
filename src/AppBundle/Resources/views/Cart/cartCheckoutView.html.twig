@@ -22,16 +22,16 @@
 
                             <div class="row">
                                 <div class="col-xs-2">
-                                    <h4><strong>{{ order.name }}</strong></h4>
+                                    <h4><strong>{{ order.stock.product.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2">
-                                    <h4 ><strong>{{ order.color }}</strong></h4>
+                                    <h4 ><strong>{{ order.stock.color.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2">
-                                    <h4 ><strong>{{ order.size }}</strong></h4>
+                                    <h4 ><strong>{{ order.stock.size.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2" style="padding-right: 2px">
-                                    <h5><strong>{{ order.price }}</strong></h5>
+                                    <h4><strong>{{ order.calculatedSinglePrice|number_format(2) }}</strong></h4>
                                 </div>
                                 <form  method="post" action="{{ path('editOrder',{id:order.id}) }}">
                                     <input type="hidden" value={{ order.id }}>
@@ -64,7 +64,7 @@
                                     {% set price = price + order.finalPrice %}
                                     {% endif %}
                                 {% endfor %}
-                                <h4 class="text-left">Total <strong>BGN:{{ price }}</strong></h4>
+                                <h4 class="text-left">Total <strong>BGN:{{ price|number_format(2) }}</strong></h4>
                             </div>
                             <div class="col-xs-6">
                                 <a href={{ path('checkoutSubmit') }} type="button" class="btn btn-success btn-block">

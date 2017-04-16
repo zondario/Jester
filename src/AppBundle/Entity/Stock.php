@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stock
 {
+    function __construct()
+    {
+        $this->promotions=new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -86,6 +92,12 @@ class Stock
     }
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+    /**
      * @var Size
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Size",inversedBy="stocks")
@@ -106,12 +118,22 @@ class Stock
      */
     private $product;
 
+    /** @var  Product[]|ArrayCollection
+     *  @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion",inversedBy="stocks")
+     *  @ORM\JoinColumn(name="promotion_id",referencedColumnName="id")
+     */
+    private $promotions;
+
     /**
      * @var int
-     *
      * @ORM\Column(name="quantity", type="integer")
      */
     private $quantity;
+    /**
+     * @var  ProductOrder[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductOrder",mappedBy="stock")
+     */
+    private $orders;
 
 
     /**
@@ -122,6 +144,54 @@ class Stock
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return ProductOrder[]
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param ProductOrder[] $orders
+     */
+    public function setOrders($orders)
+    {
+        $this->orders = $orders;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
+
+    /**
+     * @param Product[] $promotions
+     */
+    public function setPromotions($promotions)
+    {
+        $this->promotions = $promotions;
     }
 }
 

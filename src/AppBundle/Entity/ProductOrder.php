@@ -21,33 +21,11 @@ class ProductOrder
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+    /** @var  Stock $stock
+     *@ORM\ManyToOne(targetEntity="AppBundle\Entity\Stock",inversedBy="orders")
+     *@ORM\JoinColumn(name="stock_id",referencedColumnName="id")
      */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
-     */
-    private $price;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="size", type="string", length=255)
-     */
-    private $size;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="color", type="string", length=255)
-     */
-    private $color;
+    private $stock;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Status")
@@ -77,6 +55,10 @@ class ProductOrder
      */
     private $orderedOn;
 
+    /** @var  int
+     *@ORM\Column(name="calculated_single_price",type="integer")
+     */
+    private $calculatedSinglePrice;
     /**
      * @ORM\Column(name="final_price", type="decimal")
      */
@@ -92,101 +74,6 @@ class ProductOrder
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return ProductOrder
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set price
-     *
-     * @param string $price
-     *
-     * @return ProductOrder
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return string
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set size
-     *
-     * @param string $size
-     *
-     * @return ProductOrder
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    /**
-     * Get size
-     *
-     * @return string
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * Set color
-     *
-     * @param string $color
-     *
-     * @return ProductOrder
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Get color
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
 
     /**
      * Set quantity
@@ -290,6 +177,38 @@ class ProductOrder
     public function setFinalPrice($finalPrice)
     {
         $this->finalPrice = $finalPrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+    /**
+     * @param mixed $stock
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalculatedSinglePrice()
+    {
+        return $this->calculatedSinglePrice;
+    }
+
+    /**
+     * @param int $calculatedSinglePrice
+     */
+    public function setCalculatedSinglePrice($calculatedSinglePrice)
+    {
+        $this->calculatedSinglePrice = $calculatedSinglePrice;
     }
 
 

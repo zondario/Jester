@@ -3,10 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ProductOrder;
+use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Status;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\User;
 use AppBundle\Repository\StockRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Repository\RepositoryFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,13 +33,24 @@ class OrderController extends Controller
        $stock = $em->getRepository(Stock::class)->findOneBy(['id'=>$id]);
        $order = new ProductOrder();
        $order->setUser($currentUser);
-       $order->setColor($stock->getColor()->getName());
-       $order->setSize($stock->getSize()->getName());
-       $order->setPrice($stock->getProduct()->getPrice());
+       $order->setStock($stock);
        $order->setStatus($status);
-       $order->setName($stock->getProduct()->getName());
        $order->setQuantity($quantity);
-       $order->setFinalPrice($order->getQuantity()*$order->getPrice());
+       $calcPrice = $order->getStock()->getProduct()->getPrice();
+       if($stock->getPromotions()->count()>0){
+           /** @var Promotion[]|ArrayCollection $promotions */
+           $promotions = $stock->getPromotions()->toArray();
+           sort($promotions);
+           $maxPromotion = $promotions[0];
+           $now = new \DateTime("now");
+           if($maxPromotion->getStartsOn()<=$now && $maxPromotion->getEndsOn()>=$now){
+               $calcPrice = $calcPrice - ($calcPrice * ($maxPromotion->getPercentage()/100));
+           }
+
+
+       }
+       $order->setCalculatedSinglePrice($calcPrice);
+       $order->setFinalPrice($order->getQuantity()*$order->getCalculatedSinglePrice());
        $em->persist($order);
        $em->flush();
        return $this->redirectToRoute("detailsView",["id"=>$id]);
@@ -67,7 +80,7 @@ class OrderController extends Controller
                 /** @var ProductOrder $order */
                 $order = $em->getRepository(ProductOrder::class)->findOneBy(['id'=>$id]);
                 $order->setQuantity($data["qty"]);
-                $order->setFinalPrice($order->getQuantity()*$order->getPrice());
+                $order->setFinalPrice($order->getQuantity()*$order->getCalculatedSinglePrice());
                 $em->persist($order);
                 $em->flush();
             }
