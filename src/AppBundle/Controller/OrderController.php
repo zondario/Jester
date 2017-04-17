@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Date;
 
 class OrderController extends Controller
 {
@@ -40,17 +41,22 @@ class OrderController extends Controller
        if($stock->getPromotions()->count()>0){
            /** @var Promotion[]|ArrayCollection $promotions */
            $promotions = $stock->getPromotions()->toArray();
-           sort($promotions);
-           $maxPromotion = $promotions[0];
-           $now = new \DateTime("now");
-           if($maxPromotion->getStartsOn()<=$now && $maxPromotion->getEndsOn()>=$now){
-               $calcPrice = $calcPrice - ($calcPrice * ($maxPromotion->getPercentage()/100));
+           usort(
+               $promotions,function ($a, $b){
+               return $b->compareTo($a);
+           });
+           foreach ($promotions as $promotion) {
+
+               $now = new \DateTime("now");
+               if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now){
+                   $calcPrice = $calcPrice - ($calcPrice * ($promotion->getPercentage()/100));
+                   break;
+               }
            }
-
-
        }
        $order->setCalculatedSinglePrice($calcPrice);
        $order->setFinalPrice($order->getQuantity()*$order->getCalculatedSinglePrice());
+       $order->setAddedOn(new \DateTime());
        $em->persist($order);
        $em->flush();
        return $this->redirectToRoute("detailsView",["id"=>$id]);

@@ -2,6 +2,14 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/cartCheckoutView.css') }}">{% endblock %}
 {% block title %} Cart Checkout{% endblock %}
 {% block content %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissable" style="background-color: #ff5415">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
     <div class="container">
         <div class="row">
             <div class="col-xs-8">
@@ -16,10 +24,9 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        {% for order in orders  %}
-                            {% if order.status.id == 1 %}
-
-
+                        {% set price = 0 %}
+                        {% for order in model.orders  %}
+                            {% set price = price + order.finalPrice %}
                             <div class="row">
                                 <div class="col-xs-2">
                                     <h4><strong>{{ order.stock.product.name }}</strong></h4>
@@ -50,7 +57,7 @@
 
                                 </form>
                             </div>
-                            {% endif %}
+
                         {% endfor %}
                         <hr>
                         <hr>
@@ -58,12 +65,6 @@
                     <div class="panel-footer">
                         <div class="row text-center">
                             <div class="col-xs-6">
-                                {% set price = 0 %}
-                                {% for order in orders %}
-                                    {% if order.status.id == 1 %}
-                                    {% set price = price + order.finalPrice %}
-                                    {% endif %}
-                                {% endfor %}
                                 <h4 class="text-left">Total <strong>BGN:{{ price|number_format(2) }}</strong></h4>
                             </div>
                             <div class="col-xs-6">

@@ -100,6 +100,28 @@ body {
 
 .product-title, .rating, .product-description, .price, .vote, .sizes {
     margin-bottom: 15px; }
+.product-description
+{
+    max-height: 140px;
+    overflow: scroll;
+
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,50);
+    background-color: black;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: black;
+    -webkit-box-shadow: inset 0 0 6px rgb(255, 84, 21);
+}
+
 
 .product-title {
     margin-top: 0; }
@@ -113,9 +135,17 @@ body {
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
-    height: 2em;
-    width: 2em;
-    border-radius: 2px; }
+    height: 3em;
+    width: 3em;
+    border-radius: 2px;
+}
+.color>h6 {
+    height: 90%;
+    width: 90%;
+    font-size: 15px;
+    padding-top: 5px;
+
+}
 
 
 .add-to-cart, .like {

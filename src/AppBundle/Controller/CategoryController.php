@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
 
+use AppBundle\Models\CategoryViewModel;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -20,12 +21,36 @@ class CategoryController extends Controller
         $categories=$this->getCategories();
         /** @var Category $activeCategory */
         $activeCategory = null;
+        $maxPromotion = null;
         foreach ($categories as $category) {
             if(strtolower($category->getName())==strtolower($name)){
                 $activeCategory=$category;
             }
         }
-        return $this->render("@App/Listing Products/categoryView.html.twig",array("categories"=>$categories,"activeCategory"=>$activeCategory));
+        $productsToDisplay = [];
+        foreach ($activeCategory->getProducts() as $product){
+            foreach ($product->getStocks() as $stock){
+                if($stock->getQuantity()>0){
+                    $promotions = $stock->getPromotions()->toArray();
+                    usort(
+                        $promotions,function ($a, $b){
+                        return $b->compareTo($a);
+                    });
+                    foreach ($promotions as $promotion) {
+
+                        $now = new \DateTime();
+                        if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now&&($maxPromotion==null||$promotion->getPercentage() > $maxPromotion->getPercentage())){
+                            $maxPromotion=$promotion;
+                        }
+                    }
+                    $productsToDisplay[]=["product"=>$product,"notEmptyId"=>$stock->getId(),"maxPromotion"=>$maxPromotion];
+                    $maxPromotion=null;
+                    continue 2;
+                }
+            }
+        }
+        $model = new CategoryViewModel($activeCategory,$categories,$productsToDisplay);
+        return $this->render("@App/Listing Products/categoryView.html.twig",array("model"=>$model));
     }
     /**
      *@Route("/", name="homepage")

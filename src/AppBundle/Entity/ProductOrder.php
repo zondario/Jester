@@ -54,9 +54,16 @@ class ProductOrder
      * @ORM\Column(name="orderedOn", type="date",nullable=true)
      */
     private $orderedOn;
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="addedOn", type="date")
+     */
+    private $addedOn;
 
-    /** @var  int
-     *@ORM\Column(name="calculated_single_price",type="integer")
+
+    /**
+     * @var  int
+     * @ORM\Column(name="calculated_single_price",type="integer")
      */
     private $calculatedSinglePrice;
     /**
@@ -128,7 +135,7 @@ class ProductOrder
      *
      * @param string $status
      *
-     * @return ProductOrder
+     *
      */
     public function setStatus($status)
     {
@@ -140,7 +147,7 @@ class ProductOrder
     /**
      * Get status
      *
-     * @return string
+     * @return Status
      */
     public function getStatus()
     {
@@ -209,6 +216,22 @@ class ProductOrder
     public function setCalculatedSinglePrice($calculatedSinglePrice)
     {
         $this->calculatedSinglePrice = $calculatedSinglePrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddedOn()
+    {
+        return $this->addedOn;
+    }
+
+    /**
+     * @param mixed $addedOn
+     */
+    public function setAddedOn($addedOn)
+    {
+        $this->addedOn = $addedOn;
     }
 
 
