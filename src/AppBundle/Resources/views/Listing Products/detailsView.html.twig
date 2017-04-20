@@ -60,7 +60,7 @@
                 {% if is_granted("ROLE_ADMIN")  %}
                     <h2>You are Admin, nothing to do here!</h2>
                 {% elseif is_granted("ROLE_USER") %}
-                    <a href="{{ path('orderProduct',{"id":model.stock.id, "quantity":1}) }}" class="add-to-cart btn btn-default" type="button">add to cart</a>
+                    <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default" type="button">add to cart</a>
                 {% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
                     <a href="{{ path("fos_user_security_login") }}" class="add-to-cart btn btn-default" type="button">Login To Buy</a>
                 {% endif %}
