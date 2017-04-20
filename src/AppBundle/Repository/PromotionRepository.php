@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * PromotionRepository
@@ -10,4 +11,15 @@ namespace AppBundle\Repository;
  */
 class PromotionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllActiveDESC()
+    {
+        $now = new \DateTime();
+       return $this->createQueryBuilder("p")
+            ->select("p")
+            ->where("p.startsOn <= :date")
+            ->andWhere("p.endsOn >= :date")
+            ->setParameter("date",$now)
+            ->orderBy("p.percentage","DESC")
+            ->getQuery()->getResult();
+    }
 }

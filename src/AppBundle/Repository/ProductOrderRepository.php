@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class ProductOrderRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function countOrdersWithStatus($status)
+    {
+       return $this->createQueryBuilder("o")
+        ->select("count(o.id)")
+        ->where("o.status = :status")
+        ->setParameter("status",$status)
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
 }

@@ -1,0 +1,180 @@
+/* font Awesome http://fontawesome.io*/
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+/* Animation.css*/
+@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
+
+.col-item {
+
+    margin-bottom:12px;
+    background-color: black;
+    border:5px solid darkorange;
+    border-radius: 5%;
+}
+.col-item:hover{
+    border: 5px dashed darkorange;
+    opacity: 0.8999;
+}
+.col-item .options {
+    position:absolute;
+    top:6px;
+    right:22px;
+}
+.col-item .photo {
+    overflow: hidden;
+    border-radius: 5%;
+}
+.col-item .photo .options {
+    display:none;
+}
+.col-item .photo img {
+    margin: 0 auto;
+    width: 100%;
+    height:185px;
+
+}
+
+.col-item .options-cart {
+    position:absolute;
+    left:10px;
+    top:10px;
+    display:none;
+}
+.col-item:hover .options,
+.col-item:hover .options-cart {
+    display:block;
+    -webkit-animation: fadeIn .5s ease;
+    -moz-animation: fadeIn .5s ease;
+    -ms-animation: fadeIn .5s ease;
+    -o-animation: fadeIn .5s ease;
+    animation: fadeIn .5s ease;
+}
+.col-item .options-cart-round {
+    position:absolute;
+    left:30%;
+    top:35%;
+    display:none;
+}
+.col-item .options-cart-round a {
+    border-radius: 50%;
+    padding:14px 16px;
+
+
+}
+.col-item .options-cart-round a .fa {
+    font-size:18px;
+}
+@media (max-width: 768px) {
+    .col-item .options-cart-round a .fa {
+        font-size:50px;
+    }
+    .col-item .photo img
+    {
+       height:100%;
+    }
+
+}
+.col-item:hover .options-cart-round {
+    display:block;
+    -webkit-animation: fadeInDown .5s ease;
+    -moz-animation: fadeInDown .5s ease;
+    -ms-animation: fadeInDown .5s ease;
+    -o-animation: fadeInDown .5s ease;
+    animation: fadeInDown .5s ease;
+}
+.col-item .info {
+    padding: 10px;
+    margin-top: 1px;
+    color:white;
+
+
+}
+.round-tag{
+    width: 60px;
+    height: 60px;
+    border-radius: 50% 50% 50% 0;
+    border: 4px solid #FFF;
+    background: darkorange;
+    position: absolute;
+    bottom: 30%;
+    left:5%;
+    padding: 15px 6px;
+    font-size: 17px;
+    color: #FFF;
+    font-weight: bold;
+}
+.col-item .price-details {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight:500;
+}
+.col-item .price-details h1 {
+    font-size: 18px;
+    line-height: 18px;
+    margin: 0;
+
+    font-weight: bolder;
+}
+.col-item .price-details .details {
+    margin-bottom: 0;
+    font-size:12px;
+    font-weight: bolder;
+}
+.col-item .price-details span {
+    float:right;
+
+}
+.col-item .price-details .price-new {
+    font-size:20px;
+
+}
+.col-item .price-details .price-old {
+    font-size:18px;
+    text-decoration:line-through;
+    float:right;
+    color: red;
+}
+.col-item .separator {
+    border-top: 1px solid #E1E1E1;
+}
+
+.col-item .clear-left {
+    clear: left;
+}
+.col-item .separator a {
+    text-decoration:none;
+}
+.col-item .separator p {
+    margin-bottom: 0;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.col-item .separator p i {
+    margin-right: 5px;
+}
+.col-item .btn-add {
+
+    float: left;
+}
+.col-item .btn-add a {
+    display:inline-block !important;
+
+
+}
+.col-item .btn-add {
+    border-right: 1px solid #E1E1E1;
+}
+.col-item .btn-details {
+    width: 50%;
+
+    float: left;
+    padding-left: 10px;
+}
+.col-item .btn-details a {
+    display:inline-block !important;
+}
+.col-item .btn-details a:first-child {
+    margin-right:12px;
+}

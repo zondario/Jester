@@ -37,33 +37,19 @@ class ProductDetailsController extends Controller
 
         foreach ($product->getStocks() as $stock) {
             if($stock->getQuantity()>0){
-                $promotions = $stock->getPromotions()->toArray();
-                if(count($promotions)>0){
-                    /** @var Promotion[]|ArrayCollection $promotions */
+                $activePromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
+                if($activePromotion){
+                  if($stock->getId()===$detailedStock->getId()){
+                      $finalPrice = $finalPrice - ($finalPrice*($activePromotion->getPercentage()/100));
+                      $currStockActivePromotion=$activePromotion;
 
-                    usort(
-                        $promotions,function ($a, $b){
-                        return $b->compareTo($a);
-                    });
-                    foreach ($promotions as $promotion) {
-
-                        $now = new \DateTime("now");
-                        if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now){
-                           $activePromotion=$promotion;
-
-                          if($stock === $detailedStock){
-                              $currStockActivePromotion=$activePromotion;
-                              $finalPrice = $finalPrice - ($finalPrice*($activePromotion->getPercentage()/100));
-                          }
-                           break;
-                        }
-                    }
+                  }
                 }
                 $stocksToShow[]=["stock"=>$stock,"activePromotion"=>$activePromotion];
+                $activePromotion=null;
             }
         }
         $model = new DetailsViewModel($categories,$detailedStock,$product,$stocksToShow,$finalPrice,$currStockActivePromotion);
-
         return $this->render("@App/Listing Products/detailsView.html.twig",array("model"=>$model));
     }
 }

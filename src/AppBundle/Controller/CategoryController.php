@@ -31,18 +31,7 @@ class CategoryController extends Controller
         foreach ($activeCategory->getProducts() as $product){
             foreach ($product->getStocks() as $stock){
                 if($stock->getQuantity()>0){
-                    $promotions = $stock->getPromotions()->toArray();
-                    usort(
-                        $promotions,function ($a, $b){
-                        return $b->compareTo($a);
-                    });
-                    foreach ($promotions as $promotion) {
-
-                        $now = new \DateTime();
-                        if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now&&($maxPromotion==null||$promotion->getPercentage() > $maxPromotion->getPercentage())){
-                            $maxPromotion=$promotion;
-                        }
-                    }
+                    $maxPromotion = $this->get("app.promotion")->findMaxPromotionForProduct($product);
                     $productsToDisplay[]=["product"=>$product,"notEmptyId"=>$stock->getId(),"maxPromotion"=>$maxPromotion];
                     $maxPromotion=null;
                     continue 2;

@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class OrderController extends Controller
 {
-     const DEFAULT_STATUS = "added";
+     const ADDED_STATUS = 1;
     /**
      * @Route("/order/{id}/{quantity}", name="orderProduct")
      */
@@ -30,7 +30,7 @@ class OrderController extends Controller
         $currentUser= $this->getUser();
         /** @var StockRepository $stockRepo */
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository(Status::class)->findOneBy(["name"=>self::DEFAULT_STATUS]);
+        $status = $em->getRepository(Status::class)->findOneBy(["id"=>self::ADDED_STATUS]);
        $stock = $em->getRepository(Stock::class)->findOneBy(['id'=>$id]);
        $order = new ProductOrder();
        $order->setUser($currentUser);
@@ -40,19 +40,8 @@ class OrderController extends Controller
        $calcPrice = $order->getStock()->getProduct()->getPrice();
        if($stock->getPromotions()->count()>0){
            /** @var Promotion[]|ArrayCollection $promotions */
-           $promotions = $stock->getPromotions()->toArray();
-           usort(
-               $promotions,function ($a, $b){
-               return $b->compareTo($a);
-           });
-           foreach ($promotions as $promotion) {
-
-               $now = new \DateTime("now");
-               if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now){
-                   $calcPrice = $calcPrice - ($calcPrice * ($promotion->getPercentage()/100));
-                   break;
-               }
-           }
+           $maxPromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
+           $calcPrice = $calcPrice - ($calcPrice * ($maxPromotion->getPercentage()/100));
        }
        $order->setCalculatedSinglePrice($calcPrice);
        $order->setFinalPrice($order->getQuantity()*$order->getCalculatedSinglePrice());
@@ -66,6 +55,7 @@ class OrderController extends Controller
      *
      * */
     public function deleteOrder($id){
+
         $em = $this->getDoctrine()->getManager();
         $order=$em->getRepository(ProductOrder::class)->findOneBy(["id"=>$id]);
         $em->remove($order);

@@ -49,35 +49,32 @@ class CartController extends Controller
         /** @var User $currentUser */
         $currentUser=$this->getUser();
 
-        foreach ($currentUser->getOrders() as $order) {
-            /** @var Promotion[]|ArrayCollection $promotions */
-            $promotions =$order->getStock()->getPromotions()->toArray();
-            $effectivePromotion = null;
-            if(count($promotions)>0){
-                usort(
-                    $promotions,function ($a, $b){
-                    return $b->compareTo($a);
-                });
-                foreach ($promotions as $promotion) {
-                    $then = $order->getAddedOn();
-                    if($promotion->getStartsOn()<=$then && $promotion->getEndsOn()>=$then){
-                        $effectivePromotion = $promotion;
-                        break;
 
-                    }
-                }
+        $ordersCount= $this->getDoctrine()
+            ->getRepository(ProductOrder::class)
+            ->countOrdersWithStatus(self::STATUS_ADDED_ID);
 
-                if(!($effectivePromotion->getStartsOn()<=$now && $effectivePromotion->getEndsOn()>=$now)){
-                    $this->addFlash("danger","Your order of ".$order->getStock()->getProduct()->getName()." has been ordered within a promotion that is no longer valid, please delete it and order again");
-                    continue;
-                }
-            }
-            $status =$em->getRepository(Status::class)->findOneBy(["id"=> max($order->getStatus()->getId(),self::STATUS_REQUESTED_ID)]);
-            $order->setStatus($status);
-            $order->setOrderedOn($now);
-            $em->persist($order);
-        }
-        $em->flush();
+       if($ordersCount >0){
+           foreach ($currentUser->getOrders() as $order) {
+               /** @var Promotion[]|ArrayCollection $promotions */
+               $promotions = $order->getStock()->getPromotions();
+               if(count($promotions)>0){
+                   $effectivePromotion=$this->get("app.promotion")->findEffectivePromotionForOrder($order);
+                   if(!($effectivePromotion->getStartsOn()<=$now && $effectivePromotion->getEndsOn()>=$now)){
+                       $this->addFlash("danger","Your order of ".$order->getStock()->getProduct()->getName()." has been ordered within a promotion that is no longer valid, please delete it and order again");
+                       continue;
+                   }
+               }
+               $status =$em->getRepository(Status::class)->findOneBy(["id"=> max($order->getStatus()->getId(),self::STATUS_REQUESTED_ID)]);
+               $order->setStatus($status);
+               $order->setOrderedOn($now);
+               $em->persist($order);
+           }
+           $em->flush();
+       }else{
+           return $this->redirectToRoute("homepage");
+       }
        return $this->redirectToRoute("checkout");
+
     }
 }
