@@ -19,7 +19,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('category', EntityType::class,["class"=>Category::class,"choice_label"=>"name"])
-            ->add("name",null,["constraints"=>new Length(["max"=>20,"min"=>3,"minMessage"=>"Too short"])])
+            ->add("name")
             ->add("price",MoneyType::class)
             ->add("description");
 
@@ -30,6 +30,7 @@ class ProductType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => Product::class,
         ));
+
     }
 
     public function getBlockPrefix()

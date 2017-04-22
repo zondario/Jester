@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category
@@ -31,13 +32,13 @@ class Category
 
     /**
      * @var string
-     *
+     * @Assert\Length(min=5,minMessage="Too short bruh")
      * @ORM\Column(name="name", type="string", length=255, unique=true, unique=true)
      */
     private $name;
 
     /** @var  Product[]
-     *@ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
+     *  @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
      */
     private $products;
 

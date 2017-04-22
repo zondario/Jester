@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Promotion;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -21,5 +22,20 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter("date",$now)
             ->orderBy("p.percentage","DESC")
             ->getQuery()->getResult();
+    }
+
+    /**
+     * @return Promotion[]
+     */
+    public function findAllNotExpiredDESC()
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder("p")
+            ->select("p")
+            ->andWhere("p.endsOn >= :date")
+            ->setParameter("date",$now)
+            ->orderBy("p.percentage","DESC")
+            ->getQuery()->getResult();
+
     }
 }

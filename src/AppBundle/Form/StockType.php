@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class StockType extends AbstractType
 {
@@ -19,8 +20,8 @@ class StockType extends AbstractType
             ->add("size",EntityType::class,["class"=>Size::class,"choice_label"=>"name"])
             ->add("color",EntityType::class,["class"=>Color::class,"choice_label"=>"name"])
             ->add("quantity")
-            ->add("product",ProductType::class)
-            ->add('image', ImageType::class, array('mapped' => false));
+            ->add("product",ProductType::class,array("constraints"=>new Valid()))
+            ->add('image', ImageType::class, array('mapped' => false,"constraints"=>new Valid()));
     }
 
     public function configureOptions(OptionsResolver $resolver)

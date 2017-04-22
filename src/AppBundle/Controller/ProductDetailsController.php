@@ -22,6 +22,8 @@ class ProductDetailsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
+        $promotionsToDisplay =[];
+
 
         /** @var Stock $stock */
         $detailedStock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
@@ -49,7 +51,23 @@ class ProductDetailsController extends Controller
                 $activePromotion = null;
             }
         }
-        $model = new DetailsViewModel($categories, $detailedStock, $product, $stocksToShow, $finalPrice, $currStockActivePromotion);
+        if($this->isGranted("ROLE_ADMIN")){
+            $notExpired = $em->getRepository(Promotion::class)->findAllNotExpiredDESC();
+            foreach ($notExpired as $promotion)
+            {
+                if($currStockActivePromotion===null||$promotion->getPercentage() > $currStockActivePromotion->getPercentage()){
+                    $promotionsToDisplay[] = $promotion;
+                }
+            }
+        }
+        $model = new DetailsViewModel($categories,
+            $detailedStock,
+            $product,
+            $stocksToShow,
+            $finalPrice,
+            $currStockActivePromotion,
+            $promotionsToDisplay);
+
         return $this->render("@App/Listing Products/detailsView.html.twig", array("model" => $model));
     }
 }

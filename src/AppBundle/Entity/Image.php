@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Image
  *
@@ -24,6 +24,7 @@ class Image
 
     /**
      * @var mixed
+     * @Assert\Image(maxSize="5M",mimeTypes={"image/jpeg","image/jpg"})
      * @ORM\Column(name="url", type="string", length=255, unique=true)
      *
      */

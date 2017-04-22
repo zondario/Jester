@@ -24,11 +24,8 @@
                              <a class="btn btn-default">
                                  <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
                              </a>
-                         {% elseif is_granted('ROLE_USER') %}
-                             <a class="btn btn-default">
-                                 <span class="fa fa-shopping-cart"></span>
-                             </a>
-                         {% else %}
+                         {% elseif is_granted("ROLE_USER") %}
+                             {% else %}
                              <a class="btn btn-default" title="Login to buy"
                                 href="{{ path('fos_user_security_login') }}">
                                  <span class="fa fa-lock" aria-hidden="true"></span>

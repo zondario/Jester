@@ -35,7 +35,7 @@ class Product
 
     /**
      * @var string
-     *
+     * @Assert\Length(min="5",minMessage="Sorry mamo ne stava taka ")
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;

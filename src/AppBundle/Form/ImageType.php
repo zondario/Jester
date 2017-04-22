@@ -13,13 +13,7 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("url",FileType::class,["constraints"=> new File([
-            'maxSize' => '5M',
-            'mimeTypes' => [
-                'image/jpeg',
-                'image/png',
-                'image/jpg'
-            ]])]);
+        $builder->add("url",FileType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

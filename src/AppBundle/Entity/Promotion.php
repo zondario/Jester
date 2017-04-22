@@ -138,7 +138,7 @@ class Promotion implements Comparable
     }
 
     /**
-     * @return Stock[]
+     * @return Stock[]|ArrayCollection
      */
     public function getStocks()
     {

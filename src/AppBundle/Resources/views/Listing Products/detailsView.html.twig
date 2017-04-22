@@ -68,12 +68,19 @@
             </h5>
             <div class="action">
                 {% if is_granted("ROLE_ADMIN") %}
-                    <h2>You are Admin, nothing to do here!</h2>
+                   <form action="{{ path("promoteStock",{id: model.stock.id}) }}" method="POST">
+                       <select style="background-color: black" name="promotion" >
+                           <option>Click here and choose</option>
+                           {% for promotion in model.promotionsToDisplay  %}
+                               <option  value="{{ promotion.id }}">{{ promotion.percentage }}% | {{ promotion.startsOn|date("d-m-Y") }} | {{ promotion.endsOn|date("d-m-Y") }}</option>
+                           {% endfor %}
+                       </select>
+                       <button class="btn btn-add" style="background-color: darkorange">Promote Stock</button>
+                   </form>
                 {% elseif is_granted("ROLE_USER") %}
-                    <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default"
-                       type="button">add to cart</a>
+                    <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default">add to cart</a>
                 {% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
-                    <a href="{{ path("fos_user_security_login") }}" class="add-to-cart btn btn-default" type="button">Login
+                    <a href="{{ path("fos_user_security_login") }}" class="add-to-cart btn btn-default" >Login
                         To Buy</a>
                 {% endif %}
             </div>
