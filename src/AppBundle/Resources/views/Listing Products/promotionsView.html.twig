@@ -1,12 +1,16 @@
 {% extends '@App/baseView.html.twig' %}
+{% block title %}
+    Promotions
+{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/promotionsView.css') }}">
 {% endblock %}
 {% block content %}
-    {% for product in model.products  %}
+    {% for product in model.products %}
 
         <div class="col-sm-4">
-            <article  class="col-item" onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
+            <article class="col-item"
+                     onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
                 <div class="photo">
                     <div class="options-cart-round">
                         {% if is_granted("ROLE_ADMIN") %}
@@ -18,15 +22,16 @@
                                 <span class="fa fa-shopping-cart"></span>
                             </a>
                         {% else %}
-                            <a class="btn btn-default" title="Login to buy" href="{{ path('fos_user_security_login') }}">
+                            <a class="btn btn-default" title="Login to buy"
+                               href="{{ path('fos_user_security_login') }}">
                                 <span class="fa fa-lock" aria-hidden="true"></span>
                             </a>
 
                         {% endif %}
                     </div>
-                    <img class="img-rounded" src="{{ product["product"].images[0].url }}"  alt="Product Image" />
+                    <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
 
-                        <span class="round-tag">-{{ product["promotion"].percentage }}%</span>
+                    <span class="round-tag">-{{ product["promotion"].percentage }}%</span>
 
 
                 </div>
@@ -38,7 +43,7 @@
                             <h1>{{ product["product"].name }}</h1>
 
 
-                            <span class="price-new">BGN:{{ product["product"].price  }}</span><br>
+                            <span class="price-new">BGN:{{ product["product"].price }}</span><br>
 
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 {% extends "@App/baseView.html.twig" %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/cartCheckoutView.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/cartCheckoutView.css') }}">{% endblock %}
 {% block title %} Cart Checkout{% endblock %}
 {% block content %}
 
@@ -18,35 +19,37 @@
                     </div>
                     <div class="panel-body">
                         {% set price = 0 %}
-                        {% for order in model.orders  %}
+                        {% for order in model.orders %}
                             {% set price = price + order.finalPrice %}
                             <div class="row">
                                 <div class="col-xs-2">
                                     <h4><strong>{{ order.stock.product.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2">
-                                    <h4 ><strong>{{ order.stock.color.name }}</strong></h4>
+                                    <h4><strong>{{ order.stock.color.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2">
-                                    <h4 ><strong>{{ order.stock.size.name }}</strong></h4>
+                                    <h4><strong>{{ order.stock.size.name }}</strong></h4>
                                 </div>
                                 <div class="col-xs-2" style="padding-right: 2px">
                                     <h4><strong>{{ order.calculatedSinglePrice|number_format(2) }}</strong></h4>
                                 </div>
-                                <form  method="post" action="{{ path('editOrder',{id:order.id}) }}">
+                                <form method="post" action="{{ path('editOrder',{id:order.id}) }}">
                                     <input type="hidden" value={{ order.id }}>
-                                <div class="col-xs-2">
-                                    <input type="number" name="qty" class="form-control input-sm" value={{ order.quantity }}>
-                                </div>
+                                    <div class="col-xs-2">
+                                        <input type="number" name="qty" class="form-control input-sm"
+                                               value={{ order.quantity }}>
+                                    </div>
 
-                                <div class="col-sm-2">
-                                    <a href={{ path('deleteOrder',{id:order.id}) }} type="button" class="btn btn-link btn-xs">
-                                        <span class="glyphicon glyphicon-trash"> </span>
-                                    </a>
-                                    <button type="submit" name="_submit" class="btn btn-link btn-xs">
-                                        <span class="glyphicon glyphicon-pencil"> </span>
-                                    </button>
-                                </div>
+                                    <div class="col-sm-2">
+                                        <a href={{ path('deleteOrder',{id:order.id}) }} type="button"
+                                           class="btn btn-link btn-xs">
+                                            <span class="glyphicon glyphicon-trash"> </span>
+                                        </a>
+                                        <button type="submit" name="_submit" class="btn btn-link btn-xs">
+                                            <span class="glyphicon glyphicon-pencil"> </span>
+                                        </button>
+                                    </div>
 
                                 </form>
                             </div>

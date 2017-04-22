@@ -1,116 +1,128 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script
-                src="https://code.jquery.com/jquery-3.2.1.min.js"
-                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-                crossorigin="anonymous"></script>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
 
-        <!-- jQuery library -->
+    <!-- jQuery library -->
 
-        <!-- Latest compiled JavaScript -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <!-- Loading the baseView javascript side nav controller -->
-        <script src="{{ asset('js/baseView.js') }}"></script>
-        <!-- Loading the baseView javascript side nav controller -->
-        <link rel="stylesheet" href="{{ asset('css/baseView.css') }}">
-        {% block javascripts %}
+    <!-- Latest compiled JavaScript -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Loading the baseView javascript side nav controller -->
+    <script src="{{ asset('js/baseView.js') }}"></script>
+    <!-- Loading the baseView javascript side nav controller -->
+    <link rel="stylesheet" href="{{ asset('css/baseView.css') }}">
+    {% block javascripts %}
+
+    {% endblock %}
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+<div id="throbber" style="display:none; min-height:120px;"></div>
+<div id="noty-holder"></div>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background: black" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('images/logo.png') }}" alt="LOGO">
+            </a>
+        </div>
+        <!-- Top Menu Items -->
+
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-left top-nav">
+                <li><a class="fa fa-bar" href="#">Home</a></li>
+            </ul>
+            <ul class="nav navbar-left top-nav">
+                <li><a class="fa fa-bar" href="{{ path("promotions") }}">On Sale</a></li>
+            </ul>
+            <ul class="nav navbar-right top-nav">
+                {% if app.user %}
+                    <li><a href={{ path("checkout") }}><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Wellcome, {{ app.user.username }} <b
+                                    class="fa fa-angle-down"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa     fa-power-off"></i>
+                                    Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{{ path('fos_user_registration_register') }}"><span
+                                    class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span>
+                            Login</a></li>
+                {% endif %}
+
+            </ul>
+            <hr>
+
+            <ul class="nav navbar-nav side-nav">
+
+                {% for category in model.categories %}
+                    <li>
+                        <a href="{{ path('categoryView',{'name':category.name}) }}"><i
+                                    class="fa fa-fw fa-star"></i>{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+    <div id="page-wrapper" class="container-fluid">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} alert-dismissable" style="background-color: #ff5415">
+                    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block content %}
 
         {% endblock %}
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-    <div id="throbber" style="display:none; min-height:120px;"></div>
-    <div id="noty-holder"></div>
-    <div id="wrapper">
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" style="background: black" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <img src="{{ asset('images/logo.png') }}"  alt="LOGO">
-                </a>
-            </div>
-            <!-- Top Menu Items -->
+        <!-- /.container-fluid -->
+    </div>
+    <div class="navigation">
+        {% block navigation %}
+        {% endblock %}
+    </div>
+    <!-- /#page-wrapper -->
+</div><!-- /#wrapper -->
 
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-left top-nav">
-                    <li><a class="fa fa-bar" href="#">Home</a></li>
-                </ul>
-                <ul class="nav navbar-left top-nav">
-                    <li><a class="fa fa-bar" href="{{ path("promotions") }}">On Sale</a></li>
-                </ul>
-                <ul class="nav navbar-right top-nav">
-                    {% if app.user %}
-                        <li><a href={{ path("checkout") }}><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Wellcome, {{ app.user.username }} <b class="fa fa-angle-down"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa     fa-power-off"></i> Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    {% endif %}
-
-                </ul>
-                <hr>
-
-                <ul class="nav navbar-nav side-nav">
-
-                    {% for category in model.categories %}
-                        <li>
-                            <a href="{{ path('categoryView',{'name':category.name}) }}"><i class="fa fa-fw fa-star"></i>{{ category.name }}</a>
-                        </li>
-                    {% endfor %}
-
-                </ul>
-
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-
-        <div id="page-wrapper" class="container-fluid">
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ type }} alert-dismissable" style="background-color: #ff5415">
-                        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>{{ message }}</strong>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-
-                {% block content %}
-
-                {% endblock %}
-
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
-    </div><!-- /#wrapper -->
-
-    </body>
+</body>
 </html>

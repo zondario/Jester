@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Product
@@ -72,7 +74,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="preview_details", type="string")
+     * @ORM\Column(name="preview_details", type="string",nullable=true)
      */
     private $previewDetails;
 

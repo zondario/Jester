@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductDetailsController extends Controller
 {
     /**
-     *@Route("/details/{id}", name="detailsView")
+     * @Route("/details/{id}", name="detailsView")
      */
     public function detailsAction($id)
     {
@@ -24,32 +24,32 @@ class ProductDetailsController extends Controller
         $categories = $em->getRepository(Category::class)->findAll();
 
         /** @var Stock $stock */
-        $detailedStock=$em->getRepository(Stock::class)->findOneBy(["id"=>$id]);
-        if($detailedStock==null||$detailedStock->getQuantity()==0){
-               return $this->redirectToRoute("homepage");
+        $detailedStock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
+        if ($detailedStock == null || $detailedStock->getQuantity() == 0) {
+            return $this->redirectToRoute("homepage");
         }
         /** @var Product $product */
         $product = $detailedStock->getProduct();
         $stocksToShow = [];
-        $activePromotion=null;
+        $activePromotion = null;
         $finalPrice = $detailedStock->getProduct()->getPrice();
         $currStockActivePromotion = null;
 
         foreach ($product->getStocks() as $stock) {
-            if($stock->getQuantity()>0){
+            if ($stock->getQuantity() > 0) {
                 $activePromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
-                if($activePromotion){
-                  if($stock->getId()===$detailedStock->getId()){
-                      $finalPrice = $finalPrice - ($finalPrice*($activePromotion->getPercentage()/100));
-                      $currStockActivePromotion=$activePromotion;
+                if ($activePromotion) {
+                    if ($stock->getId() === $detailedStock->getId()) {
+                        $finalPrice = $finalPrice - ($finalPrice * ($activePromotion->getPercentage() / 100));
+                        $currStockActivePromotion = $activePromotion;
 
-                  }
+                    }
                 }
-                $stocksToShow[]=["stock"=>$stock,"activePromotion"=>$activePromotion];
-                $activePromotion=null;
+                $stocksToShow[] = ["stock" => $stock, "activePromotion" => $activePromotion];
+                $activePromotion = null;
             }
         }
-        $model = new DetailsViewModel($categories,$detailedStock,$product,$stocksToShow,$finalPrice,$currStockActivePromotion);
-        return $this->render("@App/Listing Products/detailsView.html.twig",array("model"=>$model));
+        $model = new DetailsViewModel($categories, $detailedStock, $product, $stocksToShow, $finalPrice, $currStockActivePromotion);
+        return $this->render("@App/Listing Products/detailsView.html.twig", array("model" => $model));
     }
 }

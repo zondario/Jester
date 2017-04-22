@@ -24,35 +24,36 @@ class PromotionService
      */
     public function findMaxPromotionForStock($stock)
     {
-        $maxPromotion=null;
+        $maxPromotion = null;
         /** @var Promotion[]|ArrayCollection $promotions */
         $promotions = $stock->getPromotions()->toArray();
         usort(
-            $promotions,function ($a, $b){
+            $promotions, function ($a, $b) {
             return $b->compareTo($a);
         });
         foreach ($promotions as $promotion) {
 
             $now = new \DateTime("now");
-            if($promotion->getStartsOn()<=$now && $promotion->getEndsOn()>=$now){
+            if ($promotion->getStartsOn() <= $now && $promotion->getEndsOn() >= $now) {
 
-                $maxPromotion =$promotion;
+                $maxPromotion = $promotion;
                 break;
             }
         }
         return $maxPromotion;
     }
+
     public function findEffectivePromotionForOrder($order)
     {
-        $promotions =$order->getStock()->getPromotions()->toArray();
+        $promotions = $order->getStock()->getPromotions()->toArray();
         $effectivePromotion = null;
         usort(
-            $promotions,function ($a, $b){
+            $promotions, function ($a, $b) {
             return $b->compareTo($a);
         });
         foreach ($promotions as $promotion) {
             $then = $order->getAddedOn();
-            if($promotion->getStartsOn()<=$then && $promotion->getEndsOn()>=$then){
+            if ($promotion->getStartsOn() <= $then && $promotion->getEndsOn() >= $then) {
                 $effectivePromotion = $promotion;
                 break;
 
@@ -63,18 +64,17 @@ class PromotionService
 
     /**
      * @param $product Product
+     * @return Promotion
      */
-    public function    findMaxPromotionForProduct($product)
+    public function findMaxPromotionForProduct($product)
     {
 
         $maxPromotion = null;
-        foreach ($product->getStocks() as $stock)
-        {
+        foreach ($product->getStocks() as $stock) {
             $potentialMax = $this->findMaxPromotionForStock($stock);
-            if($potentialMax)
-            {
-                if($maxPromotion==null||($potentialMax->getPercentage()>$maxPromotion->getPercentage())){
-                    $maxPromotion=$potentialMax;
+            if ($potentialMax) {
+                if ($maxPromotion == null || ($potentialMax->getPercentage() > $maxPromotion->getPercentage())) {
+                    $maxPromotion = $potentialMax;
                 }
             }
         }

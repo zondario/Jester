@@ -1,10 +1,10 @@
 {% extends "@App/baseView.html.twig" %}
 {% block title %}
-{{ model.activeCategory.name }}
+    {{ model.activeCategory.name }}
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/categoryView.css') }}">
-    {% endblock %}
+{% endblock %}
 {% block javascripts %}
 
     <script type="text/javascript" src="{{ asset('js/categoryView.js') }}">
@@ -12,10 +12,12 @@
 
 {% endblock %}
  {% block content %}
-     {% for product in model.productsToDisplay  %}
+
+     {% for product in model.productsToDisplay %}
 
          <div class="col-sm-4">
-             <article  class="col-item" onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
+             <article class="col-item"
+                      onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
                  <div class="photo">
                      <div class="options-cart-round">
                          {% if is_granted("ROLE_ADMIN") %}
@@ -27,14 +29,15 @@
                                  <span class="fa fa-shopping-cart"></span>
                              </a>
                          {% else %}
-                             <a class="btn btn-default" title="Login to buy" href="{{ path('fos_user_security_login') }}">
+                             <a class="btn btn-default" title="Login to buy"
+                                href="{{ path('fos_user_security_login') }}">
                                  <span class="fa fa-lock" aria-hidden="true"></span>
                              </a>
 
                          {% endif %}
                      </div>
-                     <img class="img-rounded" src="{{ product["product"].images[0].url }}"  alt="Product Image" />
-                     {% if product["maxPromotion"]  %}
+                     <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
+                     {% if product["maxPromotion"] %}
                          <span class="round-tag">-{{ product["maxPromotion"].percentage }}%</span>
                      {% endif %}
 
@@ -47,7 +50,7 @@
                              <h1>{{ product["product"].name }}</h1>
 
 
-                             <span class="price-new">BGN:{{ product["product"].price  }}</span><br>
+                             <span class="price-new">BGN:{{ product["product"].price }}</span><br>
 
                          </div>
                      </div>
@@ -57,4 +60,8 @@
          </div>
 
      {% endfor %}
+
  {% endblock %}
+{% block navigation %}
+    {{ knp_pagination_render(model.productsToDisplay) }}
+{% endblock %}

@@ -6,40 +6,9 @@
     <h2>Register</h2>
     {{ parent() }}
     {{ form_start(form) }}
-    <div class="form-group">
-        <label for="email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
-        {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.email)  }}
-    </div>
-    <div class="form-group">
-        <label for="username"><span class="glyphicon glyphicon-user"></span> Username</label>
-        {{ form_widget(form.username,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.username)  }}
-    </div>
-    <div class="form-group">
-        <label for="password"><span class="glyphicon glyphicon-lock"></span> Password</label>
-        {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.plainPassword.first)  }}
-    </div>
-    <div class="form-group">
-        <label for="password-confirmation"><span class="glyphicon glyphicon-check"></span> Confirm Password</label>
-        {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.plainPassword.second)  }}
-    </div>
-    <div class="form-group">
-        <label for="fullName"><span class="glyphicon glyphicon-pencil"></span> Full Name</label>
-        {{ form_widget(form.fullName,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.fullName )  }}
-    </div>
-    <div class="form-group">
-        <label for="password-confirmation"><span class="glyphicon glyphicon-phone"></span> Please enter your phone, so we can call you when you make an order</label>
-        {{ form_widget(form.phone,{'attr':{'class':'form-control'}}) }}
-        {{form_errors(form.phone)  }}
-    </div>
-    <div class="form-group">
-
-        <button class="btn btn-success" type="submit" value="Register">Register</button>
-        <a class="btn btn-primary" href="{{ path("fos_user_security_login") }}">Log In</a>
-    </div>
+    {{ form_widget(form) }}
+    <button class="btn btn-success" type="submit">Register</button>
+    <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Log in</a>
     {{ form_end(form) }}
+
 {% endblock fos_user_content %}

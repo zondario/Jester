@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Color
  *
  * @ORM\Table(name="colors")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ColorRepository")
+ * @UniqueEntity("name")
  */
 class Color
 {
@@ -25,7 +27,7 @@ class Color
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 

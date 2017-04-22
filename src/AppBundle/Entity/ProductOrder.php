@@ -99,7 +99,7 @@ class ProductOrder
     /**
      * Get quantity
      *
-     * @return string
+     * @return integer
      */
     public function getQuantity()
     {

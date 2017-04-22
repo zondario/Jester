@@ -27,14 +27,14 @@ class PromotionController extends Controller
 
         foreach ($promotions as $promotion) {
             /** @var Stock[]|ArrayCollection $stocks */
-            $stocks =$promotion->getStocks();
-            if(count($stocks)>0){
+            $stocks = $promotion->getStocks();
+            if (count($stocks) > 0) {
                 foreach ($stocks as $stock) {
-                    if($stock->getQuantity()>0){
+                    if ($stock->getQuantity() > 0) {
                         $productOfStock = $stock->getProduct();
 
-                        if($productsToShow===null||(!array_key_exists($productOfStock->getId(),$productsToShow))){
-                            $productsToShow[$productOfStock->getId()]= ["product"=>$productOfStock,"promotion"=>$promotion,"notEmptyId"=>$stock->getId()];
+                        if ($productsToShow === null || (!array_key_exists($productOfStock->getId(), $productsToShow))) {
+                            $productsToShow[$productOfStock->getId()] = ["product" => $productOfStock, "promotion" => $promotion, "notEmptyId" => $stock->getId()];
 
 
                         }
@@ -42,9 +42,9 @@ class PromotionController extends Controller
                 }
             }
         }
-        $model = new PromotionsViewModel($categories,$productsToShow);
+        $model = new PromotionsViewModel($categories, $productsToShow);
 
 
-        return $this->render('@App/Listing Products/promotionsView.html.twig',["model"=>$model]);
+        return $this->render('@App/Listing Products/promotionsView.html.twig', ["model" => $model]);
     }
 }

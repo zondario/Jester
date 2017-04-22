@@ -66,8 +66,8 @@ class RegistrationController extends BaseController
             return $this->render('@FOSUser/Registration/register.html.twig', array(
                 'form' => $form->createView(),
             ));
-        }catch (\Exception $e){
-            $this->addFlash('danger',"OOps something went wrong, please try again");
+        } catch (\Exception $e) {
+            $this->addFlash('danger', "OOps something went wrong, please try again");
             return $this->redirectToRoute("fos_user_registration_register");
         }
     }

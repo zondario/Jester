@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
 /**
  * Image
  *
  * @ORM\Table(name="images")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ImageRepository")
+ *
  */
 class Image
 {
@@ -22,9 +23,9 @@ class Image
     private $id;
 
     /**
-     * @var string
-     *
+     * @var mixed
      * @ORM\Column(name="url", type="string", length=255, unique=true)
+     *
      */
     private $url;
 
@@ -35,6 +36,7 @@ class Image
      *
      */
     private $product;
+
     /**
      * Get id
      *
@@ -84,5 +86,6 @@ class Image
     {
         $this->product = $product;
     }
+
 }
 

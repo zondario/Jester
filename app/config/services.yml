@@ -18,3 +18,7 @@ services:
     app.promotion:
        class:     AppBundle\Services\PromotionService
        arguments: []
+
+    app.image_uploader:
+       class: AppBundle\Services\ImageUploaderService
+       arguments: ['%images_directory%','%images_view_directory%']
