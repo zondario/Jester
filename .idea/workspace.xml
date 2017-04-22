@@ -2,27 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82b64410-34f5-4408-8d87-5cccf3c54a0e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/form_layout.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/AdminController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/AdminController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/ProductDetailsController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/ProductDetailsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Category.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Category.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Image.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Image.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Product.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Product.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Promotion.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Promotion.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Stock.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Stock.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Form/ImageType.php" afterPath="$PROJECT_DIR$/src/AppBundle/Form/ImageType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Form/ProductType.php" afterPath="$PROJECT_DIR$/src/AppBundle/Form/ProductType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Form/StockType.php" afterPath="$PROJECT_DIR$/src/AppBundle/Form/StockType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Models/DetailsViewModel.php" afterPath="$PROJECT_DIR$/src/AppBundle/Models/DetailsViewModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Repository/PromotionRepository.php" afterPath="$PROJECT_DIR$/src/AppBundle/Repository/PromotionRepository.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Cart/cartCheckoutView.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Cart/cartCheckoutView.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Listing Products/categoryView.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Listing Products/categoryView.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Listing Products/detailsView.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Listing Products/detailsView.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/admin/form_layout.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/admin/form_layout.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/baseView.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/baseView.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/css/baseView.css" afterPath="$PROJECT_DIR$/web/css/baseView.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/css/detailsView.css" afterPath="$PROJECT_DIR$/web/css/detailsView.css" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -828,7 +808,7 @@
       <workItem from="1492627194197" duration="14345000" />
       <workItem from="1492676310766" duration="17818000" />
       <workItem from="1492789154668" duration="34184000" />
-      <workItem from="1492853138433" duration="17095000" />
+      <workItem from="1492853138433" duration="17184000" />
     </task>
     <task id="LOCAL-00001" summary="Added side and navbar login logout and register now work(FOSUserBundle)">
       <created>1491668632051</created>
@@ -935,11 +915,18 @@
       <option name="project" value="LOCAL" />
       <updated>1492823908188</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Adding Promotions to Stock&#10;Assertion problem resolved&#10;style improvements">
+      <created>1492902475324</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1492902475324</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="272685000" />
+    <option name="totallyTimeSpent" value="272774000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -951,7 +938,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28021148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1017,7 +1004,8 @@
     <MESSAGE value="Order bugs fixed" />
     <MESSAGE value="Admin panel/ creating - categories, products sizes colors&#10;Problem with assertion" />
     <MESSAGE value="bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fixed" />
+    <MESSAGE value="Adding Promotions to Stock&#10;Assertion problem resolved&#10;style improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding Promotions to Stock&#10;Assertion problem resolved&#10;style improvements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
