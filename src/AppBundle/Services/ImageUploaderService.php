@@ -15,6 +15,7 @@ use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class ImageUploaderService
@@ -42,7 +43,7 @@ class ImageUploaderService
     {
 
         $product_image = $image;
-        $imageName = md5(uniqid()).'.'.$image->getUrl()->getExtension();
+        $imageName = md5(uniqid()).'.'.$image->getUrl()->guessExtension();
         $image->getUrl()->move($this->getDir(),$imageName);
         $product_image->setUrl($this->getImagesViewDir() .$imageName);
         return $product_image;
