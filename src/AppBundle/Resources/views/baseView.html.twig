@@ -75,9 +75,9 @@
                         <ul class="dropdown-menu">
                             {% if is_granted("ROLE_ADMIN")  %}
                                 <li> <a href="{{ path('createProduct') }}" ><i class="fa     fa-plus"></i> Create Product</a></li>
-                                <li><a  href="{{ path("createCategory") }}"><i class="fa     fa-plus"></i> Create Category</a></li>
-                                <li> <a  href="{{ path("createColor") }}"><i class="fa     fa-plus"></i> Create Color</a></li>
-                                <li><a  href="{{ path("createSize") }}"><i class="fa     fa-plus"></i> Create Size</a></li>
+                                <li><a  href="{{ path("createSimpleObject",{class: "category"}) }}"><i class="fa     fa-plus"></i> Create Category</a></li>
+                                <li> <a  href="{{ path("createSimpleObject",{class: "color"}) }}"><i class="fa     fa-plus"></i> Create Color</a></li>
+                                <li><a  href="{{ path("createSimpleObject",{class: "size"}) }}"><i class="fa     fa-plus"></i> Create Size</a></li>
                             {% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa     fa-power-off"></i>
                                     Logout</a></li>

@@ -32,10 +32,11 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
         $now = new \DateTime();
         return $this->createQueryBuilder("p")
             ->select("p")
-            ->andWhere("p.endsOn >= :date")
+            ->where("p.endsOn >= :date")
             ->setParameter("date",$now)
             ->orderBy("p.percentage","DESC")
             ->getQuery()->getResult();
 
     }
+
 }

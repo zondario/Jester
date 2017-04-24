@@ -23,10 +23,20 @@ class ProductDetailsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
         $promotionsToDisplay =[];
-
-
+        $productPromotionsToDisplay = [];
         /** @var Stock $stock */
         $detailedStock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
+        if($detailedStock===null)
+        {
+            $this->addFlash("error","The stock you requested was not found sorry :(");
+            return $this->redirectToRoute("homepage");
+        }
+        if(!$detailedStock->isIsActive())
+        {
+            $this->addFlash("danger","This product is not active");
+            return $this->redirectToRoute("homepage");
+        }
+
         if ($detailedStock == null || $detailedStock->getQuantity() == 0) {
             return $this->redirectToRoute("homepage");
         }
@@ -53,9 +63,17 @@ class ProductDetailsController extends Controller
         }
         if($this->isGranted("ROLE_ADMIN")){
             $notExpired = $em->getRepository(Promotion::class)->findAllNotExpiredDESC();
+            $biggestNotExpired = $this->get("app.promotion")->findBiggestNotExpiredForStock($detailedStock);
+            $productMax = $this->get("app.promotion")->findMaxPromotionForProduct($product);
+            $now = new \DateTime();
             foreach ($notExpired as $promotion)
             {
-                if($currStockActivePromotion===null||$promotion->getPercentage() > $currStockActivePromotion->getPercentage()){
+                if($productMax===null||$promotion->getPercentage() >= $productMax->getPercentage() && $promotion->getEndsOn()>= $now )
+                {
+                    $productPromotionsToDisplay[] = $promotion;
+                }
+
+                if($biggestNotExpired===null||$promotion->getPercentage() > $biggestNotExpired->getPercentage()){
                     $promotionsToDisplay[] = $promotion;
                 }
             }
@@ -66,7 +84,8 @@ class ProductDetailsController extends Controller
             $stocksToShow,
             $finalPrice,
             $currStockActivePromotion,
-            $promotionsToDisplay);
+            $promotionsToDisplay,
+            $productPromotionsToDisplay );
 
         return $this->render("@App/Listing Products/detailsView.html.twig", array("model" => $model));
     }

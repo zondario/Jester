@@ -16,7 +16,9 @@ class CategoryController extends Controller
 
     /**
      * @Route("category/{name}", name="categoryView")
-     *
+     * @param $name
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function categoryAction($name, Request $request)
     {
@@ -33,7 +35,7 @@ class CategoryController extends Controller
         $productsToDisplay = [];
         foreach ($activeCategory->getProducts() as $product) {
             foreach ($product->getStocks() as $stock) {
-                if ($stock->getQuantity() > 0) {
+                if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
                     $maxPromotion = $this->get("app.promotion")->findMaxPromotionForProduct($product);
                     $productsToDisplay[] = ["product" => $product, "notEmptyId" => $stock->getId(), "maxPromotion" => $maxPromotion];
                     $maxPromotion = null;

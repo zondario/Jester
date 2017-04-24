@@ -16,7 +16,7 @@ class PromotionController extends Controller
     /**
      * @Route("/promotions",name="promotions")
      */
-    public function indexAction()
+    public function promotionsAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -30,9 +30,8 @@ class PromotionController extends Controller
             $stocks = $promotion->getStocks();
             if (count($stocks) > 0) {
                 foreach ($stocks as $stock) {
-                    if ($stock->getQuantity() > 0) {
+                    if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
                         $productOfStock = $stock->getProduct();
-
                         if ($productsToShow === null || (!array_key_exists($productOfStock->getId(), $productsToShow))) {
                             $productsToShow[$productOfStock->getId()] = ["product" => $productOfStock, "promotion" => $promotion, "notEmptyId" => $stock->getId()];
 

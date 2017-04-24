@@ -179,7 +179,7 @@ class Stock
     }
 
     /**
-     * @return Product[]|ArrayCollection
+     * @return Promotion[]|ArrayCollection
      */
     public function getPromotions()
     {

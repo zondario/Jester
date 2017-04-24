@@ -22,6 +22,7 @@ class DetailsViewModel
     private $stockFinalPrice;
     private $stockActivePromotion;
     private $promotionsToDisplay;
+    private $productPromotionsToDisplay;
 
     /**
      * @return Category
@@ -80,8 +81,9 @@ class DetailsViewModel
      * @param $stockFinalPrice
      * @param $stockActivePromotion
      * @param $promotionsToDisplay
+     * @param $productPromotionsToDisplay
      */
-    public function __construct($categories, $stock, $product,$stocksToShow,$stockFinalPrice,$stockActivePromotion,$promotionsToDisplay)
+    public function __construct($categories, $stock, $product,$stocksToShow,$stockFinalPrice,$stockActivePromotion,$promotionsToDisplay,$productPromotionsToDisplay)
     {
         $this->categories = $categories;
         $this->stock = $stock;
@@ -90,6 +92,8 @@ class DetailsViewModel
         $this->stockFinalPrice=$stockFinalPrice;
         $this->stockActivePromotion=$stockActivePromotion;
         $this->promotionsToDisplay = $promotionsToDisplay;
+        $this->productPromotionsToDisplay = $productPromotionsToDisplay;
+
     }
 
     /**
@@ -154,6 +158,22 @@ class DetailsViewModel
     public function setPromotionsToDisplay($promotionsToDisplay)
     {
         $this->promotionsToDisplay = $promotionsToDisplay;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductPromotionsToDisplay()
+    {
+        return $this->productPromotionsToDisplay;
+    }
+
+    /**
+     * @param mixed $productPromotionsToDisplay
+     */
+    public function setProductPromotionsToDisplay($productPromotionsToDisplay)
+    {
+        $this->productPromotionsToDisplay = $productPromotionsToDisplay;
     }
 
 }

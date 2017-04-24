@@ -187,7 +187,7 @@ class ProductOrder
     }
 
     /**
-     * @return mixed
+     * @return Stock
      */
     public function getStock()
     {

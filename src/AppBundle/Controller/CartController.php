@@ -57,19 +57,22 @@ class CartController extends Controller
 
         if ($ordersCount > 0) {
             foreach ($currentUser->getOrders() as $order) {
-                /** @var Promotion[]|ArrayCollection $promotions */
-                $promotions = $order->getStock()->getPromotions();
-                if (count($promotions) > 0) {
-                    $effectivePromotion = $this->get("app.promotion")->findEffectivePromotionForOrder($order);
-                    if (!($effectivePromotion->getStartsOn() <= $now && $effectivePromotion->getEndsOn() >= $now)) {
-                        $this->addFlash("danger", "Your order of " . $order->getStock()->getProduct()->getName() . " has been ordered within a promotion that is no longer valid, please delete it and order again");
-                        continue;
-                    }
-                }
-                $status = $em->getRepository(Status::class)->findOneBy(["id" => max($order->getStatus()->getId(), self::STATUS_REQUESTED_ID)]);
-                $order->setStatus($status);
-                $order->setOrderedOn($now);
-                $em->persist($order);
+              if($order->getStock()->isisActive())
+              {
+                  /** @var Promotion[]|ArrayCollection $promotions */
+                  $promotions = $order->getStock()->getPromotions();
+                  if (count($promotions) > 0) {
+                      $effectivePromotion = $this->get("app.promotion")->findEffectivePromotionForOrder($order);
+                      if (!($effectivePromotion->getStartsOn() <= $now && $effectivePromotion->getEndsOn() >= $now)) {
+                          $this->addFlash("danger", "Your order of " . $order->getStock()->getProduct()->getName() . " has been ordered within a promotion that is no longer valid, please delete it and order again");
+                          continue;
+                      }
+                  }
+                  $status = $em->getRepository(Status::class)->findOneBy(["id" => max($order->getStatus()->getId(), self::STATUS_REQUESTED_ID)]);
+                  $order->setStatus($status);
+                  $order->setOrderedOn($now);
+                  $em->persist($order);
+              }
             }
             $em->flush();
         } else {

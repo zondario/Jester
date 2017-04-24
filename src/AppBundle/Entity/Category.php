@@ -32,7 +32,7 @@ class Category
 
     /**
      * @var string
-     * @Assert\Length(min=5,minMessage="Too short bruh")
+     * @Assert\Length(min=2,minMessage="Too short bruh")
      * @ORM\Column(name="name", type="string", length=255, unique=true, unique=true)
      */
     private $name;

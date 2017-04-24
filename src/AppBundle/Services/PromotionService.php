@@ -10,6 +10,7 @@ namespace AppBundle\Services;
 
 
 use AppBundle\Entity\Product;
+use AppBundle\Entity\ProductOrder;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -43,8 +44,13 @@ class PromotionService
         return $maxPromotion;
     }
 
+    /**
+     * @param $order ProductOrder
+     * @return null|Promotion
+     */
     public function findEffectivePromotionForOrder($order)
     {
+        /** @var Promotion[] $promotions */
         $promotions = $order->getStock()->getPromotions()->toArray();
         $effectivePromotion = null;
         usort(
@@ -81,4 +87,24 @@ class PromotionService
         return $maxPromotion;
     }
 
+    /**
+     * @param $stock Stock
+     * @return Promotion
+     *
+     *
+     */
+    public function findBiggestNotExpiredForStock($stock)
+    {
+        $promotionToShow = null;
+        $now = new \DateTime();
+        $stockPromotions= $stock->getPromotions()->toArray();
+        usort( $stockPromotions,function ($a,$b){return $b->compareTo($a);});
+        foreach ($stock->getPromotions() as $promotion) {
+            if($promotion->getEndsOn()>=$now)
+            {
+                $promotionToShow = $promotion;
+            }
+        }
+        return $promotionToShow;
+    }
 }

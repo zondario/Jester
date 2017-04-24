@@ -3,9 +3,35 @@
 {% block stylesheets %}
     <link rel="stylesheet" href={{ asset('css/detailsView.css') }}>
 {% endblock %}
-
+{% block javascripts %}
+    <script src="{{ asset('js/detailsView.js') }}"></script>
+    {% endblock %}
 {% block content %}
     <div class="wrapper">
+        <!-- Popup -->
+        <div id="myModal" class="modal">
+
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2>Choose Promotion</h2>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ path('promoteProduct',{id: model.product.id}) }}">
+                        <select class="form-control" style="color:darkorange; background: black" name="productPromotion" >
+                            <option>Choose Promotion</option>
+                            {% for promotion in model.productPromotionsToDisplay %}
+                                <option  value="{{ promotion.id }}">{{ promotion.percentage }}% | {{ promotion.startsOn|date("d-m-Y") }} | {{ promotion.endsOn|date("d-m-Y") }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn form-group" style="background: darkorange" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Popup -->
         <div class="preview col-md-6">
 
             <div class="preview-pic tab-content">
@@ -68,15 +94,27 @@
             </h5>
             <div class="action">
                 {% if is_granted("ROLE_ADMIN") %}
+                    <div style="float:left">
                    <form action="{{ path("promoteStock",{id: model.stock.id}) }}" method="POST">
                        <select style="background-color: black" name="promotion" >
-                           <option>Click here and choose</option>
+                           <option>Choose a promotion</option>
                            {% for promotion in model.promotionsToDisplay  %}
                                <option  value="{{ promotion.id }}">{{ promotion.percentage }}% | {{ promotion.startsOn|date("d-m-Y") }} | {{ promotion.endsOn|date("d-m-Y") }}</option>
                            {% endfor %}
                        </select>
                        <button class="btn btn-add" style="background-color: darkorange">Promote Stock</button>
                    </form>
+
+                    </div>
+                    <div class="dropup">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Settings
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="myBtn">Promote Product</a></li>
+                            <li><a href="#">CSS</a></li>
+                            <li><a href="#">JavaScript</a></li>
+                        </ul>
+                    </div>
                 {% elseif is_granted("ROLE_USER") %}
                     <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default">add to cart</a>
                 {% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
