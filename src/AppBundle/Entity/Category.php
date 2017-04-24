@@ -18,7 +18,7 @@ class Category
 {
     function __construct()
     {
-        $this->products=new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     /**
@@ -38,7 +38,7 @@ class Category
     private $name;
 
     /** @var  Product[]
-     *  @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
      */
     private $products;
 

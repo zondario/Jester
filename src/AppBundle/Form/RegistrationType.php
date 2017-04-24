@@ -20,19 +20,19 @@ class RegistrationType extends AbstractType
             ->add('email', EmailType::class)
             ->add('username', null)
             ->add('plainPassword', RepeatedType::class, array(
-                'first_options'=>['label'=>'Password'],
-                'second_options'=>['label'=>"Repeat Password"],
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => "Repeat Password"],
                 'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
                 'invalid_message' => 'Password Missmatch',
-            ))->add("fullName",TextType::class,array("label"=>"Full Name",'attr'=>array('class'=>"form-control")))
-            ->add("phone",TextType::class,['label'=>"Please enter your phone so we can contact you"]);
-        ;
+            ))->add("fullName", TextType::class, array("label" => "Full Name", 'attr' => array('class' => "form-control")))
+            ->add("phone", TextType::class, ['label' => "Please enter your phone so we can contact you"]);;
     }
 
     public function getParent()
     {
         return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
+
     public function getBlockPrefix()
     {
         return 'app_user_registration';

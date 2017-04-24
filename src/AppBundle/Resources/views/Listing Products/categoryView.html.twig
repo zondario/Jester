@@ -21,8 +21,11 @@
                  <div class="photo">
                      <div class="options-cart-round">
                          {% if is_granted("ROLE_ADMIN") %}
-                             <a class="btn btn-default">
+                             <a href="{{ path('editProduct',{id:product["product"].id,class:"product"}) }}" class="btn btn-default">
                                  <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                             </a>
+                             <a href="{{ path('addStockToProduct',{id:product["product"].id}) }}" class="btn btn-default">
+                                 <span class="fa fa-plus" aria-hidden="true"></span>
                              </a>
                          {% elseif is_granted("ROLE_USER") %}
                              {% else %}

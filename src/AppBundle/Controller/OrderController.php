@@ -8,15 +8,11 @@ use AppBundle\Entity\Status;
 use AppBundle\Entity\Stock;
 use AppBundle\Entity\User;
 use AppBundle\Repository\StockRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\OrderBy;
-use Doctrine\ORM\Repository\RepositoryFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Date;
+
 
 class OrderController extends Controller
 {
@@ -57,8 +53,6 @@ class OrderController extends Controller
             $order->setAddedOn(new \DateTime());
             $em->persist($order);
             $this->addFlash("success", "You have successfully ordered " . self::DEFAULT_QUANTITY . " " . $order->getStock()->getProduct()->getName());
-
-
         } else {
             $now = new \DateTime();
             /** @var ProductOrder $order */
@@ -116,8 +110,7 @@ class OrderController extends Controller
                 $em->persist($order);
                 $em->flush();
             }
-            return $this->redirectToRoute("checkout");
-
         }
+        return $this->redirectToRoute("checkout");
     }
 }

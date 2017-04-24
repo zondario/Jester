@@ -22,8 +22,8 @@ class ProductOrder
     private $id;
 
     /** @var  Stock $stock
-     *@ORM\ManyToOne(targetEntity="AppBundle\Entity\Stock",inversedBy="orders")
-     *@ORM\JoinColumn(name="stock_id",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stock",inversedBy="orders")
+     * @ORM\JoinColumn(name="stock_id",referencedColumnName="id")
      */
     private $stock;
 
@@ -36,8 +36,8 @@ class ProductOrder
     /**
      * @var  User $user
      *
-     *@ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="orders")
-     *@ORM\JoinColumn(name="user",referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User",inversedBy="orders")
+     * @ORM\JoinColumn(name="user",referencedColumnName="id")
      */
     private $user;
 
@@ -71,7 +71,7 @@ class ProductOrder
      */
     private $finalPrice;
 
-   /**
+    /**
      * Get id
      *
      * @return int

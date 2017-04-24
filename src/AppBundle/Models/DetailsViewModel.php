@@ -83,14 +83,14 @@ class DetailsViewModel
      * @param $promotionsToDisplay
      * @param $productPromotionsToDisplay
      */
-    public function __construct($categories, $stock, $product,$stocksToShow,$stockFinalPrice,$stockActivePromotion,$promotionsToDisplay,$productPromotionsToDisplay)
+    public function __construct($categories, $stock, $product, $stocksToShow, $stockFinalPrice, $stockActivePromotion, $promotionsToDisplay, $productPromotionsToDisplay)
     {
         $this->categories = $categories;
         $this->stock = $stock;
         $this->product = $product;
-        $this->stocksToShow=$stocksToShow;
-        $this->stockFinalPrice=$stockFinalPrice;
-        $this->stockActivePromotion=$stockActivePromotion;
+        $this->stocksToShow = $stocksToShow;
+        $this->stockFinalPrice = $stockFinalPrice;
+        $this->stockActivePromotion = $stockActivePromotion;
         $this->promotionsToDisplay = $promotionsToDisplay;
         $this->productPromotionsToDisplay = $productPromotionsToDisplay;
 

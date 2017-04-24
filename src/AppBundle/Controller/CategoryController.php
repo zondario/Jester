@@ -58,7 +58,7 @@ class CategoryController extends Controller
      */
     public function homeAction()
     {
-        return $this->categoryAction("Bikes",new Request());
+        return $this->categoryAction("Bikes", new Request());
     }
 
 

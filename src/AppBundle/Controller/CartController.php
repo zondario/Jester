@@ -4,15 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\ProductOrder;
-use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Status;
 use AppBundle\Entity\User;
 use AppBundle\Models\CheckoutViewModel;
-use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class CartController extends Controller
 {
@@ -46,37 +42,40 @@ class CartController extends Controller
     {
         $now = new \DateTime();
         $em = $this->getDoctrine()->getManager();
-
         /** @var User $currentUser */
         $currentUser = $this->getUser();
-
-
-        $ordersCount = $this->getDoctrine()
+        /** @var ProductOrder[] $ordersForUser */
+        $ordersForUser = $this->getDoctrine()
             ->getRepository(ProductOrder::class)
-            ->countOrdersWithStatus(self::STATUS_ADDED_ID);
+            ->getOrdersForUserWithStatus($currentUser, self::STATUS_ADDED_ID);
 
-        if ($ordersCount > 0) {
-            foreach ($currentUser->getOrders() as $order) {
-              if($order->getStock()->isisActive())
-              {
-                  /** @var Promotion[]|ArrayCollection $promotions */
-                  $promotions = $order->getStock()->getPromotions();
-                  if (count($promotions) > 0) {
-                      $effectivePromotion = $this->get("app.promotion")->findEffectivePromotionForOrder($order);
-                      if (!($effectivePromotion->getStartsOn() <= $now && $effectivePromotion->getEndsOn() >= $now)) {
-                          $this->addFlash("danger", "Your order of " . $order->getStock()->getProduct()->getName() . " has been ordered within a promotion that is no longer valid, please delete it and order again");
-                          continue;
-                      }
-                  }
-                  $status = $em->getRepository(Status::class)->findOneBy(["id" => max($order->getStatus()->getId(), self::STATUS_REQUESTED_ID)]);
-                  $order->setStatus($status);
-                  $order->setOrderedOn($now);
-                  $em->persist($order);
-              }
+        if (count($ordersForUser) > 0) {
+            foreach ($ordersForUser as $order) {
+                if ($order->getStock()->isisActive() && $order->getStock()->getQuantity() > 0) {
+                    $stock = $order->getStock();
+                    if ($stock->getQuantity() >= $order->getQuantity()) {
+                        $effectivePromotion = $this->get("app.promotion")->findEffectivePromotionForOrder($order);
+                        if ($effectivePromotion) {
+                            if (!($effectivePromotion->getStartsOn() <= $now && $effectivePromotion->getEndsOn() >= $now)) {
+                                $this->addFlash("danger", "Your order of " . $order->getStock()->getProduct()->getName() . " has been ordered within a promotion that is no longer valid, please delete it and order again");
+                                continue;
+                            }
+                        }
+                        $stock->setQuantity($stock->getQuantity() - $order->getQuantity());
+                        $status = $em->getRepository(Status::class)->findOneBy(["id" => max($order->getStatus()->getId(), self::STATUS_REQUESTED_ID)]);
+                        $order->setStatus($status);
+                        $order->setOrderedOn($now);
+                        $em->persist($order);
+                        $em->persist($stock);
+                    } else {
+                        $this->addFlash("danger", "Sorry the quantity you requested for " . $order->getStock()->getProduct()->getName() . " is not available");
+                    }
+                } else {
+                    $em->remove($order);
+                    $this->addFlash("danger", "Sorry but the product " . $order->getStock()->getProduct()->getName() . " is not available!");
+                }
             }
             $em->flush();
-        } else {
-            return $this->redirectToRoute("homepage");
         }
         return $this->redirectToRoute("checkout");
 

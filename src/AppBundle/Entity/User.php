@@ -43,6 +43,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductOrder",mappedBy="user")
      * */
     private $orders;
+
     /**
      * Get id
      *
@@ -52,8 +53,6 @@ class User extends BaseUser
     {
         return $this->id;
     }
-
-
 
 
     /**
@@ -79,6 +78,7 @@ class User extends BaseUser
     {
         return $this->fullName;
     }
+
     /**
      * Overriding Fos User class due to impossible to set default role ROLE_USER
      * @see User at line 138

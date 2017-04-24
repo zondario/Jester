@@ -14,7 +14,7 @@ use AppBundle\Entity\ProductOrder;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\DateTime;
+
 
 class PromotionService
 {
@@ -29,7 +29,7 @@ class PromotionService
         /** @var Promotion[]|ArrayCollection $promotions */
         $promotions = $stock->getPromotions()->toArray();
         usort(
-            $promotions, function ($a, $b) {
+            $promotions, function (Promotion $a,Promotion $b) {
             return $b->compareTo($a);
         });
         foreach ($promotions as $promotion) {
@@ -54,7 +54,7 @@ class PromotionService
         $promotions = $order->getStock()->getPromotions()->toArray();
         $effectivePromotion = null;
         usort(
-            $promotions, function ($a, $b) {
+            $promotions, function (Promotion $a,Promotion $b) {
             return $b->compareTo($a);
         });
         foreach ($promotions as $promotion) {
@@ -75,14 +75,17 @@ class PromotionService
     public function findMaxPromotionForProduct($product)
     {
 
+        /** @var Promotion|null $maxPromotion */
         $maxPromotion = null;
         foreach ($product->getStocks() as $stock) {
-            $potentialMax = $this->findMaxPromotionForStock($stock);
-            if ($potentialMax) {
-                if ($maxPromotion == null || ($potentialMax->getPercentage() > $maxPromotion->getPercentage())) {
-                    $maxPromotion = $potentialMax;
-                }
-            }
+           if($stock->isIsActive() && $stock->getQuantity()  >  0){
+               $potentialMax = $this->findMaxPromotionForStock($stock);
+               if ($potentialMax) {
+                   if ($maxPromotion == null || ($potentialMax->getPercentage() > $maxPromotion->getPercentage())) {
+                       $maxPromotion = $potentialMax;
+                   }
+               }
+           }
         }
         return $maxPromotion;
     }
@@ -98,7 +101,7 @@ class PromotionService
         $promotionToShow = null;
         $now = new \DateTime();
         $stockPromotions= $stock->getPromotions()->toArray();
-        usort( $stockPromotions,function ($a,$b){return $b->compareTo($a);});
+        usort( $stockPromotions,function (Promotion $a, Promotion $b){return $b->compareTo($a);});
         foreach ($stock->getPromotions() as $promotion) {
             if($promotion->getEndsOn()>=$now)
             {

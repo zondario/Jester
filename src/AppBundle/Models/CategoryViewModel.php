@@ -35,7 +35,7 @@ class CategoryViewModel
     /**
      * @param Category $activeCategory
      */
-    public function setActiveCategory( Category $activeCategory)
+    public function setActiveCategory(Category $activeCategory)
     {
         $this->activeCategory = $activeCategory;
     }

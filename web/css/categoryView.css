@@ -4,7 +4,7 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
 
 .col-item {
-
+    cursor:pointer;
     margin-bottom:12px;
     background-color: black;
     border:5px solid darkorange;
@@ -13,6 +13,7 @@
 .col-item:hover{
     border: 5px dashed darkorange;
     opacity: 0.8999;
+
 }
 .col-item .options {
     position:absolute;

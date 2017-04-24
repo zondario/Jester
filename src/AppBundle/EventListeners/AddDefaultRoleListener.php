@@ -11,7 +11,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Listener responsible for adding the default user role at registration
  */
-
 class AddDefaultRoleListener implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()

@@ -10,13 +10,7 @@ namespace AppBundle\Services;
 
 
 use AppBundle\Entity\Image;
-use AppBundle\Entity\Product;
-use AppBundle\Entity\Promotion;
-use AppBundle\Entity\Stock;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints\DateTime;
+
 
 class ImageUploaderService
 {
@@ -28,10 +22,10 @@ class ImageUploaderService
      * @param $dir
      * @param $imagesViewDir
      */
-    public function __construct($dir,$imagesViewDir)
+    public function __construct($dir, $imagesViewDir)
     {
         $this->dir = $dir;
-        $this->imagesViewDir=$imagesViewDir;
+        $this->imagesViewDir = $imagesViewDir;
     }
 
 
@@ -43,9 +37,9 @@ class ImageUploaderService
     {
 
         $product_image = $image;
-        $imageName = md5(uniqid()).'.'.$image->getUrl()->guessExtension();
-        $image->getUrl()->move($this->getDir(),$imageName);
-        $product_image->setUrl($this->getImagesViewDir() .$imageName);
+        $imageName = md5(uniqid()) . '.' . $image->getUrl()->guessExtension();
+        $image->getUrl()->move($this->getDir(), $imageName);
+        $product_image->setUrl($this->getImagesViewDir() . $imageName);
         return $product_image;
     }
 

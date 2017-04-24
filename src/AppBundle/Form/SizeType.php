@@ -3,7 +3,6 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Size;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +16,7 @@ class SizeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(["data_class"=>Size::class]);
+        $resolver->setDefaults(["data_class" => Size::class]);
     }
 
     public function getBlockPrefix()

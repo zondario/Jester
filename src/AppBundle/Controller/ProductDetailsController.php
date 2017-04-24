@@ -7,9 +7,6 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
 use AppBundle\Models\DetailsViewModel;
-use AppBundle\Repository\ProductRepository;
-use AppBundle\Repository\SizeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,22 +19,21 @@ class ProductDetailsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
-        $promotionsToDisplay =[];
+        $promotionsToDisplay = [];
         $productPromotionsToDisplay = [];
         /** @var Stock $stock */
         $detailedStock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
-        if($detailedStock===null)
-        {
-            $this->addFlash("error","The stock you requested was not found sorry :(");
+        if ($detailedStock === null) {
+            $this->addFlash("error", "The stock you requested was not found sorry :(");
             return $this->redirectToRoute("homepage");
         }
-        if(!$detailedStock->isIsActive())
-        {
-            $this->addFlash("danger","This product is not active");
+        if (!$detailedStock->isIsActive()) {
+            $this->addFlash("danger", "This product is not active");
             return $this->redirectToRoute("homepage");
         }
 
-        if ($detailedStock == null || $detailedStock->getQuantity() == 0) {
+        if ($detailedStock->getQuantity() == 0) {
+            $this->addFlash("danger", "Sorry we are out of stock");
             return $this->redirectToRoute("homepage");
         }
         /** @var Product $product */
@@ -48,7 +44,7 @@ class ProductDetailsController extends Controller
         $currStockActivePromotion = null;
 
         foreach ($product->getStocks() as $stock) {
-            if ($stock->getQuantity() > 0) {
+            if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
                 $activePromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
                 if ($activePromotion) {
                     if ($stock->getId() === $detailedStock->getId()) {
@@ -61,23 +57,25 @@ class ProductDetailsController extends Controller
                 $activePromotion = null;
             }
         }
-        if($this->isGranted("ROLE_ADMIN")){
+        if ($this->isGranted("ROLE_ADMIN")) {
             $notExpired = $em->getRepository(Promotion::class)->findAllNotExpiredDESC();
             $biggestNotExpired = $this->get("app.promotion")->findBiggestNotExpiredForStock($detailedStock);
             $productMax = $this->get("app.promotion")->findMaxPromotionForProduct($product);
             $now = new \DateTime();
-            foreach ($notExpired as $promotion)
-            {
-                if($productMax===null||$promotion->getPercentage() >= $productMax->getPercentage() && $promotion->getEndsOn()>= $now )
-                {
+            foreach ($notExpired as $promotion) {
+                if ($productMax === null || $promotion->getPercentage() >= $productMax->getPercentage() && $promotion->getEndsOn() >= $now) {
                     $productPromotionsToDisplay[] = $promotion;
                 }
 
-                if($biggestNotExpired===null||$promotion->getPercentage() > $biggestNotExpired->getPercentage()){
+                if ($biggestNotExpired === null || $promotion->getPercentage() > $biggestNotExpired->getPercentage()) {
                     $promotionsToDisplay[] = $promotion;
                 }
             }
         }
+
+        usort($stocksToShow, function ($a, $b) {
+            return $a["stock"]->getSize()->getName()<=>$b["stock"]->getSize()->getName();
+        });
         $model = new DetailsViewModel($categories,
             $detailedStock,
             $product,
@@ -85,7 +83,7 @@ class ProductDetailsController extends Controller
             $finalPrice,
             $currStockActivePromotion,
             $promotionsToDisplay,
-            $productPromotionsToDisplay );
+            $productPromotionsToDisplay);
 
         return $this->render("@App/Listing Products/detailsView.html.twig", array("model" => $model));
     }

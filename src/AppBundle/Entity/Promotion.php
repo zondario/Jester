@@ -5,18 +5,23 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Comparable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Promotion
  *
  * @ORM\Table(name="promotions")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PromotionRepository")
+ * @Assert\Callback(callback="validateDates")
+ * @Assert\Callback(callback="validatePercentage")
+ *
  */
 class Promotion implements Comparable
 {
     function __construct()
     {
-        $this->stocks=new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     /**
@@ -48,9 +53,28 @@ class Promotion implements Comparable
      */
     private $endsOn;
 
+
+    public function validateDates(ExecutionContextInterface $context)
+    {
+        if ($this->startsOn>=$this->endsOn) {
+            $context->buildViolation('Starting Date should be smaller than ending Date')
+                ->atPath('$startsOn')
+                ->atPath("endsOn")
+                ->addViolation();
+        }
+    }
+    public function validatePercentage(ExecutionContextInterface $context)
+    {
+        if ($this->percentage> 99) {
+            $context->buildViolation("Promotions's percentage cannot be more than 99")
+                ->atPath('percentage')
+                ->addViolation();
+        }
+    }
+
     /** @var  Stock[]
-     *  @ORM\ManyToMany(targetEntity="AppBundle\Entity\Stock",mappedBy="promotions")
-     *  @ORM\JoinColumn(name="stock_id",referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Stock",mappedBy="promotions")
+     * @ORM\JoinColumn(name="stock_id",referencedColumnName="id")
      */
     private $stocks;
 

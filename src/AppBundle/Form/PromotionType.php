@@ -13,14 +13,14 @@ class PromotionType extends AbstractType
     {
         $builder
             ->add("percentage")
-            ->add("startsOn",null,["label"=>"Start Date:"])
-            ->add("endsOn",null,["label"=>"Ends on"]);
+            ->add("startsOn", null, ["label" => "Start Date:"])
+            ->add("endsOn", null, ["label" => "Ends on"]);
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(["data_class"=>Promotion::class]);
+        $resolver->setDefaults(["data_class" => Promotion::class]);
     }
 
     public function getBlockPrefix()

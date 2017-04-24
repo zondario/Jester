@@ -9,9 +9,7 @@
 {% block content %}
     <div class="wrapper">
         <!-- Popup -->
-        <div id="myModal" class="modal">
-
-
+        <div id="promoteProduct" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
@@ -29,8 +27,24 @@
                     </form>
                 </div>
             </div>
-
         </div>
+
+
+            <div id="addImage" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2>Upload Image</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" enctype="multipart/form-data" action="{{ path('addImage',{productId: model.product.id}) }}">
+                            <label for="url">Image</label>
+                            <input name="app_bundle_image_type[url]" type="file">
+                            <button name="_submit" class="btn form-group" style="background: darkorange" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         <!-- End Popup -->
         <div class="preview col-md-6">
 
@@ -73,7 +87,7 @@
 
             <h5 class="colors">In Stock:
                 {% set prev = "" %}
-                {% for currStock in model.stocksToShow|sort %}
+                {% for currStock in model.stocksToShow  %}
                     {% if currStock["stock"].size.name!= prev %}
                         <span class="size">{{ currStock["stock"].size.name }}:</span>
                     {% endif %}
@@ -110,8 +124,8 @@
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Settings
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" id="myBtn">Promote Product</a></li>
-                            <li><a href="#">CSS</a></li>
+                            <li><a href="#" id="imageBtn">Add image</a></li>
+                            <li><a href="#" id="promoteProductBtn">Promote Product</a></li>
                             <li><a href="#">JavaScript</a></li>
                         </ul>
                     </div>

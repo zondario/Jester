@@ -2,11 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Product;
 use AppBundle\Entity\Stock;
+use AppBundle\Form\StockProductType;
 use AppBundle\Form\StockType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class CreateController extends Controller
 {
@@ -19,10 +22,10 @@ class CreateController extends Controller
     public function createProduct(Request $request)
     {
         // in order to create product we have to create the initial stock
-        // Everything needed to create a stock is chained as embedded forms in the StockType
+        // Everything needed to create a stock is chained as embedded forms in the StockProductType
         $stock = new Stock();
 
-        $form = $this->createForm(StockType::class, $stock);
+        $form = $this->createForm(StockProductType::class, $stock);
 
         $form->handleRequest($request);
 
@@ -42,7 +45,6 @@ class CreateController extends Controller
     }
 
 
-
     /**
      * @Route("/admin/create/{class}",name="createSimpleObject")
      * @param Request $request
@@ -53,18 +55,46 @@ class CreateController extends Controller
     {
         $class = ucfirst(strtolower($class));
         $namspace = "AppBundle\\Entity\\";
-        $fullName =$namspace.$class;
+        $fullName = $namspace . $class;
         $object = new $fullName();
-        $form = $this->createForm("AppBundle\\Form\\".$class."Type", $object);
+        $form = $this->createForm("AppBundle\\Form\\" . $class . "Type", $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($object);
             $em->flush();
-            $this->addFlash("success",$class . " successfully created");
+            $this->addFlash("success", $class . " with id ".$object->getId()." successfully created");
             return $this->redirectToRoute("homepage");
         }
-        return $this->render("@App/admin/create".$class.".html.twig", ["form" => $form->createView()]);
+        return $this->render("@App/admin/create" . $class . ".html.twig", ["form" => $form->createView()]);
+    }
+
+    /**
+     * @Route("/admin/add/stock/{id}",name="addStockToProduct")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function addStockToProduct(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(Product::class)->findOneBy(["id" => $id]);
+        $stock = new Stock();
+        $form = $this->createForm(StockType::class, $stock, ["constraints" => new Valid()]);
+        $stock->setProduct($product);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($product !== null) {
+                $stock->setIsActive(true);
+                $stock->setProduct($product);
+                $em->persist($stock);
+                $em->flush();
+
+                $this->addFlash("success", "Stock added");
+                return $this->redirectToRoute("detailsView", ["id" => $stock->getId()]);
+            }
+        }
+        return $this->render("@App/admin/addStockToProduct.html.twig", ["form" => $form->createView(), "productName" => $product->getName()]);
     }
 
 }

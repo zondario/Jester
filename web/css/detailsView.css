@@ -73,6 +73,7 @@ select
         display: flex; } }
 
 .details {
+    height:100%;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -93,7 +94,9 @@ select
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
-    flex-grow: 1; }
+    flex-grow: 1;
+    padding-bottom: 10%;
+}
 
 .product-title, .price, .sizes, .colors {
     text-transform: UPPERCASE;
@@ -135,11 +138,11 @@ select
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
-    left: 0;
+    left:0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    overflow: visible; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
@@ -149,6 +152,7 @@ select
     position: relative;
     background-color: #fefefe;
     margin: auto;
+    left: 4%;
     padding: 0;
     border: 1px solid #888;
     width: 80%;

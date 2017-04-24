@@ -17,6 +17,9 @@
                             <a class="btn btn-default">
                                 <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
                             </a>
+                            <a href="{{ path('addStockToProduct',{id:product["product"].id}) }}" class="btn btn-default">
+                                <span class="fa fa-plus" aria-hidden="true"></span>
+                            </a>
                         {% elseif is_granted('ROLE_USER') %}
                             <a class="btn btn-default">
                                 <span class="fa fa-shopping-cart"></span>

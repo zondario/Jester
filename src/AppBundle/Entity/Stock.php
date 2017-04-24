@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Stock
  *
@@ -15,7 +16,7 @@ class Stock
 {
     function __construct()
     {
-        $this->promotions=new ArrayCollection();
+        $this->promotions = new ArrayCollection();
     }
 
     /**
@@ -119,8 +120,8 @@ class Stock
     private $product;
 
     /** @var  Product[]|ArrayCollection
-     *  @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion",inversedBy="stocks")
-     *  @ORM\JoinColumn(name="promotion_id",referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion",inversedBy="stocks")
+     * @ORM\JoinColumn(name="promotion_id",referencedColumnName="id")
      */
     private $promotions;
 

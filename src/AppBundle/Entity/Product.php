@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -20,7 +19,7 @@ class Product
 
     function __construct()
     {
-        $this->images=new ArrayCollection();
+        $this->images = new ArrayCollection();
         $this->stocks = new ArrayCollection();
     }
 
@@ -168,7 +167,7 @@ class Product
     }
 
     /**
-     * @return mixed
+     * @return Category
      */
     public function getCategory()
     {
@@ -200,7 +199,7 @@ class Product
     }
 
     /**
-     * @return mixed
+     * @return Image[]|ArrayCollection
      */
     public function getImages()
     {
@@ -230,7 +229,6 @@ class Product
     {
         $this->stocks = $stocks;
     }
-
 
 
 }
