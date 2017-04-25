@@ -1,0 +1,58 @@
+{% extends "@App/baseView.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/ordersView.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="orders">
+        <ul class="nav nav-tabs">
+            <li><a  href="{{ path('viewOrders',{status:"requested"}) }}">Sent</a></li>
+            <li class="active"><a>Requested</a></li>
+        </ul>
+
+        <div class="container">
+            <table class="table" >
+                <tr >
+                    <th class="col-xs-2">Order By:</th>
+                    <th{% if model.orders.isSorted('o.quantity') %} class="sorted col-xs-2" {% else %} class="col-xs-2" {% endif %}>{{ knp_pagination_sortable(model.orders, 'quantity', 'o.quantity')|raw }}</th>
+                    <th{% if model.orders.isSorted('o.finalPrice') %} class="sorted col-xs-2" {% else %} class="col-xs-2" {% endif %}>{{ knp_pagination_sortable(model.orders, 'final price', 'o.finalPrice' )|raw }}</th>
+                </tr>
+            </table>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User's Name</th>
+                    <th>User's Phone</th>
+                    <th>Product Name</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Quantity ordered</th>
+                    <th>Status</th>
+                    <th>Ordered On</th>
+                    <th>Final Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in model.orders %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.user.fullName }}</td>
+                        <td>{{ item.user.phone }}</td>
+                        <td>{{ item.stock.product.name }}</td>
+                        <td>{{ item.stock.color.name }}</td>
+                        <td>{{ item.stock.size.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.status.name }}</td>
+                        <td>{{ item.orderedOn|date("d-m-Y") }}</td>
+                        <td>{{ item.finalPrice|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+{% block navigation %}
+    {{ knp_pagination_render(model.orders) }}
+{% endblock %}

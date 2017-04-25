@@ -42,9 +42,9 @@ class ProductOrder
     private $user;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="quantity", type="string", length=255)
+     * @ORM\Column(name="quantity", type="integer")
      */
     private $quantity;
 
@@ -155,7 +155,7 @@ class ProductOrder
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {

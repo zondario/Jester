@@ -1,0 +1,58 @@
+.orders
+{
+    background:black;
+    color:darkorange;
+
+
+}
+.nav-tabs>li>a
+{
+    background: black;
+    color:darkorange;
+    border-bottom: 1px;
+
+}
+.nav-tabs>li>a:hover,
+.nav-tabs>li>a:focus
+{
+    background: darkorange;
+    color:black;
+    border: 1px solid black;
+}
+.nav-tabs>li.active>a
+{
+    background: darkorange;
+    color:black;
+}
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus
+
+{
+    background: darkorange;
+    color:black;
+    border: 1px solid black;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: darkorange;
+    color:black;
+}
+@media (max-width: 768px) {
+
+    #page-wrapper {
+        margin-top: 50%;
+    }
+    .orders
+    {
+        width:220%;
+    }
+}
+@media (max-height:500px ){
+    .navbar-brand
+    {
+        display: none;
+    }
+    #page-wrapper{
+        margin-top: 10%;
+    }
+
+}

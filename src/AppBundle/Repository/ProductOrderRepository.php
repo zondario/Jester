@@ -40,4 +40,12 @@ class ProductOrderRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
 
     }
+    public function getPaginationQueryByStatus($status)
+    {
+        return $this->createQueryBuilder("o")
+            ->select("o")
+            ->where("o.status = :status")
+            ->setParameter("status",$status)
+            ->getQuery();
+    }
 }

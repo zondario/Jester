@@ -16,22 +16,26 @@ class EditController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function editProduct($class,$id,Request $request)
+    public function editProduct($class, $id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $class = ucfirst(strtolower($class));
         $namespace = "AppBundle\\Entity\\";
-        $fullname = $namespace.$class;
-        $object = $em->getRepository($fullname)->findOneBy(["id"=>$id]);
-        $form = $this->createForm("AppBundle\\Form\\".$class."Type",$object);
+        $fullname = $namespace . $class;
+        $object = $em->getRepository($fullname)->findOneBy(["id" => $id]);
+
+        if ($object == null) {
+           return $this->redirectToRoute("homepage");
+        }
+        $form = $this->createForm("AppBundle\\Form\\" . $class . "Type", $object);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-          $em->persist($object);
-          $em->flush();
-          $this->addFlash("success",$class." successfully edited");
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($object);
+            $em->flush();
+            $this->addFlash("success", $class . " successfully edited");
             return $this->redirectToRoute("homepage");
         }
-        return $this->render("@App/admin/edit".$class.".html.twig",["form"=>$form->createView()]);
+
+        return $this->render("@App/admin/edit" . $class . ".html.twig", ["form" => $form->createView()]);
     }
 }
