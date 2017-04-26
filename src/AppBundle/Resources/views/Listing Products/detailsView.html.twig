@@ -126,7 +126,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#" id="imageBtn">Add image</a></li>
                             <li><a href="#" id="promoteProductBtn">Promote Product</a></li>
-                            <li><a href="#">JavaScript</a></li>
+                            <li><a href={{ path('editProduct',{class:"stock",id:model.stock.id}) }}>Edit Stock</a></li>
                         </ul>
                     </div>
                 {% elseif is_granted("ROLE_USER") %}

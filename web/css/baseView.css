@@ -326,3 +326,19 @@ hr{
     background-color: darkorange;
     border-color:black;
 }
+.txtbox{
+    display: block;
+    float: left;
+    height: 10%;
+    width: 80%;
+    margin-top:5%;
+}
+
+.btncls{
+    display: block;
+    float: left;
+    margin-top: 4% ;
+    width: 20%;
+    height:9%;
+
+}

@@ -1,0 +1,3 @@
+
+<a {% for attr, value in options %} {% if attr != "class" %} {{ attr }}='{{ value }}' {% endif %} style="background: #7a7a79; color:black; font-weight: 500; border-color: black; border-radius: 20%"{% endfor %}
+class="btn btn-success"> {{ title }}<i {% for attr, value in options %} {% if attr == "class" %}{{ attr }}="{{ value }}"{% endif %}{% endfor %} ></i> </a>

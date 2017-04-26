@@ -12,7 +12,21 @@
 
 {% endblock %}
  {% block content %}
-
+<div class="navs">
+   <div class="table-responsive">
+       <table class="table table-hover">
+           <thead>
+           <tr>
+               <th>Sort By:</th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"asc"}) }}">Cheapest First</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"desc"}) }}">Most Expensive First</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"desc"}) }}">Newest First</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"asc"}) }}">Oldest First</a></th>
+           </tr>
+           </thead>
+       </table>
+   </div>
+</div>
      {% for product in model.productsToDisplay %}
 
          <div class="col-sm-4">

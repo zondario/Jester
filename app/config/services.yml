@@ -19,6 +19,10 @@ services:
        class:     AppBundle\Services\PromotionService
        arguments: []
 
+    app.aggregator:
+       class:     AppBundle\Services\ArrayAggregatorService
+       arguments: ['@app.promotion']
+
     app.image_uploader:
        class: AppBundle\Services\ImageUploaderService
        arguments: ['%images_directory%','%images_view_directory%']

@@ -13,8 +13,10 @@ use AppBundle\Entity\Promotion;
 
 use AppBundle\Entity\Status;
 use AppBundle\Entity\Stock;
+use AppBundle\Entity\User;
 use AppBundle\Form\ImageType;
 use AppBundle\Models\AdminPanelViewModel;
+use AppBundle\Models\BanViewModel;
 use AppBundle\Models\OrdersViewModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends Controller
 {
     const IMAGES_VIEW_DIRECTORY = "../../images/productImages/";
-    const DEFAULT_REQUESTED_ID = 2;
-    const DEFAULT_SENT_ID = 4;
-    const DEFAULT_PAGE_LIMIT = 10;
+
 
     /**
      * @Route("/admin",name="adminPanel")
@@ -120,24 +120,65 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/view/orders/{status}",name="viewOrders")
+     * @Route("/admin/ban",name="banUser")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function banUser(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $model = new BanViewModel($em->getRepository(Category::class)->findAll());
+
+        if ($request->get("user")) {
+            $user = $em->getRepository(User::class)->findByUserNameOrFullName($request->get("user"));
+            if ($user) {
+                if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+                    $user->setEnabled(false);
+                    $em->persist($user);
+                    $em->flush();
+                    $this->addFlash("success", $request->get("user") . " successfully banned!");
+                } else {
+                    $this->addFlash("error", "Admins cannot be banned");
+                }
+
+            } else {
+                $this->addFlash("danger", "User not found");
+
+            }
+
+        }
+        return $this->render("@App/admin/ban.html.twig", ["model" => $model]);
+    }
+
+    /** @Route("admin/promote",name="promoteUser")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listOrders(Request $request,$status){
-        $status = strtolower($status);
+    public function prmoteUser(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository(Status::class)->findOneBy(["name"=>$status]);
-        $categories = $em->getRepository(Category::class)->findAll();
-        $orders = $em->getRepository(ProductOrder::class)->getPaginationQueryByStatus($status->getId());
-        $page = $request->get("page");
-        if (!$page) {
-            $page = 1;
-        }
-        $paginator = $this->get("knp_paginator");
-        $orders=$paginator->paginate($orders,$page, self::DEFAULT_PAGE_LIMIT);
 
-        $model = new OrdersViewModel($categories,$orders);
-        return $this->render("@App/admin/".$status->getName()."View.html.twig",["model"=>$model]);
+        $model = new BanViewModel($em->getRepository(Category::class)->findAll());
+
+        if ($request->get("user")) {
+            $user = $em->getRepository(User::class)->findByUserNameOrFullName($request->get("user"));
+            if ($user) {
+                if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+                    $user->addRole("ROLE_ADMIN");
+                    $em->persist($user);
+                    $em->flush();
+                    $this->addFlash("success", $request->get("user") . " successfully promoted!");
+                } else {
+                    $this->addFlash("error", "User is already Admin");
+                }
+
+            } else {
+                $this->addFlash("danger", "User not found");
+            }
+
+        }
+        return $this->render("@App/admin/promote.html.twig", ["model" => $model]);
     }
 }

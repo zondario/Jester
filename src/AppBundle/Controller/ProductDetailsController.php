@@ -42,40 +42,21 @@ class ProductDetailsController extends Controller
         $activePromotion = null;
         $finalPrice = $detailedStock->getProduct()->getPrice();
         $currStockActivePromotion = null;
-
-        foreach ($product->getStocks() as $stock) {
-            if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
-                $activePromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
-                if ($activePromotion) {
-                    if ($stock->getId() === $detailedStock->getId()) {
-                        $finalPrice = $finalPrice - ($finalPrice * ($activePromotion->getPercentage() / 100));
-                        $currStockActivePromotion = $activePromotion;
-
-                    }
-                }
-                $stocksToShow[] = ["stock" => $stock, "activePromotion" => $activePromotion];
-                $activePromotion = null;
-            }
-        }
+        $this->get("app.aggregator")
+            ->aggregateStocksToDisplayByProduct($product,
+                $stocksToShow,
+                $finalPrice,
+                $detailedStock,
+                $currStockActivePromotion);
         if ($this->isGranted("ROLE_ADMIN")) {
-            $notExpired = $em->getRepository(Promotion::class)->findAllNotExpiredDESC();
-            $biggestNotExpired = $this->get("app.promotion")->findBiggestNotExpiredForStock($detailedStock);
-            $productMax = $this->get("app.promotion")->findMaxPromotionForProduct($product);
-            $now = new \DateTime();
-            foreach ($notExpired as $promotion) {
-                if ($productMax === null || $promotion->getPercentage() >= $productMax->getPercentage() && $promotion->getEndsOn() >= $now) {
-                    $productPromotionsToDisplay[] = $promotion;
-                }
-
-                if ($biggestNotExpired === null || $promotion->getPercentage() > $biggestNotExpired->getPercentage()) {
-                    $promotionsToDisplay[] = $promotion;
-                }
-            }
+            $this->get("app.aggregator")
+                ->aggregatePromotionsToBeShownForPromoting($em,
+                    $detailedStock,
+                    $product,
+                    $productPromotionsToDisplay,
+                    $promotionsToDisplay);
         }
 
-        usort($stocksToShow, function ($a, $b) {
-            return $a["stock"]->getSize()->getName()<=>$b["stock"]->getSize()->getName();
-        });
         $model = new DetailsViewModel($categories,
             $detailedStock,
             $product,

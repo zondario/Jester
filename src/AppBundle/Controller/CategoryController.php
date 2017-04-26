@@ -27,28 +27,24 @@ class CategoryController extends Controller
         /** @var Category $activeCategory */
         $activeCategory = null;
         $maxPromotion = null;
+        $page = $request->get("page");
+        if (!$page) {
+            $page = 1;
+        }
         foreach ($categories as $category) {
             if (strtolower($category->getName()) == strtolower($name)) {
                 $activeCategory = $category;
             }
         }
         $productsToDisplay = [];
-        foreach ($activeCategory->getProducts() as $product) {
-            foreach ($product->getStocks() as $stock) {
-                if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
-                    $maxPromotion = $this->get("app.promotion")->findMaxPromotionForProduct($product);
-                    $productsToDisplay[] = ["product" => $product, "notEmptyId" => $stock->getId(), "maxPromotion" => $maxPromotion];
-                    $maxPromotion = null;
-                    continue 2;
-                }
-            }
-        }
-        $page = $request->get("page");
-        if (!$page) {
-            $page = 1;
+        $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getProducts(),$productsToDisplay);
+        if($request->get("sortBy")&&$request->get("direction"))
+        {
+            $this->get("app.aggregator")->sortBy($request->get("sortBy"),$productsToDisplay,$request->get("direction"));
         }
         $paginator = $this->get("knp_paginator");
         $productsToDisplay = $paginator->paginate($productsToDisplay, $page, self::DEFAULT_PRODUCT_PER_PAGE);
+
         $model = new CategoryViewModel($activeCategory, $categories, $productsToDisplay);
         return $this->render("@App/Listing Products/categoryView.html.twig", array("model" => $model));
     }

@@ -1,0 +1,7 @@
+{% extends "@App/baseView.html.twig" %}
+{% block content %}
+    <form method="post" class="form-group" action="{{ path('promoteUser') }}">
+        <input name="user" type="text">
+        <button type="submit">Promote</button>
+    </form>
+{% endblock %}
