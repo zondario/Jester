@@ -16,16 +16,20 @@ class OrdersViewModel
 {
     private $categories;
     private $orders;
+    private $status;
 
 
     /**
      * OrdersViewModel constructor.
      * @param $categories
+     * @param $orders
+     * @param $status
      */
-    public function __construct($categories,$orders)
+    public function __construct($categories,$orders,$status)
     {
         $this->categories = $categories;
         $this->orders=$orders;
+        $this->status=$status;
     }
 
     /**
@@ -58,6 +62,22 @@ class OrdersViewModel
     public function setOrders($orders)
     {
         $this->orders = $orders;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function     getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 
 }

@@ -5,6 +5,29 @@
 {% block content %}
     <div class="orders">
     {% block headButtons %}
+        <ul class="nav nav-tabs">
+
+            {% if model.status == "requested" %}
+                <li  class="active" ><a >Requested</a></li>
+            {% else %}
+                <li   ><a href="{{ path('viewOrders',{status:"requested"}) }}">Requested</a></li>
+            {% endif %}
+            {% if model.status == "sent" %}
+                <li  class="active" ><a >Sent</a></li>
+            {% else %}
+                <li   ><a href="{{ path('viewOrders',{status:"sent"}) }}">Sent</a></li>
+            {% endif %}
+            {% if model.status == "confirmed" %}
+                <li  class="active" ><a >Confirmed</a></li>
+            {% else %}
+                <li  ><a href="{{ path('viewOrders',{status:"confirmed"}) }}">Confirmed</a></li>
+            {% endif %}
+            {% if model.status == "refused" %}
+            <li  class="active" ><a >Refused</a></li>
+                {% else %}
+            <li   ><a href="{{ path('viewOrders',{status:"refused"}) }}">Refused</a></li>
+            {% endif %}
+        </ul>
         {% endblock %}
         <div class="table-responsive">
             <table class="table" style="border-top: none; border-bottom: 1px;">
@@ -36,8 +59,7 @@
                     <th>Quantity ordered</th>
                     <th>Ordered On</th>
                     <th>Final Price</th>
-                    <th>Send</th>
-                    <th>Refuse</th>
+                    <th >Actions</th>
                 </tr>
                 </thead>
                 <tbody>

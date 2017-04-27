@@ -1,12 +1,5 @@
 {% extends "@App/admin/ordersBase.html.twig" %}
 
-{% block headButtons %}
-    <ul class="nav nav-tabs">
-        <li class="active"><a>Requested</a></li>
-        <li><a href="{{ path('viewOrders',{status:"sent"}) }}">Sent</a></li>
-    </ul>
-
-{% endblock %}
 
 {% block tableButtons %}
     <td><a href="{{ path("sendOrder",{order_id:item.id}) }}" class="btn btn-success">SEND</a></td>
