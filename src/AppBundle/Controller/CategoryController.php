@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Category;
 
 use AppBundle\Models\CategoryViewModel;
+use AppBundle\Models\HomeViewModel;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,8 +54,10 @@ class CategoryController extends Controller
      * @Route("/", name="homepage")
      */
     public function homeAction()
-    {
-        return $this->categoryAction("Bikes", new Request());
+    {/** @var Category[] $categories */
+        $categories = $this->getCategories();
+        $model= new HomeViewModel($categories);
+        return $this->render("@App/Home/homePage.html.twig",["model"=>$model]);
     }
 
 

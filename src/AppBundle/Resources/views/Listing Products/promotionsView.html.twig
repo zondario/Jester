@@ -4,58 +4,67 @@
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/promotionsView.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/categoryView.css') }}">
 {% endblock %}
 {% block content %}
-    {% for product in model.products %}
+<div class="navs">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Sort By:</th>
+                <th><a href="{{ path("promotions",{sortBy:"price",direction:"asc"}) }}">Cheapest First</a></th>
+                <th><a href="{{ path("promotions",{sortBy:"price",direction:"desc"}) }}">Most Expensive First</a></th>
+                <th><a href="{{ path("promotions",{sortBy:"id",direction:"desc"}) }}">Newest First</a></th>
+                <th><a href="{{ path("promotions",{sortBy:"id",direction:"asc"}) }}">Oldest First</a></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+{% for product in model.products %}
 
-        <div class="col-sm-4">
-            <article class="col-item"
-                     onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
-                <div class="photo">
-                    <div class="options-cart-round">
-                        {% if is_granted("ROLE_ADMIN") %}
-                            <a class="btn btn-default">
-                                <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
-                            </a>
-                            <a href="{{ path('addStockToProduct',{id:product["product"].id}) }}" class="btn btn-default">
-                                <span class="fa fa-plus" aria-hidden="true"></span>
-                            </a>
-                        {% elseif is_granted('ROLE_USER') %}
-                            <a class="btn btn-default">
-                                <span class="fa fa-shopping-cart"></span>
-                            </a>
-                        {% else %}
-                            <a class="btn btn-default" title="Login to buy"
-                               href="{{ path('fos_user_security_login') }}">
-                                <span class="fa fa-lock" aria-hidden="true"></span>
-                            </a>
+<div class="col-sm-4">
+    <article class="col-item"
+             onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
+        <div class="photo">
+            <div class="options-cart-round">
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('editProduct',{id:product["product"].id,class:"product"}) }}" class="btn btn-default">
+                        <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                    </a>
+                    <a href="{{ path('addStockToProduct',{id:product["product"].id}) }}" class="btn btn-default">
+                        <span class="fa fa-plus" aria-hidden="true"></span>
+                    </a>
+                {% elseif is_granted("ROLE_USER") %}
+                {% else %}
+                    <a class="btn btn-default" title="Login to buy"
+                       href="{{ path('fos_user_security_login') }}">
+                        <span class="fa fa-lock" aria-hidden="true"></span>
+                    </a>
 
-                        {% endif %}
-                    </div>
-                    <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
+                {% endif %}
+            </div>
+            <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
+            {% if product["maxPromotion"] %}
+                <span class="round-tag">-{{ product["maxPromotion"].percentage }}%</span>
+            {% endif %}
 
-                    <span class="round-tag">-{{ product["promotion"].percentage }}%</span>
-
-
-                </div>
-
-                <div class="info">
-                    <div class="row">
-                        <div class="price-details col-md-6">
-                            <p class="details">{{ product["product"].description|slice(0,50) }}...</p>
-                            <h1>{{ product["product"].name }}</h1>
-
-
-                            <span class="price-new">BGN:{{ product["product"].price }}</span><br>
-
-                        </div>
-                    </div>
-                </div>
-
-            </article>
         </div>
 
-    {% endfor %}
+        <div class="info">
+            <div class="row">
+                <div class="price-details col-md-6">
+                    <p class="details">{{ product["product"].description|slice(0,50) }}...</p>
+                    <h1>{{ product["product"].name }}</h1>
+                    <span class="price-new">BGN:{{ product["product"].price }}</span><br>
+                </div>
+            </div>
+        </div>
+
+    </article>
+</div>
+{% endfor %}
 {% endblock %}
 
 

@@ -12,6 +12,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
@@ -113,6 +114,31 @@ class ArrayAggregatorService
             }
         });
 
+    }
+
+    /**
+     * @param $promotions Promotion[]
+     * @param $productsToShow
+     *
+     */
+    public function aggregateByPromotions($promotions, &$productsToShow)
+    {
+        foreach ($promotions as $promotion) {
+            /** @var Stock[]|ArrayCollection $stocks */
+            $stocks = $promotion->getStocks();
+            if (count($stocks) > 0) {
+                foreach ($stocks as $stock) {
+                    if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
+                        $productOfStock = $stock->getProduct();
+                        if ($productsToShow === null || (!array_key_exists($productOfStock->getId(), $productsToShow))) {
+                            $productsToShow[$productOfStock->getId()] = ["product" => $productOfStock, "maxPromotion" => $promotion, "notEmptyId" => $stock->getId()];
+
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
