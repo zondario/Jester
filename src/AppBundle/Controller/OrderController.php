@@ -160,7 +160,7 @@ class OrderController extends Controller
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(ProductOrder::class)->findOneBy(["id"=>$order_id]);
         $status = $em->getRepository(Status::class)->findOneBy(["id"=> self::DEFAULT_SENT_STATUS]);
-        if($order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS &&$order->getStatus()->getId() <= self::DEFAULT_REFUSED_ID){
+        if($order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS &&$order->getStatus()->getId() <= self::DEFAULT_REFUSED_STATUS){
             $this->addFlash("error","You cannot send that order - it has status ".$order->getStatus()->getName());
             return $this->redirectToRoute("viewOrders",["status"=>$order->getStatus()->getName()]);
         }
