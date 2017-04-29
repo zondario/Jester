@@ -130,11 +130,12 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listOrders(Request $request,$status){
+    public function listOrders(Request $request, $status)
+    {
         $status = strtolower($status);
         $em = $this->getDoctrine()->getManager();
         /** @var Status $status */
-        $status = $em->getRepository(Status::class)->findOneBy(["name"=>$status]);
+        $status = $em->getRepository(Status::class)->findOneBy(["name" => $status]);
 
         $categories = $em->getRepository(Category::class)->findAll();
         $orders = $em->getRepository(ProductOrder::class)->getPaginationQueryByStatus($status->getId());
@@ -143,11 +144,11 @@ class OrderController extends Controller
             $page = 1;
         }
         $paginator = $this->get("knp_paginator");
-        $orders=$paginator->paginate($orders,$page, self::DEFAULT_PAGE_LIMIT);
+        $orders = $paginator->paginate($orders, $page, self::DEFAULT_PAGE_LIMIT);
         $direction = strtolower($request->get("direction"));
 
-        $model = new OrdersViewModel($categories,$orders,$status->getName());
-        return $this->render("@App/admin/".$status->getName()."View.html.twig",["model"=>$model,"direction"=>$direction]);
+        $model = new OrdersViewModel($categories, $orders, $status->getName());
+        return $this->render("@App/admin/" . $status->getName() . "View.html.twig", ["model" => $model, "direction" => $direction]);
     }
 
     /** @Route("/admin/send/{order_id}",name="sendOrder")
@@ -155,19 +156,19 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function sendOrder($order_id,Request $request)
+    public function sendOrder($order_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id"=>$order_id]);
-        $status = $em->getRepository(Status::class)->findOneBy(["id"=> self::DEFAULT_SENT_STATUS]);
-        if(!($order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS &&$order->getStatus()->getId() <= self::DEFAULT_REFUSED_STATUS)){
-            $this->addFlash("error","You cannot send that order - it has status ".$order->getStatus()->getName());
-            return $this->redirectToRoute("viewOrders",["status"=>$order->getStatus()->getName()]);
+        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id" => $order_id]);
+        $status = $em->getRepository(Status::class)->findOneBy(["id" => self::DEFAULT_SENT_STATUS]);
+        if (!($order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS && $order->getStatus()->getId() <= self::DEFAULT_REFUSED_STATUS)) {
+            $this->addFlash("error", "You cannot send that order - it has status " . $order->getStatus()->getName());
+            return $this->redirectToRoute("viewOrders", ["status" => $order->getStatus()->getName()]);
         }
         $order->setStatus($status);
         $em->persist($order);
         $em->flush();
-        $this->addFlash("success","successfully sent");
+        $this->addFlash("success", "successfully sent");
         return $this->redirect($request->server->get("HTTP_REFERER"));
     }
 
@@ -176,49 +177,50 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function refuseOrder($order_id,Request $request)
+    public function refuseOrder($order_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var ProductOrder $order */
-        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id"=>$order_id]);
-        if(!$order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS &&$order->getStatus()->getId() <= self::DEFAULT_SENT_STATUS){
-            $this->addFlash("error","You cannot refuse that order - it has status ".$order->getStatus()->getName());
-            return $this->redirectToRoute("viewOrders",["status"=>$order->getStatus()->getName()]);
+        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id" => $order_id]);
+        if (!$order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS && $order->getStatus()->getId() <= self::DEFAULT_SENT_STATUS) {
+            $this->addFlash("error", "You cannot refuse that order - it has status " . $order->getStatus()->getName());
+            return $this->redirectToRoute("viewOrders", ["status" => $order->getStatus()->getName()]);
         }
-        $status = $em->getRepository(Status::class)->findOneBy(["id"=> self::DEFAULT_REFUSED_STATUS]);
+        $status = $em->getRepository(Status::class)->findOneBy(["id" => self::DEFAULT_REFUSED_STATUS]);
         $stock = $order->getStock();
         //return the quantity that has been removed
-        $stock->setQuantity($stock->getQuantity()+$order->getQuantity());
+        $stock->setQuantity($stock->getQuantity() + $order->getQuantity());
         $order->setStatus($status);
         $em->persist($stock);
         $em->persist($order);
         $em->flush();
-        $this->addFlash("success","successfully refused");
+        $this->addFlash("success", "successfully refused");
         return $this->redirect($request->server->get("HTTP_REFERER"));
     }
+
     /** @Route("/admin/confirm/{order_id}",name="confirm_Order")
      * @param $order_id
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function confirmOrder($order_id,Request $request)
+    public function confirmOrder($order_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var ProductOrder $order */
-        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id"=>$order_id]);
-        if($order->getStatus()->getId() != self::DEFAULT_SENT_STATUS){
-            $this->addFlash("error","You cannot refuse that order - it has status ".$order->getStatus()->getName());
-            return $this->redirectToRoute("viewOrders",["status"=>$order->getStatus()->getName()]);
+        $order = $em->getRepository(ProductOrder::class)->findOneBy(["id" => $order_id]);
+        if ($order->getStatus()->getId() != self::DEFAULT_SENT_STATUS) {
+            $this->addFlash("error", "You cannot refuse that order - it has status " . $order->getStatus()->getName());
+            return $this->redirectToRoute("viewOrders", ["status" => $order->getStatus()->getName()]);
         }
-        $status = $em->getRepository(Status::class)->findOneBy(["id"=> self::DEFAULT_CONFIRMED_STATUS]);
+        $status = $em->getRepository(Status::class)->findOneBy(["id" => self::DEFAULT_CONFIRMED_STATUS]);
         $stock = $order->getStock();
         //return the quantity that has been removed
-        $stock->setQuantity($stock->getQuantity()+$order->getQuantity());
+        $stock->setQuantity($stock->getQuantity() + $order->getQuantity());
         $order->setStatus($status);
         $em->persist($stock);
         $em->persist($order);
         $em->flush();
-        $this->addFlash("success","successfully confirmed");
+        $this->addFlash("success", "successfully confirmed");
         return $this->redirect($request->server->get("HTTP_REFERER"));
     }
 }

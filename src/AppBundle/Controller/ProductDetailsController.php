@@ -28,7 +28,7 @@ class ProductDetailsController extends Controller
             return $this->redirectToRoute("homepage");
         }
         if (!$detailedStock->isIsActive()) {
-            $this->addFlash("danger", "This product is not active");
+            $this->addFlash("danger", "This stock is not active");
             return $this->redirectToRoute("homepage");
         }
 

@@ -25,7 +25,7 @@ class EditController extends Controller
         $object = $em->getRepository($fullname)->findOneBy(["id" => $id]);
 
         if ($object == null) {
-           return $this->redirectToRoute("homepage");
+            return $this->redirectToRoute("homepage");
         }
         $form = $this->createForm("AppBundle\\Form\\" . $class . "Type", $object);
         $form->handleRequest($request);

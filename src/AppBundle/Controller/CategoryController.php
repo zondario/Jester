@@ -38,10 +38,9 @@ class CategoryController extends Controller
             }
         }
         $productsToDisplay = [];
-        $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getProducts(),$productsToDisplay);
-        if($request->get("sortBy")&&$request->get("direction"))
-        {
-            $this->get("app.aggregator")->sortBy($request->get("sortBy"),$productsToDisplay,$request->get("direction"));
+        $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getProducts(), $productsToDisplay);
+        if ($request->get("sortBy") && $request->get("direction")) {
+            $this->get("app.aggregator")->sortBy($request->get("sortBy"), $productsToDisplay, $request->get("direction"));
         }
         $paginator = $this->get("knp_paginator");
         $productsToDisplay = $paginator->paginate($productsToDisplay, $page, self::DEFAULT_PRODUCT_PER_PAGE);
@@ -54,10 +53,11 @@ class CategoryController extends Controller
      * @Route("/", name="homepage")
      */
     public function homeAction()
-    {/** @var Category[] $categories */
+    {
+        /** @var Category[] $categories */
         $categories = $this->getCategories();
-        $model= new HomeViewModel($categories);
-        return $this->render("@App/Home/homePage.html.twig",["model"=>$model]);
+        $model = new HomeViewModel($categories);
+        return $this->render("@App/Home/homePage.html.twig", ["model" => $model]);
     }
 
 

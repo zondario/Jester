@@ -27,10 +27,9 @@ class PromotionController extends Controller
         $productsToShow = null;
         /** @var Promotion[] $promotions */
         $promotions = $em->getRepository(Promotion::class)->findAllActiveDESC();
-        $this->get("app.aggregator")->aggregateByPromotions($promotions,$productsToShow);
-        if($request->get("sortBy")&&$request->get("direction"))
-        {
-            $this->get("app.aggregator")->sortBy($request->get("sortBy"),$productsToShow,$request->get("direction"));
+        $this->get("app.aggregator")->aggregateByPromotions($promotions, $productsToShow);
+        if ($request->get("sortBy") && $request->get("direction")) {
+            $this->get("app.aggregator")->sortBy($request->get("sortBy"), $productsToShow, $request->get("direction"));
         }
 
         $model = new PromotionsViewModel($categories, $productsToShow);

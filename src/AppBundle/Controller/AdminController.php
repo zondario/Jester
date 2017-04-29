@@ -128,19 +128,31 @@ class AdminController extends Controller
     public function banUser(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
+        /** @var User $currUser */
+        $currUser = $this->getUser();
         $model = new BanViewModel($em->getRepository(Category::class)->findAll());
 
         if ($request->get("user")) {
+            /** @var User $user */
             $user = $em->getRepository(User::class)->findByUserNameOrFullName($request->get("user"));
             if ($user) {
-                if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+                if ($this->isGranted("ROLE_ADMIN")) {
+                    if($this->isGranted("ROLE_SUPER_ADMIN"))
+                    {
+                        $user->setEnabled(false);
+                        $em->persist($user);
+                        $em->flush();
+                        $this->addFlash("success", $request->get("user") . " successfully banned!");
+                    }else {
+                        $this->addFlash("error", "Admins cannot be banned");
+                    }
+
+                } else
+                {
                     $user->setEnabled(false);
                     $em->persist($user);
                     $em->flush();
                     $this->addFlash("success", $request->get("user") . " successfully banned!");
-                } else {
-                    $this->addFlash("error", "Admins cannot be banned");
                 }
 
             } else {

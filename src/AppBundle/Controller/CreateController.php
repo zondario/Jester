@@ -63,7 +63,7 @@ class CreateController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($object);
             $em->flush();
-            $this->addFlash("success", $class . " with id ".$object->getId()." successfully created");
+            $this->addFlash("success", $class . " with id " . $object->getId() . " successfully created");
             return $this->redirectToRoute("homepage");
         }
         return $this->render("@App/admin/create" . $class . ".html.twig", ["form" => $form->createView()]);

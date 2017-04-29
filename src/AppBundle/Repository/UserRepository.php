@@ -24,6 +24,6 @@ class UserRepository extends EntityRepository
             ->setParameter("user",$user)
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult();
+            ->getResult()[0];
     }
 }
