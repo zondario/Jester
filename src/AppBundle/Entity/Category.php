@@ -37,7 +37,8 @@ class Category
      */
     private $name;
 
-    /** @var  Product[]
+    /**
+     * @var  Product[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
      */
     private $products;
@@ -78,7 +79,7 @@ class Category
     }
 
     /**
-     * @return Product[]
+     * @return Product[]|ArrayCollection
      */
     public function getProducts()
     {

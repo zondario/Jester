@@ -62,7 +62,7 @@
                 {% for picture in model.product.images %}
 
                     <li class={{ num == 1 ? "active" }}><a data-target="#pic-{{ num }}" data-toggle="tab"><img
-                                    src={{ picture.url }}/></a></li>
+                                    src="{{ picture.url }}" /></a></li>
                     {% set num = num + 1 %}
 
                 {% endfor %}
