@@ -30,6 +30,7 @@ class ProductRepository extends EntityRepository
             ->select("p")
             ->leftJoin("p.stocks","s")
             ->where("s.quantity > 0")
+            ->andWhere("s.isActive = true")
             ->andWhere("p.category = :categoryId")
             ->setParameter("categoryId",$categoryId)
             ->getQuery()
