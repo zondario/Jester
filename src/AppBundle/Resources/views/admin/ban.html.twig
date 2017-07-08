@@ -1,6 +1,7 @@
 {% extends "@App/baseView.html.twig" %}
 {% block content %}
     <form method="post" class="form-group" action="{{ path('banUser') }}">
+        <label for="user">Type the user</label>
         <input name="user" type="text">
         <button type="submit">Ban</button>
     </form>
