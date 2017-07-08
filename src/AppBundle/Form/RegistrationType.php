@@ -25,7 +25,7 @@ class RegistrationType extends AbstractType
                 'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
                 'invalid_message' => 'Password Missmatch',
             ))->add("fullName", TextType::class, array("label" => "Full Name", 'attr' => array('class' => "form-control")))
-            ->add("phone", TextType::class, ['label' => "Please enter your phone so we can contact you"]);;
+            ->add("phone", TextType::class, ['label' => "Please enter your phone so we can contact you"]);
     }
 
     public function getParent()
