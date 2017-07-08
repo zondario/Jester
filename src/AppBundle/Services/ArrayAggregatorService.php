@@ -14,6 +14,8 @@ use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
+use function Sodium\compare;
 
 
 class ArrayAggregatorService
@@ -22,11 +24,14 @@ class ArrayAggregatorService
 
     /**
      * ArrayAggregatorService constructor.
-     * @param $promotionService
+     * @param PromotionService $promotionService
+     * @param EntityManager $entityManager
      */
-    public function __construct(PromotionService $promotionService)
+    public function __construct(PromotionService $promotionService, EntityManager $entityManager)
     {
         $this->promotionService = $promotionService;
+        /** @var EntityManager $entityManager */
+        $this->em = $entityManager;
     }
 
     /**
@@ -34,18 +39,11 @@ class ArrayAggregatorService
      * @param $productsToDisplay
      *
      */
-    public function aggregateProductsToDisplay($products, &$productsToDisplay)
+    public function aggregateProductsToDisplay($categoryId, &$productsToDisplay )
     {
-        foreach ($products as $product) {
-            foreach ($product->getStocks() as $stock) {
-                if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
-                    $maxPromotion = $this->getPromotionService()->findMaxPromotionForProduct($product);
-                    $productsToDisplay[] = ["product" => $product, "notEmptyId" => $stock->getId(), "maxPromotion" => $maxPromotion];
-                    $maxPromotion = null;
-                    continue 2;
-                }
-            }
-        }
+        $productRepo =$this->em->getRepository(Product::class);
+        $active = $productRepo->getAllActiveProducts($categoryId);
+        $productsToDisplay = $active;
     }
 
     /**
@@ -72,7 +70,7 @@ class ArrayAggregatorService
             }
         }
         usort($stocksToShow, function ($a, $b) {
-            return $a["stock"]->getSize()->getName()<=>$b["stock"]->getSize()->getName();
+            return compare($a["stock"]->getSize()->getName(),$b["stock"]->getSize()->getName()) ;
         });
 
     }

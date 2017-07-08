@@ -159,6 +159,9 @@ class OrderController extends Controller
     public function sendOrder($order_id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        /**
+         * var $order ProductOrder
+         */
         $order = $em->getRepository(ProductOrder::class)->findOneBy(["id" => $order_id]);
         $status = $em->getRepository(Status::class)->findOneBy(["id" => self::DEFAULT_SENT_STATUS]);
         if (!($order->getStatus()->getId() >= self::DEFAULT_REQUESTED_STATUS && $order->getStatus()->getId() <= self::DEFAULT_REFUSED_STATUS)) {
@@ -166,6 +169,7 @@ class OrderController extends Controller
             return $this->redirectToRoute("viewOrders", ["status" => $order->getStatus()->getName()]);
         }
         $order->setStatus($status);
+
         $em->persist($order);
         $em->flush();
         $this->addFlash("success", "successfully sent");

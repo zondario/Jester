@@ -22,10 +22,12 @@ class CartController extends Controller
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
+
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
         $ordersToShow = [];
         $orders = $currentUser->getOrders();
+
         foreach ($orders as $order) {
             if ($order->getStatus()->getId() == self::STATUS_ADDED_ID) {
                 $ordersToShow[] = $order;

@@ -21,7 +21,7 @@ services:
 
     app.aggregator:
        class:     AppBundle\Services\ArrayAggregatorService
-       arguments: ['@app.promotion']
+       arguments: ['@app.promotion', '@doctrine.orm.entity_manager']
 
     app.image_uploader:
        class: AppBundle\Services\ImageUploaderService

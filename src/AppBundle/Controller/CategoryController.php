@@ -38,7 +38,7 @@ class CategoryController extends Controller
             }
         }
         $productsToDisplay = [];
-        $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getProducts(), $productsToDisplay);
+        $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getId(), $productsToDisplay);
         if ($request->get("sortBy") && $request->get("direction")) {
             $this->get("app.aggregator")->sortBy($request->get("sortBy"), $productsToDisplay, $request->get("direction"));
         }

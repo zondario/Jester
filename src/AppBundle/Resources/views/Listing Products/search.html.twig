@@ -19,47 +19,48 @@
     </div>
 </div>
 {% for product in model.productsToShow %}
+    <div class="col-sm-4">
+        <article class="col-item"
+                 onclick='window.location.replace("{{ path('detailsView',{id: product.stocks[0].id}) }}")'>
+            <div class="photo">
+                <div class="options-cart-round">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('editProduct',{id:product.id,class:"product"}) }}" class="btn btn-default">
+                            <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                        </a>
+                        <a href="{{ path('addStockToProduct',{id:product.id}) }}" class="btn btn-default">
+                            <span class="fa fa-plus" aria-hidden="true"></span>
+                        </a>
+                    {% elseif is_granted("ROLE_USER") %}
+                    {% else %}
+                        <a class="btn btn-default" title="Login to buy"
+                           href="{{ path('fos_user_security_login') }}">
+                            <span class="fa fa-lock" aria-hidden="true"></span>
+                        </a>
 
-<div class="col-sm-4">
-    <article class="col-item"
-             onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
-        <div class="photo">
-            <div class="options-cart-round">
-                {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('editProduct',{id:product["product"].id,class:"product"}) }}" class="btn btn-default">
-                        <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
-                    </a>
-                    <a href="{{ path('addStockToProduct',{id:product["product"].id}) }}" class="btn btn-default">
-                        <span class="fa fa-plus" aria-hidden="true"></span>
-                    </a>
-                {% elseif is_granted("ROLE_USER") %}
-                {% else %}
-                    <a class="btn btn-default" title="Login to buy"
-                       href="{{ path('fos_user_security_login') }}">
-                        <span class="fa fa-lock" aria-hidden="true"></span>
-                    </a>
+                    {% endif %}
+                </div>
+                <img class="img-rounded" src="{{ product.images[0].url }}" alt="Product Image"/>
 
+                {% set maxPromotion = promotion_service.findMaxPromotionForProduct(product) %}
+                {% if maxPromotion %}
+                    <span class="round-tag">-{{ maxPromotion.percentage }}%</span>
                 {% endif %}
+
             </div>
-            <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
-            {% if product["maxPromotion"] %}
-                <span class="round-tag">-{{ product["maxPromotion"].percentage }}%</span>
-            {% endif %}
 
-        </div>
+            <div class="info">
+                <div class="row">
+                    <div class="price-details col-md-6">
+                        <p class="details">{{ product.description|slice(0,50) }}...</p>
+                        <h1>{{ product.name }}</h1>
+                        <span class="price-new">BGN:{{ product.price }}</span><br>
 
-        <div class="info">
-            <div class="row">
-                <div class="price-details col-md-6">
-                    <p class="details">{{ product["product"].description|slice(0,50) }}...</p>
-                    <h1>{{ product["product"].name }}</h1>
-                    <span class="price-new">BGN:{{ product["product"].price }}</span><br>
-
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </article>
-</div>
+        </article>
+    </div>
     {% endfor %}
 {% endblock %}

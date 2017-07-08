@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -11,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="stocks")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StockRepository")
+ * @UniqueEntity(
+ *     fields={"color", "size", "product"},
+ *     errorPath="port",
+ *     message="You cannot have the same color and size on the same product"
+ * )
  */
 class Stock
 {

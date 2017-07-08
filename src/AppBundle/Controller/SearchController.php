@@ -23,9 +23,7 @@ class SearchController extends Controller
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
         $terms = "%" . $terms . "%";
-        $products = $em->getRepository(Product::class)->getBySearchTerms($terms);
-        $productsToShow = [];
-        $this->get("app.aggregator")->aggregateProductsToDisplay($products, $productsToShow);
+        $productsToShow = $em->getRepository(Product::class)->getBySearchTerms($terms);
         $sortBy = $request->get("sortBy");
         $direction = $request->get("direction");
         if ($sortBy && $direction) {

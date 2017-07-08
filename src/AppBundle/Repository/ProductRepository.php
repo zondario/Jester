@@ -16,10 +16,23 @@ class ProductRepository extends EntityRepository
     {
        return $this->createQueryBuilder("p")
             ->select("p")
-            ->where("p.name LIKE :terms")
+            ->leftJoin("p.stocks","s")
+            ->where("s.quantity > 0")
+            ->andwhere("p.name LIKE :terms")
             ->orWhere("p.description LIKE :terms")
             ->setParameter("terms",$terms)
             ->getQuery()
             ->getResult();
+    }
+    public function getAllActiveProducts($categoryId)
+    {
+       return $this->createQueryBuilder("p")
+            ->select("p")
+            ->leftJoin("p.stocks","s")
+            ->where("s.quantity > 0")
+            ->andWhere("p.category = :categoryId")
+            ->setParameter("categoryId",$categoryId)
+            ->getQuery()
+           ->getResult();
     }
 }
