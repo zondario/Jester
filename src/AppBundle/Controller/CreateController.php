@@ -25,6 +25,7 @@ class CreateController extends Controller
         // Everything needed to create a stock is chained as embedded forms in the StockProductType
         $stock = new Stock();
 
+
         $form = $this->createForm(StockProductType::class, $stock);
 
         $form->handleRequest($request);
@@ -78,6 +79,7 @@ class CreateController extends Controller
     public function addStockToProduct(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        /** @var Product $product */
         $product = $em->getRepository(Product::class)->findOneBy(["id" => $id]);
         $stock = new Stock();
         $form = $this->createForm(StockType::class, $stock, ["constraints" => new Valid()]);

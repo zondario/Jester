@@ -96,7 +96,7 @@
                                 style="background-color: {{ currStock["stock"].color.name|lower=="black"?"#333333": currStock["stock"].color.name }}"
                                 data-toggle="tooltip" data-original-title>
                             {% if currStock['activePromotion'] %}
-                                <h6 style="color:#521135; font-weight: 700">-{{ currStock["activePromotion"].percentage }}%
+                                <h6 style="color:#521135; font-weight: 700">-{{ currStock["activePromotion"] }}%
                                    </h6>
                             {% endif %}
 

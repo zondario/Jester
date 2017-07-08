@@ -17,7 +17,7 @@ services:
 
     app.promotion:
        class:     AppBundle\Services\PromotionService
-       arguments: []
+       arguments: ['@doctrine.orm.entity_manager']
 
     app.aggregator:
        class:     AppBundle\Services\ArrayAggregatorService

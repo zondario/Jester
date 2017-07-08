@@ -40,5 +40,21 @@ class PromotionRepository extends EntityRepository
             ->getQuery()->getResult();
 
     }
+    public function findMaxPromotionForStock($stockId)
+    {
 
+        return $this->createQueryBuilder("pr")
+            ->select("max(pr.percentage)")
+            ->leftJoin("pr.stocks","s")
+            ->leftJoin("s.product", "p")
+            ->where("pr.startsOn <= :now")
+            ->andWhere("pr.endsOn >= :now")
+            ->setParameter("now",new \DateTime())
+            ->andWhere("s.quantity > 0")
+            ->andWhere("s.isActive = true")
+            ->andWhere("s.id = :stockId")
+            ->setParameter("stockId", $stockId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

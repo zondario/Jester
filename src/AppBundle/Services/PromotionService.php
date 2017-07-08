@@ -13,11 +13,21 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductOrder;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
+use AppBundle\Repository\PromotionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 
 class PromotionService
 {
+    private $em;
+    /**
+     * PromotionService constructor.
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * @param $stock Stock
@@ -25,23 +35,9 @@ class PromotionService
      */
     public function findMaxPromotionForStock($stock)
     {
-        $maxPromotion = null;
-        /** @var Promotion[]|ArrayCollection $promotions */
-        $promotions = $stock->getPromotions()->toArray();
-        usort(
-            $promotions, function (Promotion $a,Promotion $b) {
-            return $b->compareTo($a);
-        });
-        foreach ($promotions as $promotion) {
-
-            $now = new \DateTime("now");
-            if ($promotion->getStartsOn() <= $now && $promotion->getEndsOn() >= $now) {
-
-                $maxPromotion = $promotion;
-                break;
-            }
-        }
-        return $maxPromotion;
+         /** @var PromotionRepository $repo */
+            $repo = $this->em->getRepository(Promotion::class);
+        return $repo->findMaxPromotionForStock($stock->getId());
     }
 
     /**

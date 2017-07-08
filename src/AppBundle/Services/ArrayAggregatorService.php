@@ -12,6 +12,8 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Promotion;
 use AppBundle\Entity\Stock;
+use AppBundle\Repository\ProductRepository;
+use AppBundle\Repository\PromotionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -55,12 +57,15 @@ class ArrayAggregatorService
      */
     public function aggregateStocksToDisplayByProduct($product, &$stocksToShow,&$finalPrice,$detailedStock,&$currStockActivePromotion)
     {
+        /** @var PromotionRepository $repo */
+        $repo = $this->em->getRepository(Promotion::class);
+
         foreach ($product->getStocks() as $stock) {
             if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
                 $activePromotion = $this->getPromotionService()->findMaxPromotionForStock($stock);
                 if ($activePromotion) {
                     if ($stock->getId() === $detailedStock->getId()) {
-                        $finalPrice = $finalPrice - ($finalPrice * ($activePromotion->getPercentage() / 100));
+                        $finalPrice = $finalPrice - ($finalPrice * ($activePromotion / 100));
                         $currStockActivePromotion = $activePromotion;
 
                     }

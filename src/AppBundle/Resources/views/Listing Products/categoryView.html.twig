@@ -54,7 +54,7 @@
 
                      {% set maxPromotion = promotion_service.findMaxPromotionForProduct(product) %}
                      {% if maxPromotion %}
-                         <span class="round-tag">-{{ maxPromotion.percentage }}%</span>
+                         <span class="round-tag">-{{ maxPromotion }}%</span>
                      {% endif %}
 
                  </div>
