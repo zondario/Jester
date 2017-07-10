@@ -26,3 +26,7 @@ services:
     app.image_uploader:
        class: AppBundle\Services\ImageUploaderService
        arguments: ['%images_directory%','%images_view_directory%']
+
+    app.custom_user_manipulator:
+       class: AppBundle\Services\CustomUserManipulator
+       arguments: ["@doctrine.orm.entity_manager", "@fos_user.user_manager", "@security.password_encoder"]
