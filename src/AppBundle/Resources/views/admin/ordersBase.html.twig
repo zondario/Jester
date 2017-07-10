@@ -45,6 +45,11 @@
                     {% else %}
                         <th>{{ knp_pagination_sortable(model.orders, 'final price', 'o.finalPrice',{class: "fa fa-sort"})|raw }}</th>
                     {% endif %}
+                    {% if model.orders.isSorted('u.fullName') %}
+                        <th  >{{ knp_pagination_sortable(model.orders, 'user', 'u.fullName',{class: "fa fa-sort"~"-"~direction} )|raw }}</th>
+                    {% else %}
+                        <th>{{ knp_pagination_sortable(model.orders, 'user', 'u.fullName',{class: "fa fa-sort"})|raw }}</th>
+                    {% endif %}
                 </tr>
             </table>
             <table class="table table-hover">

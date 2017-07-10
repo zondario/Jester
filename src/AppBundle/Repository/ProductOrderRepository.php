@@ -44,6 +44,7 @@ class ProductOrderRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder("o")
             ->select("o")
+            ->join("o.user","u")
             ->where("o.status = :status")
             ->setParameter("status",$status)
             ->getQuery();
