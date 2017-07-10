@@ -11,6 +11,7 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Promotion;
+use AppBundle\Entity\Size;
 use AppBundle\Entity\Stock;
 use AppBundle\Repository\ProductRepository;
 use AppBundle\Repository\PromotionRepository;
@@ -57,9 +58,6 @@ class ArrayAggregatorService
      */
     public function aggregateStocksToDisplayByProduct($product, &$stocksToShow,&$finalPrice,$detailedStock,&$currStockActivePromotion)
     {
-        /** @var PromotionRepository $repo */
-        $repo = $this->em->getRepository(Promotion::class);
-
         foreach ($product->getStocks() as $stock) {
             if ($stock->getQuantity() > 0 && $stock->isIsActive()) {
                 $activePromotion = $this->getPromotionService()->findMaxPromotionForStock($stock);
@@ -74,8 +72,10 @@ class ArrayAggregatorService
                 $activePromotion = null;
             }
         }
+
         usort($stocksToShow, function ($a, $b) {
-            return compare($a["stock"]->getSize()->getName(),$b["stock"]->getSize()->getName()) ;
+
+            return strcmp($a["stock"]->getSize()->getName(),$b["stock"]->getSize()->getName());
         });
 
     }
@@ -91,15 +91,17 @@ class ArrayAggregatorService
     {
         $promotionService = $this->getPromotionService();
         $notExpired = $em->getRepository(Promotion::class)->findAllNotExpiredDESC();
-        $biggestNotExpired =$promotionService->findBiggestNotExpiredForStock($detailedStock);
+        $biggestNotExpired = $promotionService->findBiggestNotExpiredForStock($detailedStock);
         $productMax = $promotionService->findMaxPromotionForProduct($product);
         $now = new \DateTime();
         foreach ($notExpired as $promotion) {
-            if ($productMax === null || $promotion->getPercentage() >= $productMax->getPercentage() && $promotion->getEndsOn() >= $now) {
+
+            if ($productMax === null || $promotion->getPercentage() >= $productMax) {
+
                 $productPromotionsToDisplay[] = $promotion;
             }
 
-            if ($biggestNotExpired === null || $promotion->getPercentage() > $biggestNotExpired->getPercentage()) {
+            if ($biggestNotExpired === null || $promotion->getPercentage() > $biggestNotExpired) {
                 $promotionsToDisplay[] = $promotion;
             }
         }
@@ -110,10 +112,10 @@ class ArrayAggregatorService
         {
             if(strtolower($direction)==="asc")
             {
-                return call_user_func([$a["product"],"get".ucfirst($sortBy)]) > call_user_func([$b["product"],"get".ucfirst($sortBy)]);
+                return call_user_func([$a,"get".ucfirst($sortBy)]) > call_user_func([$b,"get".ucfirst($sortBy)]);
             }else{
 
-                return call_user_func([$a["product"],"get".ucfirst($sortBy)]) < call_user_func([$b["product"],"get".ucfirst($sortBy)]);
+                return call_user_func([$a,"get".ucfirst($sortBy)]) < call_user_func([$b,"get".ucfirst($sortBy)]);
             }
         });
 

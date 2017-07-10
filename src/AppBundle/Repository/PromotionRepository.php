@@ -46,7 +46,6 @@ class PromotionRepository extends EntityRepository
         return $this->createQueryBuilder("pr")
             ->select("max(pr.percentage)")
             ->leftJoin("pr.stocks","s")
-            ->leftJoin("s.product", "p")
             ->where("pr.startsOn <= :now")
             ->andWhere("pr.endsOn >= :now")
             ->setParameter("now",new \DateTime())
@@ -56,5 +55,39 @@ class PromotionRepository extends EntityRepository
             ->setParameter("stockId", $stockId)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findBiggestNotExpiredForStock($stockId)
+    {
+        return $this->createQueryBuilder("pr")
+            ->select("max(pr.percentage)")
+            ->leftJoin("pr.stocks","s")
+            ->andWhere("pr.endsOn >= :now")
+            ->setParameter("now",new \DateTime())
+            ->andWhere("s.quantity > 0")
+            ->andWhere("s.isActive = true")
+            ->andWhere("s.id = :stockId")
+            ->setParameter("stockId", $stockId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findMaxPromotionForProduct($productId)
+    {
+        return $this->createQueryBuilder("pr")
+            ->select("max(pr.percentage)")
+            ->leftJoin("pr.stocks","s")
+            ->leftJoin("s.product","p")
+            ->where("pr.startsOn <= :now")
+            ->andWhere("pr.endsOn >= :now")
+            ->setParameter("now",new \DateTime())
+            ->andWhere("s.quantity > 0")
+            ->andWhere("s.isActive = true")
+            ->andWhere("s.id = :productId")
+            ->setParameter("productId", $productId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
     }
 }

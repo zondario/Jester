@@ -36,6 +36,7 @@ class Image
      * @var Product $product
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product",inversedBy="images")
+     * @ORM\JoinColumn(name="product", onDelete="set null")
      *
      */
     private $product;

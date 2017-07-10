@@ -10,4 +10,6 @@ namespace AppBundle\Repository;
  */
 class StockRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
 }

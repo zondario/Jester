@@ -70,20 +70,8 @@ class PromotionService
      */
     public function findMaxPromotionForProduct($product)
     {
-
-        /** @var Promotion|null $maxPromotion */
-        $maxPromotion = null;
-        foreach ($product->getStocks() as $stock) {
-           if($stock->isIsActive() && $stock->getQuantity()  >  0){
-               $potentialMax = $this->findMaxPromotionForStock($stock);
-               if ($potentialMax) {
-                   if ($maxPromotion == null || ($potentialMax->getPercentage() > $maxPromotion->getPercentage())) {
-                       $maxPromotion = $potentialMax;
-                   }
-               }
-           }
-        }
-        return $maxPromotion;
+        $promoRepo = $this->em->getRepository(Promotion::class);
+        return $promoRepo->findMaxPromotionForProduct($product->getId());
     }
 
     /**
@@ -94,16 +82,8 @@ class PromotionService
      */
     public function findBiggestNotExpiredForStock($stock)
     {
-        $promotionToShow = null;
-        $now = new \DateTime();
-        $stockPromotions= $stock->getPromotions()->toArray();
-        usort( $stockPromotions,function (Promotion $a, Promotion $b){return $b->compareTo($a);});
-        foreach ($stock->getPromotions() as $promotion) {
-            if($promotion->getEndsOn()>=$now)
-            {
-                $promotionToShow = $promotion;
-            }
-        }
-        return $promotionToShow;
+
+         $promoRepo = $this->em->getRepository(Promotion::class);
+         return $promoRepo->findBiggestNotExpiredForStock($stock->getId());
     }
 }

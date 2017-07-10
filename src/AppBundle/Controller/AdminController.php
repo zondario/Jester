@@ -120,6 +120,18 @@ class AdminController extends Controller
     }
 
     /**
+    * @Route("/admin/delete/image/{imageId}",name="deleteImage")
+    *
+    **/
+    public function delImage($imageId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $image = $em->getRepository(Image::class)->findOneById($imageId);
+        $image = $this->get("app.image_uploader")->delete($image);
+        return $this->redirectToRoute("homepage");
+    }
+
+    /**
      * @Route("/admin/ban",name="banUser")
      * @param Request $request
      *
@@ -168,7 +180,7 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function prmoteUser(Request $request)
+    public function promoteUser(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 

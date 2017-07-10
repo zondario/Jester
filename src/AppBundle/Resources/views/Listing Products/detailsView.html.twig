@@ -52,7 +52,9 @@
                 {% set num = 1 %}
                 {% for picture in model.product.images %}
                     <div class="tab-pane {{ num == 1? "active" }}" id="pic-{{ num }}"><img src="{{ picture.url }}"/>
-                    </div>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <span><a href="{{ path("deleteImage", {"imageId":picture.id}) }}" >X</a></span></div>
+                        {% endif %}
                     {% set num = num+1 %}
 
                 {% endfor %}

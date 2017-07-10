@@ -16,16 +16,18 @@ class ImageUploaderService
 {
     private $dir;
     private $imagesViewDir;
+    private $em;
 
     /**
      * ImageUploaderService constructor.
      * @param $dir
      * @param $imagesViewDir
      */
-    public function __construct($dir, $imagesViewDir)
+    public function __construct($dir, $imagesViewDir, $em)
     {
         $this->dir = $dir;
         $this->imagesViewDir = $imagesViewDir;
+        $this->em = $em;
     }
 
 
@@ -41,6 +43,13 @@ class ImageUploaderService
         $image->getUrl()->move($this->getDir(), $imageName);
         $product_image->setUrl($this->getImagesViewDir() . $imageName);
         return $product_image;
+    }
+
+    public function delete($image)
+    {
+        unlink($this->getDir().substr($image->getUrl(),26));
+        $this->em->remove($image);
+        $this->em->flush();
     }
 
     /**

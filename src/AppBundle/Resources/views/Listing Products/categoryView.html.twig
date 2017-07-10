@@ -29,7 +29,7 @@
 </div>
      {% for product in model.productsToDisplay %}
 
-         <div class="col-sm-4">
+         <div class="col-sm-3">
              <article class="col-item"
                       onclick='window.location.replace("{{ path('detailsView',{id: product.stocks[0].id}) }}")'>
                  <div class="photo">
@@ -50,7 +50,11 @@
 
                          {% endif %}
                      </div>
-                     <img class="img-rounded" src="{{ product.images[0].url }}" alt="Product Image"/>
+                     {% if product.images[0] is defined and not null %}
+                         <img class="img-rounded" src="{{ product.images[0].url }}" alt="Product Image"/>
+                         {% else %}
+                             <img class="img-rounded" src="../../images/productImages/no_image.jpg" alt="Product Image"/>
+                     {% endif %}
 
                      {% set maxPromotion = promotion_service.findMaxPromotionForProduct(product) %}
                      {% if maxPromotion %}

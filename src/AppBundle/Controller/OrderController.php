@@ -70,7 +70,7 @@ class OrderController extends Controller
             $order = $userOrderOfCurrStock;
             /** @var Promotion $maxPromotion */
             $maxPromotion = $this->get("app.promotion")->findEffectivePromotionForOrder($order);
-            if ($maxPromotion->getStartsOn() <= $now && $maxPromotion->getEndsOn() >= $now) {
+            if (!$maxPromotion || $maxPromotion->getStartsOn() <= $now && $maxPromotion->getEndsOn() >= $now) {
                 $order->setQuantity($order->getQuantity() + self::DEFAULT_QUANTITY);
                 $calcPrice = $order->getStock()->getProduct()->getPrice();
                 if ($maxPromotion) {
