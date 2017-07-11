@@ -176,7 +176,8 @@ class AdminController extends Controller
         return $this->render("@App/admin/ban.html.twig", ["model" => $model]);
     }
 
-    /** @Route("admin/promote",name="promoteUser")
+    /**
+     * @Route("admin/promote",name="promoteUser")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -205,4 +206,22 @@ class AdminController extends Controller
         }
         return $this->render("@App/admin/promote.html.twig", ["model" => $model]);
     }
+
+
+    /**
+     * @Route("admin/send-mail",name="sendMail")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function sendMail()
+    {
+        $message = new \Swift_Message("hello");
+        $message->setFrom("deathsblood444@gmail.com")
+            ->setTo("ivo.cenov1@gmail.com")
+            ->setBody("<h1>Hello</h1>");
+        $mailer = $this->get("mailer");
+        $mailer->send($message);
+        return $this->redirectToRoute("homepage");
+    }
+
 }
