@@ -215,12 +215,14 @@ class AdminController extends Controller
      */
     public function sendMail()
     {
-        $message = new \Swift_Message("hello");
-        $message->setFrom("deathsblood444@gmail.com")
-            ->setTo("ivo.cenov1@gmail.com")
-            ->setBody("<h1>Hello</h1>");
         $mailer = $this->get("mailer");
-        $mailer->send($message);
+        $message = \Swift_Message::newInstance()
+            ->setSubject("Neshto")
+            ->setFrom("deathsblood444@gmail.com")
+            ->setTo("ivo.cenov1@gmail.com")
+            ->setBody("<h1>Raboti we </h1>"
+            );
+$mailer->send($message);
         return $this->redirectToRoute("homepage");
     }
 
