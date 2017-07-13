@@ -4,12 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
-    demo_user.registration_listener:
+    app.registration_listener:
         class: AppBundle\EventListeners\AddDefaultRoleListener
         arguments: []
         tags:
             - { name: kernel.event_subscriber }
-
     app.form.registration:
         class: AppBundle\Form\RegistrationType
         tags:

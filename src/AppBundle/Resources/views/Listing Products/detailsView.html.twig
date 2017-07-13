@@ -13,17 +13,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
-                    <h2>Choose Promotion</h2>
+                    <h2>{{ "details_view.choose_promotion"|trans({}, "AppBundle") }}</h2>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ path('promoteProduct',{id: model.product.id}) }}">
                         <select class="form-control" style="color:darkorange; background: black" name="productPromotion" >
-                            <option>Choose Promotion</option>
+                            <option>{{ "details_view.choose_promotion"|trans({}, "AppBundle") }}</option>
                             {% for promotion in model.productPromotionsToDisplay %}
                                 <option  value="{{ promotion.id }}">{{ promotion.percentage }}% | {{ promotion.startsOn|date("d-m-Y") }} | {{ promotion.endsOn|date("d-m-Y") }}</option>
                             {% endfor %}
                         </select>
-                        <button class="btn form-group" style="background: darkorange" type="submit">Submit</button>
+                        <button class="btn form-group" style="background: darkorange" type="submit">{{ "details_view.submit"|trans({}, "AppBundle") }}</button>
                     </form>
                 </div>
             </div>
@@ -34,13 +34,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <span class="close">&times;</span>
-                        <h2>Upload Image</h2>
+                        <h2>{{ "details_view.upload_image"|trans({}, "AppBundle") }}</h2>
                     </div>
                     <div class="modal-body">
                         <form method="POST" enctype="multipart/form-data" action="{{ path('addImage',{productId: model.product.id}) }}">
-                            <label for="url">Image</label>
+                            <label for="url">{{ "details_view.image"|trans({}, "AppBundle") }}</label>
                             <input name="app_bundle_image_type[url]" type="file">
-                            <button name="_submit" class="btn form-group" style="background: darkorange" type="submit">Submit</button>
+                            <button name="_submit" class="btn form-group" style="background: darkorange" type="submit">{{ "details_view.submit"|trans({}, "AppBundle") }}</button>
                         </form>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
             <div class="preview-pic tab-content">
                 {% set num = 1 %}
                 {% for picture in model.product.images %}
-                    <div class="tab-pane {{ num == 1 ? "active" }}" id="pic-{{ num }}"><img src="{{ picture.url }}"/>
+                    <div class="tab-pane {{ num == 1 ? "active" }}" id="pic-{{ num }}"><img src="{{ asset("images/productImages/") }}{{ picture.url }}"/>
 
                     </div>
                     {% set num = num+1 %}
@@ -63,7 +63,7 @@
                 {% for picture in model.product.images %}
 
                     <li class={{ num == 1 ? "active" }}><a data-target="#pic-{{ num }}" data-toggle="tab"><img
-                                    src="{{ picture.url }}" /> </a>{% if is_granted("ROLE_ADMIN") %}
+                                    src="{{ asset("images/productImages/") }}{{ picture.url }}" /> </a>{% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path("deleteImage", {"imageId":picture.id}) }}" ><span style="color:red" class="glyphicon glyphicon-remove"></span></a>
                         {% endif %}</li>
 
@@ -78,18 +78,18 @@
             <p class="product-description">{{ model.product.description }}</p><br>
 
             {% if model.stockActivePromotion %}
-                <h4 class="price">current price:<br><span
+                <h4 class="price">{{ "details_view.current_price"|trans({}, "AppBundle") }}<br><span
                             style="color:red">BGN:{{ model.stockFinalPrice|number_format(2) }}</span></h4><br>
-                <h4 class="price">old price:<br><span
+                <h4 class="price">{{ "details_view.old_price"|trans({}, "AppBundle") }}<br><span
                             style="text-decoration: line-through; text-decoration-color: white">BGN:{{ model.product.price|number_format(2) }}</span>
                 </h4><br>
             {% else %}
-                <h4 class="price">current price:<br><span>BGN:{{ model.stockFinalPrice|number_format(2) }}</span></h4>
+                <h4 class="price">{{ "details_view.current_price"|trans({}, "AppBundle") }}<br><span>BGN:{{ model.stockFinalPrice|number_format(2) }}</span></h4>
                 <br>
             {% endif %}
-            <h5 class="price">Quantity : {{ model.stock.quantity }} </h5>
+            <h5 class="price">{{ "details_view.quantity"|trans({}, "AppBundle") }} {{ model.stock.quantity }} </h5>
 
-            <h5 class="colors">In Stock:
+            <h5 class="colors">{{ "details_view.in_stock"|trans({}, "AppBundle") }}
                 {% set prev = "" %}
                 {% for currStock in model.stocksToShow  %}
                     {% if currStock["stock"].size.name!= prev %}
@@ -115,30 +115,29 @@
                     <div style="float:left">
                    <form action="{{ path("promoteStock",{id: model.stock.id}) }}" method="POST">
                        <select style="background-color: black" name="promotion" >
-                           <option>Choose a promotion</option>
+                           <option>{{ "details_view.choose_promotion"|trans({}, "AppBundle") }}</option>
                            {% for promotion in model.promotionsToDisplay  %}
                                <option  value="{{ promotion.id }}">{{ promotion.percentage }}% | {{ promotion.startsOn|date("d-m-Y") }} | {{ promotion.endsOn|date("d-m-Y") }}</option>
                            {% endfor %}
                        </select>
-                       <button class="btn btn-add" style="background-color: darkorange">Promote Stock</button>
+                       <button class="btn btn-add" style="background-color: darkorange">{{ "details_view.promote"|trans({}, "AppBundle") }}</button>
                    </form>
 
                     </div>
                     <div class="dropup">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Settings
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{ "details_view.settings"|trans({}, "AppBundle") }}
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" id="imageBtn">Add image</a></li>
-                            <li><a href="#" id="promoteProductBtn">Promote Product</a></li>
-                            <li><a href={{ path('editProduct',{class:"stock",id:model.stock.id}) }}>Edit Stock</a></li>
-                            <li><a href="{{ path('removeStock',{id:model.stock.id}) }}" >Remove Stock</a></li>
+                            <li><a href="#" id="imageBtn">{{ "details_view.add_image"|trans({}, "AppBundle") }}</a></li>
+                            <li><a href="#" id="promoteProductBtn">{{ "details_view.promote_product"|trans({}, "AppBundle") }}</a></li>
+                            <li><a href={{ path('editProduct',{class:"stock",id:model.stock.id}) }}>{{ "details_view.edit_stock"|trans({}, "AppBundle") }}</a></li>
+                            <li><a href="{{ path('removeStock',{id:model.stock.id}) }}" >{{ "details_view.remove_stock"|trans({}, "AppBundle") }}</a></li>
                         </ul>
                     </div>
                 {% elseif is_granted("ROLE_USER") %}
-                    <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default">add to cart</a>
+                    <a href="{{ path('orderProduct',{"id":model.stock.id}) }}" class="add-to-cart btn btn-default">{{ "details_view.add_to_cart"|trans({}, "AppBundle") }}</a>
                 {% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
-                    <a href="{{ path("fos_user_security_login") }}" class="add-to-cart btn btn-default" >Login
-                        To Buy</a>
+                    <a href="{{ path("fos_user_security_login") }}" class="add-to-cart btn btn-default" >{{ "details_view.login_to_buy"|trans({}, "AppBundle") }}</a>
                 {% endif %}
             </div>
         </div>

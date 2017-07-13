@@ -41,13 +41,13 @@ class ImageUploaderService
         $product_image = $image;
         $imageName = md5(uniqid()) . '.' . $image->getUrl()->guessExtension();
         $image->getUrl()->move($this->getDir(), $imageName);
-        $product_image->setUrl($this->getImagesViewDir() . $imageName);
+        $product_image->setUrl($imageName);
         return $product_image;
     }
 
     public function delete($image)
     {
-        unlink($this->getDir().substr($image->getUrl(),26));
+        unlink($this->getDir()."/".$image->getUrl());
         $this->em->remove($image);
         $this->em->flush();
     }

@@ -1,0 +1,14 @@
+homepage:
+  home: "Home"
+  on_sale: "On sale"
+  search_bar: "Search Products"
+  welcome: "Welcome, "
+
+category_view:
+  cheapest_first: "Cheapest First"
+  most_expensive_first: "Most expensive first"
+  newest_first: "Newest first"
+  oldest_first: "Oldest first"
+  sort_by: "Sort By:"
+
+details_view:

@@ -17,11 +17,11 @@
        <table class="table table-hover">
            <thead>
            <tr>
-               <th>Sort By:</th>
-               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"asc"}) }}">Cheapest First</a></th>
-               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"desc"}) }}">Most Expensive First</a></th>
-               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"desc"}) }}">Newest First</a></th>
-               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"asc"}) }}">Oldest First</a></th>
+               <th>{{ "category_view.sort_by"|trans({}, "AppBundle") }}</th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"asc"}) }}">{{ "category_view.cheapest_first"|trans({}, "AppBundle") }}</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"price",direction:"desc"}) }}">{{ "category_view.most_expensive_first"|trans({}, "AppBundle") }}</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"desc"}) }}">{{ "category_view.newest_first"|trans({}, "AppBundle") }}</a></th>
+               <th><a href="{{ path('categoryView',{name:model.activeCategory.name,sortBy:"id",direction:"asc"}) }}">{{ "category_view.oldest_first"|trans({}, "AppBundle") }}</a></th>
            </tr>
            </thead>
        </table>
@@ -51,9 +51,9 @@
                          {% endif %}
                      </div>
                      {% if product.images[0] is defined and not null %}
-                         <img class="img-rounded" src="{{ product.images[0].url }}" alt="Product Image"/>
+                         <img class="img-rounded" src="{{ asset("images/productImages/"~product.images[0].url) }}" alt="Product Image"/>
                          {% else %}
-                             <img class="img-rounded" src="../../images/productImages/no_image.jpg" alt="Product Image"/>
+                             <img class="img-rounded" src="{{ asset('images/productImages/no_image.jpg') }}" alt="Product Image"/>
                      {% endif %}
 
                      {% set maxPromotion = promotion_service.findMaxPromotionForProduct(product) %}

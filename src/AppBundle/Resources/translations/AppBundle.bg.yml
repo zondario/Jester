@@ -1,0 +1,33 @@
+homepage:
+  home: "Home"
+  on_sale: "В промоция"
+  search_bar: "Търсете в продукти"
+  welcome: "Здравейте, "
+  logout: "Излизане"
+  signup: "Регистрация"
+  login: "Влизане"
+category_view:
+  cheapest_first: "Най-евтините най-отгоре"
+  most_expensive_first: "Най-скъпите най-отгоре"
+  newest_first: "Най-новите най-отгоре"
+  oldest_first: "Най-старите най-отгоре"
+  sort_by: "Сортирай по:"
+
+details_view:
+  choose_promotion: "Избери промоция"
+  submit: "Напред"
+  upload_image: "Качи снимка"
+  image: "Снимка"
+  current_price: "Текуща Цена:"
+  old_price: "Стара Цена:"
+  quantity: "Налично количество:"
+  in_stock: "На склад:"
+  promote: "Промотирай"
+  add_image: "Добави снимка"
+  promote_product: "Промотирай продукта"
+  edit_stock: "Редактирай наличността"
+  remove_stock: "Изтрий наличността"
+  add_to_cart: "Добави в количката"
+  login_to_buy: "Влезте в системата за да закупите"
+  settings: "Настройки"
+

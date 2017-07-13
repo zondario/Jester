@@ -21,6 +21,7 @@ use AppBundle\Models\OrdersViewModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\Translator;
 
 class AdminController extends Controller
 {
@@ -215,15 +216,11 @@ class AdminController extends Controller
      */
     public function sendMail()
     {
-        $mailer = $this->get("mailer");
-        $message = \Swift_Message::newInstance()
-            ->setSubject("Neshto")
-            ->setFrom("deathsblood444@gmail.com")
-            ->setTo("ivo.cenov1@gmail.com")
-            ->setBody("<h1>Raboti we </h1>"
-            );
-$mailer->send($message);
-        return $this->redirectToRoute("homepage");
+        /** @var Translator $trans */
+        $trans = $this->get("translator");
+        $var = $trans->trans("test",[],"AppBundle");
+        var_dump($var);exit;
+
     }
 
 }
