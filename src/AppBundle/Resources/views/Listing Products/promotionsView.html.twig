@@ -12,11 +12,11 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Sort By:</th>
-                <th><a href="{{ path("promotions",{sortBy:"price",direction:"asc"}) }}">Cheapest First</a></th>
-                <th><a href="{{ path("promotions",{sortBy:"price",direction:"desc"}) }}">Most Expensive First</a></th>
-                <th><a href="{{ path("promotions",{sortBy:"id",direction:"desc"}) }}">Newest First</a></th>
-                <th><a href="{{ path("promotions",{sortBy:"id",direction:"asc"}) }}">Oldest First</a></th>
+                <th>{{ "category_view.sort_by"|trans({}, "AppBundle") }}</th>
+                <th><a href="{{ path('promotions',{sortBy:"price",direction:"asc"}) }}">{{ "category_view.cheapest_first"|trans({}, "AppBundle") }}</a></th>
+                <th><a href="{{ path('promotions',{sortBy:"price",direction:"desc"}) }}">{{ "category_view.most_expensive_first"|trans({}, "AppBundle") }}</a></th>
+                <th><a href="{{ path('promotions',{sortBy:"id",direction:"desc"}) }}">{{ "category_view.newest_first"|trans({}, "AppBundle") }}</a></th>
+                <th><a href="{{ path('promotions',{sortBy:"id",direction:"asc"}) }}">{{ "category_view.oldest_first"|trans({}, "AppBundle") }}</a></th>
             </tr>
             </thead>
         </table>
