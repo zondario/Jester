@@ -36,7 +36,7 @@
     {% endblock %}
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('/images/logo.png') }}"/>
 </head>
 <body>
 <div id="throbber" style="display:none; min-height:120px;"></div>
@@ -61,16 +61,16 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-left top-nav">
-                <li><a class="fa fa-bar" href="{{ path('homepage') }}">{{ "homepage.home"|trans({}, "AppBundle") }}</a></li>
+                <li><a class="fa fa-bar" href="{{ path('homepage') }}">{{ "base.home"|trans({}, "AppBundle") }}</a></li>
             </ul>
             <ul class="nav navbar-left top-nav">
-                <li><a class="fa fa-bar" href="{{ path("promotions") }}">{{ "homepage.on_sale"|trans({}, "AppBundle") }}</a></li>
+                <li><a class="fa fa-bar" href="{{ path("promotions") }}">{{ "base.on_sale"|trans({}, "AppBundle") }}</a></li>
             </ul>
             <ul class="nav navbar-left top-nav">
                 <li>
                     <div>
                     <form  action="{{ path('search') }}">
-                        <input name="terms" type="text" value="" placeholder="{{ "homepage.search_bar"|trans({}, "AppBundle") }}" class="form-control txtbox" />
+                        <input name="terms" type="text" value="" placeholder="{{ "base.search_bar"|trans({}, "AppBundle") }}" class="form-control txtbox" />
                         <button type="submit" value="Search"  class="btn btn-success btncls" ><i class="fa fa-search"></i></button>
                     </form>
                     </div>
@@ -78,34 +78,44 @@
 
             </ul>
             <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <button style="background-color: black; color: white" class="btn dropdown-toggle" type="button" data-toggle="dropdown">{{ app.request.locale|upper }}
+                        <span class="caret"></span></button>
+                    <ul style="opacity: 0.8" class="dropdown-menu">
+                        <li ><a href="{{ path("redirectCulture",{"culture":"bg"}) }}">BG</a></li>
+                        <li><a href="{{ path("redirectCulture",{"culture":"en"}) }}">EN</a></li>
+                    </ul>
+                </li>
+
                 {% if app.user %}
                     {% if is_granted("ROLE_ADMIN") %}
                         <li><a href={{ path("viewOrders",{status:"requested"}) }}><span class="glyphicon glyphicon-list-alt"></span></a></li>
                  {% else %}
                     <li><a href={{ path("checkout") }}><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                     {% endif %}
+
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ "homepage.welcome"|trans({}, "AppBundle") }} {{ app.user.username }} <b
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ "base.welcome"|trans({}, "AppBundle") }} {{ app.user.username }} <b
                                     class="fa fa-angle-down"></b></a>
                         <ul class="dropdown-menu">
                             {% if is_granted("ROLE_ADMIN")  %}
-                                <li> <a href="{{ path('createProduct') }}" ><i class="fa     fa-plus"></i> Create Product</a></li>
-                                <li><a  href="{{ path("createSimpleObject",{class: "category"}) }}"><i class="fa     fa-plus"></i> Create Category</a></li>
+                                <li> <a href="{{ path('createProduct') }}" ><i class="fa     fa-plus"></i> {{ "base.create_product"|trans({}, "AppBundle") }}</a></li>
+                                <li><a  href="{{ path("createSimpleObject",{class: "category"}) }}"><i class="fa     fa-plus"></i> {{ "base.create_category"|trans({}, "AppBundle") }}</a></li>
                                 <li> <a  href="{{ path("createSimpleObject",{class: "color"}) }}"><i class="fa     fa-plus"></i> Create Color</a></li>
                                 <li><a  href="{{ path("createSimpleObject",{class: "size"}) }}"><i class="fa     fa-plus"></i> Create Size</a></li>
                                 <li><a  href="{{ path("promoteUser") }}"><i class="fa  fa-plus"></i> Promote User</a></li>
                                 <li><a  href="{{ path("banUser") }}"><i class="fa  fa-plus"></i> Ban User</a></li>
                             {% endif %}
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa     fa-power-off"></i>
-                                    {{ "homepage.logout"|trans({}, "AppBundle") }}</a></li>
+                                    {{ "base.logout"|trans({}, "AppBundle") }}</a></li>
 
                         </ul>
                     </li>
                 {% else %}
                     <li><a href="{{ path('fos_user_registration_register') }}"><span
-                                    class="glyphicon glyphicon-user"></span> {{ "homepage.signup"|trans({}, "AppBundle") }}</a></li>
+                                    class="glyphicon glyphicon-user"></span> {{ "base.signup"|trans({}, "AppBundle") }}</a></li>
                     <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span>
-                            {{ "homepage.login"|trans({}, "AppBundle") }}</a></li>
+                            {{ "base.login"|trans({}, "AppBundle") }}</a></li>
                 {% endif %}
 
             </ul>
@@ -131,7 +141,7 @@
             {% for message in messages %}
                 <div class="alert alert-{{ type }} alert-dismissable" style="background-color: #ff5415">
                     <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>{{ message }}</strong>
+                    <strong>{{ message|trans({}, "AppBundle") }}</strong>
                 </div>
             {% endfor %}
         {% endfor %}
