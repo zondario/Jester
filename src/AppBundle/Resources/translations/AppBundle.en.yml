@@ -1,4 +1,5 @@
 base:
+  login: "Sign in"
   home: "Home"
   on_sale: "On sale"
   search_bar: "Search Products"
@@ -7,7 +8,7 @@ base:
   logout: "Log out"
   create_category: "Create Category"
   create_product: "Create Product"
-
+  after_register: "Registration successfull"
 category_view:
   cheapest_first: "Cheapest First"
   most_expensive_first: "Most expensive first"
@@ -117,6 +118,8 @@ layout:
     logged_in_as: 'Logged in as %username%'
 
 form:
+    full_name: "Full name"
+    phone: "Phone (please provide it so we can contact you)"
     group_name: 'Group name'
     username: Username
     email: Email
@@ -125,3 +128,14 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    remember_me: "Remember me"
+emails:
+  order:
+    subject: "New order"
+    product_name: 'Product Name:'
+    ordered_on: 'Ordered on:'
+    quantity: 'Quantity:'
+    single_price: 'Single Price:'
+    total: 'Total:'
+    color: 'Color:'
+    size: Size:'

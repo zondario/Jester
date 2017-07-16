@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StockRepository")
  * @UniqueEntity(
  *     fields={"color", "size", "product"},
- *     errorPath="port",
  *     message="You cannot have the same color and size on the same product"
  * )
  */

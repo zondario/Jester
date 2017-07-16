@@ -42,6 +42,9 @@ class CartController extends Controller
      */
     public function checkout()
     {
+        //TODO: yield info to this
+        $ordersPassed = [];
+        $mailerService = $this->get("app.mailer_service");
         $now = new \DateTime();
         $em = $this->getDoctrine()->getManager();
         /** @var User $currentUser */
@@ -69,6 +72,7 @@ class CartController extends Controller
                         $order->setOrderedOn($now);
                         $em->persist($order);
                         $em->persist($stock);
+                        $ordersPassed[] = $order;
                     } else {
                         $this->addFlash("danger", "Sorry the quantity you requested for " . $order->getStock()->getProduct()->getName() . " is not available");
                     }
@@ -78,6 +82,7 @@ class CartController extends Controller
                 }
             }
             $em->flush();
+            $mailerService->sendEmailsOnOrder($ordersPassed, $this->getUser());
         }
         return $this->redirectToRoute("checkout");
 

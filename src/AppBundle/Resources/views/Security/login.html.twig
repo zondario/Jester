@@ -12,7 +12,7 @@
                             <strong>{{ error.message }}</strong>
                         </div>
             {% endif  %}
-        <h2>Log In</h2>
+        <h2>{{ "base.login"|trans({}, "AppBundle")  }}</h2>
         {{ parent() }}
 
 
@@ -22,22 +22,22 @@
                 {% endif %}
 
                 <div class="form-group">
-                    <label for="username"><span class="glyphicon glyphicon-user"></span>Email</label>
+                    <label for="username"><span class="glyphicon glyphicon-user"></span>{{ "form.email"|trans({},"AppBundle") }}</label>
                     <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" />
                 </div>
 
                 <div class="form-group">
-                    <label for="password"><span class="glyphicon glyphicon-lock"></span>Password</label>
+                    <label for="password"><span class="glyphicon glyphicon-lock"></span>{{ "form.password"|trans({},"AppBundle") }}</label>
                     <input type="password" class="form-control" id="password" name="_password" required="required" />
                 </div>
 
                 <div class="form-group">
-                    <label for="remember_me">Remember Me</label>
+                    <label for="remember_me">{{ "form.remember_me"|trans({},"AppBundle") }}</label>
                     <input type="checkbox"  id="remember_me" name="_remember_me" value="on" />
 
                 </div>
-                <input type="submit" class="btn btn-success" id="_submit" name="_submit" value="Log in" />
-                <a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}">Register</a>
+                <input type="submit" class="btn btn-success" id="_submit" name="_submit" value="{{ "layout.login"|trans({}, "AppBundle") }}" />
+                <a class="btn btn-primary" href="{{ path('appRegistration') }}">{{ "registration.submit"|trans({},"AppBundle") }}</a>
             </form>
 
 

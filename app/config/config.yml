@@ -75,9 +75,6 @@ swiftmailer:
     password:  "%mailer_password%"
 
 fos_user:
-    registration:
-            form:
-                type: AppBundle\Form\RegistrationType
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: AppBundle\Entity\User

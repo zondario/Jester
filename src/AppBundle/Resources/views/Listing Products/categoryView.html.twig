@@ -29,7 +29,7 @@
 </div>
      {% for product in model.productsToDisplay %}
 
-         <div class="col-sm-3">
+         <div class="col-sm-4">
              <article class="col-item"
                       onclick='window.location.replace("{{ path('detailsView',{id: product.stocks[0].id}) }}")'>
                  <div class="photo">

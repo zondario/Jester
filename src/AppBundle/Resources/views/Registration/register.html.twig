@@ -1,14 +1,14 @@
-{% extends "@FOSUser/layout.html.twig" %}
+{% extends "@App/layout.html.twig" %}
 {% block alreadyLoggedIn %}
     You can't register when you are logged in!
 {% endblock %}
 {% block fos_user_content %}
-    <h2>Register</h2>
+    <h2>{{ "registration.submit"|trans({},"AppBundle") }}</h2>
     {{ parent() }}
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-success" type="submit">Register</button>
-    <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Log in</a>
+    <button class="btn btn-success" type="submit">{{ "registration.submit"|trans({},"AppBundle") }}</button>
+    <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">{{ "base.login"|trans({},"AppBundle") }}</a>
     {{ form_end(form) }}
 
 {% endblock fos_user_content %}

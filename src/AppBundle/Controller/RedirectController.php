@@ -44,6 +44,7 @@ class RedirectController extends Controller
     public function redirectCulture(Request $request)
     {
         $url = $request->headers->get("referer");
+
         $url = preg_replace("/\/bg\/|\/en\//","/".$request->get("culture")."/",$url);
         return $this->redirect($url);
     }

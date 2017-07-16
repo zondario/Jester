@@ -5,9 +5,10 @@ base:
   welcome: "Здравейте, "
   logout: "Излизане"
   signup: "Регистрация"
-  login: "Влизане"
+  login: "Вход"
   create_category: "Създай категория"
   create_product: "Създай продукт"
+  after_register: "Успешна регистрация"
 category_view:
   cheapest_first: "Най-евтините най-отгоре"
   most_expensive_first: "Най-скъпите най-отгоре"
@@ -117,6 +118,8 @@ layout:
     logged_in_as: 'Влязъл като %username%'
 
 form:
+    full_name: "Три имена"
+    phone: "Телефон (това е начинът за връзка с Вас)"
     group_name: 'Име на група'
     username: 'Потребителско име'
     email: 'Имейл'
@@ -125,3 +128,16 @@ form:
     password_confirmation: 'Парола (отново)'
     new_password: 'Нова парола'
     new_password_confirmation: 'Нова парола (отново)'
+    remember_me: "Запомни ме"
+validation:
+  email: "Вече има потребител с този имейл"
+emails:
+  order:
+    subject: "Нова поръчка"
+    product_name: 'Име на продукт:'
+    ordered_on: 'Поръчано на:'
+    quantity: 'Поръчано количество:'
+    single_price: 'Единична цена:'
+    total: 'Общо:'
+    color: 'Цвят:'
+    size: 'Размер:'
