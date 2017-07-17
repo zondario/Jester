@@ -46,8 +46,8 @@ class AppMailerService
     {
 
        $message = \Swift_Message::newInstance($this->translator->trans("emails.order.subject",[],"AppBundle"))
-           ->setFrom("deathsblood444@gmail.com")
-           ->setTo("ivo.cenov1@gmail.com")
+           ->setFrom("i.cenov@stenik.bg")
+           ->setTo("i.cenov@stenik.bg")
            ->setBody($this->templating->render("AppBundle:emails:email_orders.html.twig", ["orders" => $orders, "user" => $user]),"text/html");
        $this->mailer->send($message);
     }
