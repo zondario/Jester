@@ -3,7 +3,9 @@ homepage:
   on_sale: "On sale"
   search_bar: "Search Products"
   welcome: "Welcome, "
-
+  logout: "Logout"
+  signup: "Sign Up"
+  login: "Login"
 category_view:
   cheapest_first: "Cheapest First"
   most_expensive_first: "Most expensive first"
@@ -12,3 +14,19 @@ category_view:
   sort_by: "Sort By:"
 
 details_view:
+  choose_promotion: "Choose Promotion"
+  submit: "Submit"
+  upload_image: "Upload image"
+  image: "Image"
+  current_price: "Current Price:"
+  old_price: "Old Price:"
+  quantity: "Quantity:"
+  in_stock: "In stock:"
+  promote: "Promote"
+  add_image: "Add image"
+  promote_product: "Promote product"
+  edit_stock: "edit stock"
+  remove_stock: "delete stock"
+  add_to_cart: "Add to cart"
+  login_to_buy: "Login to buy"
+  settings: "Settings"
