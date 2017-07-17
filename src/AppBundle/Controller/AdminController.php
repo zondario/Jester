@@ -218,8 +218,7 @@ class AdminController extends Controller
     {
         /** @var Translator $trans */
         $trans = $this->get("translator");
-        $var = $trans->trans("test",[],"AppBundle");
-        var_dump($var);exit;
+        dump($trans->getCatalogue("en")->set("registration.submit","HUI","AppBundle"));exit;
 
     }
 

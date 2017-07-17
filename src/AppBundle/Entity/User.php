@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -11,6 +11,8 @@ use FOS\UserBundle\Model\User as BaseUser;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity("email", message="app.email")
+ * @UniqueEntity("username", message="app.username")
  */
 class User extends BaseUser
 {
@@ -43,6 +45,8 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductOrder",mappedBy="user")
      * */
     private $orders;
+
+
 
     /**
      * Get id

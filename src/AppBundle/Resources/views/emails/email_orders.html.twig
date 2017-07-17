@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <style>
+        strong, a { color: #2d8aca; }
+        a:hover { text-decoration: none; }
+        th
+        {
+            padding:10px;
+        }
+    </style>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; background: #ededed; text-align: center; color: #444; font-size: 15px;  border: 2px solid black; ">
+<h3>{{ user.fullName }} : {{ user.phone }}</h3>
+<table cellpadding="20" style="background: #fff; width:600px; text-align: left; margin: 20px auto; border: 2px solid black; border-bottom: 2px solid #e1e1e1; border-collapse: collapse;">
+    <tr>
+        <th>{{ "emails.order.product_name"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.size"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.color"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.ordered_on"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.quantity"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.single_price"|trans({}, "AppBundle") }}</th>
+        <th>{{ "emails.order.total"|trans({}, "AppBundle") }}</th>
+
+    </tr>
+    {% set total = 0 %}
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.stock.product.name }}</td>
+                <td>{{ order.stock.size.name }}</td>
+                <td>{{ order.stock.color.name }}</td>
+                <td>{{ order.orderedOn|date("d-m-Y") }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.calculatedSinglePrice }}</td>
+                <td>{{ order.finalPrice  }}</td>
+            </tr>
+            {% set total = total + order.finalPrice %}
+        {% endfor %}
+</table>
+<h3>{{ "emails.order.total"|trans({},"AppBundle") }}{{ total }}lv.</h3>
+</body>

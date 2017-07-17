@@ -19,7 +19,7 @@
             {% for message in messages %}
                 <div class="alert alert-{{ type }} alert-dismissable" style="background-color: #ff5415">
                     <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>{{ message }}</strong>
+                    <strong>{{ message|trans({}, "AppBundle") }}</strong>
                 </div>
             {% endfor %}
         {% endfor %}

@@ -4,6 +4,16 @@ app:
     prefix:   /{_locale}
     requirements:
        _locale: "[a-z]{2}"
+    defaults: { _locale: bg}
+
+
 fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     prefix:  /{_locale}
+    requirements:
+           _locale: "[a-z]{2}"
+    defaults: { _locale: bg}
+
+redirect:
+    path: /
+    defaults: { _controller: AppBundle:Redirect:redir , _locale: bg}
