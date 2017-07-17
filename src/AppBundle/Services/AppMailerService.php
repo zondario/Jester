@@ -45,7 +45,6 @@ class AppMailerService
     public function sendEmailsOnOrder($orders, $user)
     {
 
-       $mailer = $this->mailer;
        $message = \Swift_Message::newInstance($this->translator->trans("emails.order.subject",[],"AppBundle"))
            ->setFrom("deathsblood444@gmail.com")
            ->setTo("ivo.cenov1@gmail.com")
