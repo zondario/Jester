@@ -12,5 +12,17 @@
 
 {% endblock %}
 {% block content %}
-    <h1>{{ "hello" }}</h1>
+    <table style="background-color: black;border-collapse: collapse; color: white" class="table table-bordered">
+        <tr >
+            <th>{{ "form.email"|trans({}, "AppBundle") }}</th>
+            <th>{{ "contact.actions"|trans({}, "AppBundle") }}</th>
+        </tr>
+        {% for contact in model.contacts  %}
+            <tr >
+                <td>{{ contact.email }}</td>
+                <td><a style="margin-right: 60px" class="btn btn-default" href="{{ path("edit_contact", {id: contact.id}) }}">{{ "contact.edit"|trans({}, "AppBundle") }}</a><a class="btn btn-danger" href="{{ path("delete_contact", {id: contact.id}) }}">{{ "contact.delete"|trans({}, "AppBundle") }}</a></td>
+
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

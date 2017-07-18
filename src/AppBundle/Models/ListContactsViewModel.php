@@ -12,6 +12,8 @@ namespace AppBundle\Models;
 class ListContactsViewModel
 {
     private $categories;
+    private $contacts;
+
 
 
     /**
@@ -20,9 +22,10 @@ class ListContactsViewModel
      * @param $productsToShow
      * @param $terms
      */
-    public function __construct($categories)
+    public function __construct($categories, $contacts)
     {
         $this->categories = $categories;
+        $this->contacts = $contacts;
     }
 
     /**
@@ -41,5 +44,20 @@ class ListContactsViewModel
         $this->categories = $categories;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @param mixed $contacts
+     */
+    public function setContacts($contacts)
+    {
+        $this->contacts = $contacts;
+    }
 
 }

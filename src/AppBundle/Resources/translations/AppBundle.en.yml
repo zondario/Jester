@@ -139,5 +139,9 @@ emails:
     single_price: 'Single Price:'
     total: 'Total:'
     color: 'Color:'
-    size: Size:'
+    size: 'Size:'
+contact:
+  edit: "Edit"
+  delete: "Delete"
+  actions: "Actions"
 

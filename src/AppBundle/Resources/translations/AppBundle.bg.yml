@@ -141,3 +141,7 @@ emails:
     total: 'Общо:'
     color: 'Цвят:'
     size: 'Размер:'
+contact:
+  edit: "Редактиране"
+  delete: "Изтриване"
+  actions: "Действия"

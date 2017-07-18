@@ -11,7 +11,7 @@ services:
 
     app.mailer_service:
         class: AppBundle\Services\AppMailerService
-        arguments: ["@mailer","@translator","@templating"]
+        arguments: ["@mailer","@translator","@templating", "@doctrine.orm.entity_manager"]
 
     app.promotion:
        class:     AppBundle\Services\PromotionService
