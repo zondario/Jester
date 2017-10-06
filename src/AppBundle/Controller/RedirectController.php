@@ -39,14 +39,14 @@ class RedirectController extends Controller
     /**
      * @Route("/route", name="redirectCulture")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function redirectCulture(Request $request)
+    public function redirectCultureAction(Request $request, $path)
     {
-        $url = $request->headers->get("referer");
-
-        $url = preg_replace("/\/bg\/|\/en\//","/".$request->get("culture")."/",$url);
-        return $this->redirect($url);
+        $url = $path;
+        $bgUrl = preg_replace("/\/bg\/|\/en\//","/"."bg"."/",$url);
+        $enUrl = preg_replace("/\/bg\/|\/en\//","/"."en"."/",$url);
+        return $this->render("@App/includes/languages.html.twig", ["bgUrl" =>$bgUrl, "enUrl" => $enUrl]);
     }
 
 }

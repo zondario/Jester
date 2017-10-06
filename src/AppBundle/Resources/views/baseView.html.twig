@@ -82,8 +82,7 @@
                     <button style="background-color: black; color: white" class="btn dropdown-toggle" type="button" data-toggle="dropdown">{{ app.request.locale|upper }}
                         <span class="caret"></span></button>
                     <ul style="opacity: 0.8" class="dropdown-menu">
-                        <li ><a href="{{ path("redirectCulture",{"culture":"bg"}) }}">BG</a></li>
-                        <li><a href="{{ path("redirectCulture",{"culture":"en"}) }}">EN</a></li>
+                       {{ render(controller("AppBundle:Redirect:redirectCulture", {path:app.request.requestUri})) }}
                     </ul>
                 </li>
 
