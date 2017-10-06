@@ -95,7 +95,7 @@
                     {% if currStock["stock"].size.name!= prev %}
                         <span class="size">{{ currStock["stock"].size.name }}:</span>
                     {% endif %}
-                    <a title={{ currStock['stock'].color.name }} href={{ currStock["stock"].id }}><span
+                    <a title={{ currStock['stock'].color.name }} href={{ path("detailsView", {category: currStock["stock"].product.category.name, slug:currStock["stock"].slug}) }}><span
                                 class="color {{ model.stock.id==currStock["stock"].id ? 'active' }}"
                                 style="background-color: {{ currStock["stock"].color.name|lower=="black"?"#333333": currStock["stock"].color.name }}"
                                 data-toggle="tooltip" data-original-title>

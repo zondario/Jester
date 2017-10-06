@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 /**
@@ -20,6 +21,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Stock
 {
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        $this->setSlug(strtolower($this->getProduct()->getSlug()."-".$this->getSize()->getName()."-".$this->getColor()->getName()));
+    }
     function __construct()
     {
         $this->promotions = new ArrayCollection();
@@ -66,6 +74,21 @@ class Stock
         $this->color = $color;
     }
 
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
     /**
      * @return Product
      */
@@ -130,6 +153,14 @@ class Stock
      * @ORM\JoinColumn(name="promotion_id",referencedColumnName="id")
      */
     private $promotions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=2000)
+     */
+    private $slug;
+
 
     /**
      * @var int

@@ -13,16 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductDetailsController extends Controller
 {
     /**
-     * @Route("/details/{id}", name="detailsView")
+     * @Route("/{category}/{slug}", name="detailsView")
      */
-    public function detailsAction($id)
+    public function detailsAction($slug, $category)
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository(Category::class)->findAll();
+        $category = $em->getRepository(Category::class)->findOneByName($category);
         $promotionsToDisplay = [];
         $productPromotionsToDisplay = [];
         /** @var Stock $stock */
-        $detailedStock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
+        $detailedStock = $em->getRepository(Stock::class)->findOneBySlug($slug);
         if ($detailedStock === null) {
             $this->addFlash("error", "The stock you requested was not found sorry :(");
             return $this->redirectToRoute("homepage");

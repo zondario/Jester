@@ -16,26 +16,22 @@ class CategoryController extends Controller
     const DEFAULT_PRODUCT_PER_PAGE = 6;
 
     /**
-     * @Route("category/{name}", name="categoryView")
+     * @Route("/{name}", name="categoryView")
      * @param $name
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function categoryAction($name, Request $request)
+    public function categoryAction( $name, Request $request)
     {
         /** @var Category[] $categories */
         $categories = $this->getCategories();
         /** @var Category $activeCategory */
-        $activeCategory = null;
+        $activeCategory = $this->getDoctrine()->getRepository(Category::class)->findOneByName($name);
+
         $maxPromotion = null;
         $page = $request->get("page");
         if (!$page) {
             $page = 1;
-        }
-        foreach ($categories as $category) {
-            if (strtolower($category->getName()) == strtolower($name)) {
-                $activeCategory = $category;
-            }
         }
         $productsToDisplay = [];
         $this->get("app.aggregator")->aggregateProductsToDisplay($activeCategory->getId(), $productsToDisplay);

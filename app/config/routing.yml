@@ -1,17 +1,16 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix:  /{_locale}
+    requirements:
+           _locale: "[a-z]{2}"
+    defaults: { _locale: bg}
+
 app:
     resource: "@AppBundle/Controller"
     type:   annotation
     prefix:   /{_locale}
     requirements:
        _locale: "[a-z]{2}"
-    defaults: { _locale: bg}
-
-
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-    prefix:  /{_locale}
-    requirements:
-           _locale: "[a-z]{2}"
     defaults: { _locale: bg}
 
 redirect:
