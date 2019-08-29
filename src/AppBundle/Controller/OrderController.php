@@ -57,7 +57,7 @@ class OrderController extends Controller
             $calcPrice = $order->getStock()->getProduct()->getPrice();
             $maxPromotion = $this->get("app.promotion")->findMaxPromotionForStock($stock);
             if ($maxPromotion) {
-                $calcPrice = $calcPrice - ($calcPrice * ($maxPromotion->getPercentage() / 100));
+                $calcPrice = $calcPrice - ($calcPrice * ((float)$maxPromotion / 100));
             }
             $order->setCalculatedSinglePrice($calcPrice);
             $order->setFinalPrice($order->getQuantity() * $order->getCalculatedSinglePrice());
@@ -74,7 +74,7 @@ class OrderController extends Controller
                 $order->setQuantity($order->getQuantity() + self::DEFAULT_QUANTITY);
                 $calcPrice = $order->getStock()->getProduct()->getPrice();
                 if ($maxPromotion) {
-                    $calcPrice = $calcPrice - ($calcPrice * ($maxPromotion->getPercentage() / 100));
+                    $calcPrice = $calcPrice - ($calcPrice * ((float)$maxPromotion->getPercentage() / 100));
                 }
                 $order->setCalculatedSinglePrice($calcPrice);
                 $order->setFinalPrice($order->getQuantity() * $order->getCalculatedSinglePrice());
@@ -85,7 +85,7 @@ class OrderController extends Controller
 
         }
         $em->flush();
-        return $this->redirectToRoute("detailsView", ["id" => $id]);
+        return $this->redirectToRoute("detailsView", ["slug" => $stock->getProduct()->getSlug(), 'category' => $stock->getProduct()->getCategory()->getId()]);
     }
 
     /**

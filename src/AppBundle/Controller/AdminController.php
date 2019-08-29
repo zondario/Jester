@@ -49,15 +49,20 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $stock = $em->getRepository(Stock::class)->findOneBy(["id" => $id]);
-        $promotion = $em->getRepository(Promotion::class)->findOneBy(["id" => $request->get("promotion")]);
-        if ($stock != null && $promotion != null) {
-            $stock->getPromotions()->add($promotion);
-            $promotion->getStocks()->add($stock);
-            $em->persist($stock);
-            $em->persist($promotion);
-            $em->flush();
+        if(!$request->request->get("promotion"))
+        {
+
+
+            $promotion = $em->getRepository(Promotion::class)->findOneBy(["id" => $request->get("promotion")]);
+            if ($stock != null && $promotion != null) {
+                $stock->getPromotions()->add($promotion);
+                $promotion->getStocks()->add($stock);
+                $em->persist($stock);
+                $em->persist($promotion);
+                $em->flush();
+            }
         }
-        return $this->redirectToRoute("detailsView", ["id" => $id]);
+        return $this->redirectToRoute("detailsView", ["slug" => $stock->getSlug(), "category"=>$stock->getProduct()->getCategory()->getName()]);
 
     }
 

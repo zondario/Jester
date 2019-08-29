@@ -93,7 +93,7 @@ class CreateController extends Controller
                 $em->flush();
 
                 $this->addFlash("success", "Stock added");
-                return $this->redirectToRoute("detailsView", ["id" => $stock->getId()]);
+                return $this->redirectToRoute("detailsView", ["category" => $product->getCategory()->getName(), "slug" => $stock->getSlug()]);
             }
         }
         return $this->render("@App/admin/addStockToProduct.html.twig", ["form" => $form->createView(), "productName" => $product->getName()]);

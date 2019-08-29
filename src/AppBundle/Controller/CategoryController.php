@@ -16,7 +16,7 @@ class CategoryController extends Controller
     const DEFAULT_PRODUCT_PER_PAGE = 6;
 
     /**
-     * @Route("/{name}", name="categoryView")
+     * @Route("/category/{name}", name="categoryView")
      * @param $name
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response

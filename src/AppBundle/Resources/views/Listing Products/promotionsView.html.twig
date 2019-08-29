@@ -26,7 +26,7 @@
 
 <div class="col-sm-4">
     <article class="col-item"
-             onclick='window.location.replace("{{ path('detailsView',{id: product["notEmptyId"]}) }}")'>
+             onclick='window.location.replace("{{ path('detailsView',{slug: product["product"].slug, category: product['product'].category.id}) }}")'>
         <div class="photo">
             <div class="options-cart-round">
                 {% if is_granted("ROLE_ADMIN") %}
@@ -45,7 +45,7 @@
 
                 {% endif %}
             </div>
-            <img class="img-rounded" src="{{ product["product"].images[0].url }}" alt="Product Image"/>
+            <img class="img-rounded" src="{{ a{{ product["product"].images[0].url }}" alt="Product Image"/>
             {% if product["maxPromotion"] %}
                 <span class="round-tag">-{{ product["maxPromotion"].percentage }}%</span>
             {% endif %}

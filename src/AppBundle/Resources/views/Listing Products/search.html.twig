@@ -19,9 +19,9 @@
     </div>
 </div>
 {% for product in model.productsToShow %}
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <article class="col-item"
-                 onclick='window.location.replace("{{ path('detailsView',{id: product.stocks[0].id}) }}")'>
+                 onclick='window.location.replace("{{ path('detailsView',{category: product.category.name, slug: product.stocks[0].slug}) }}")'>
             <div class="photo">
                 <div class="options-cart-round">
                     {% if is_granted("ROLE_ADMIN") %}
@@ -40,11 +40,12 @@
 
                     {% endif %}
                 </div>
-                <img class="img-rounded" src="{{ product.images[0].url }}" alt="Product Image"/>
+
+                <img class="img-rounded" src="{{ asset('images/productImages/') }}{{ product.images[0].url }}" alt="Product Image"/>
 
                 {% set maxPromotion = promotion_service.findMaxPromotionForProduct(product) %}
                 {% if maxPromotion %}
-                    <span class="round-tag">-{{ maxPromotion.percentage }}%</span>
+                    <span class="round-tag">-{{ maxPromotion }}%</span>
                 {% endif %}
 
             </div>

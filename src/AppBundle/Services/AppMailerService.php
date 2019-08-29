@@ -16,6 +16,7 @@ use AppBundle\Repository\ContactRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Twig\TwigEngine;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 
 class AppMailerService
@@ -34,7 +35,7 @@ class AppMailerService
      * @internal param $dir
      * @internal param $imagesViewDir
      */
-    public function __construct( \Swift_Mailer $mailer,Translator $translator, TwigEngine $templating,EntityManager $em)
+    public function __construct( \Swift_Mailer $mailer,TranslatorInterface $translator, TwigEngine $templating,EntityManager $em)
     {
 
         $this->mailer = $mailer;

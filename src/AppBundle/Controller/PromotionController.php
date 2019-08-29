@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class PromotionController extends Controller
 {
     /**
-     * @Route("/promotions",name="promotions")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
